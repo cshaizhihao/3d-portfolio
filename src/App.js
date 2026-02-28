@@ -1,4 +1,4 @@
-import React, { useRef, useState, Suspense } from 'react';
+import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Float, PerspectiveCamera } from '@react-three/drei';
 import './App.css';
@@ -41,16 +41,24 @@ function FloatingSphere({ position, color }) {
   );
 }
 
-function Scene() {
+function Scene({ isMobile }) {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={60} />
+      <PerspectiveCamera makeDefault position={[0, 0, isMobile ? 10 : 8]} fov={isMobile ? 70 : 60} />
       <ambientLight intensity={0.3} />
       <pointLight position={[10, 10, 10]} intensity={0.8} castShadow />
       <pointLight position={[-10, -10, -10]} intensity={0.3} />
       
-      {/* 减少星星数量提升性能 */}
-      <Stars radius={80} depth={40} count={2000} factor={3} saturation={0} fade speed={0.5} />
+      {/* 移动端减少星星数量 */}
+      <Stars 
+        radius={80} 
+        depth={40} 
+        count={isMobile ? 1000 : 2000} 
+        factor={3} 
+        saturation={0} 
+        fade 
+        speed={0.5} 
+      />
       
       <RotatingCube />
       <FloatingSphere position={[-2.5, 0, 0]} color="#ff0088" />
@@ -62,6 +70,13 @@ function Scene() {
         enablePan={false}
         maxDistance={15}
         minDistance={3}
+        // 移动端优化触摸操作
+        touches={{
+          ONE: 0, // 单指旋转
+          TWO: 2  // 双指缩放
+        }}
+        enableDamping={true}
+        dampingFactor={0.05}
       />
     </>
   );
@@ -79,13 +94,35 @@ function LoadingFallback() {
 function App() {
   const [error, setError] = useState(null);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMobileTip, setShowMobileTip] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // 检测移动设备
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || window.innerWidth < 768;
+      setIsMobile(mobile);
+      
+      // 移动端首次访问显示操作提示
+      if (mobile && !localStorage.getItem('mobileTipShown')) {
+        setShowMobileTip(true);
+        localStorage.setItem('mobileTipShown', 'true');
+        setTimeout(() => setShowMobileTip(false), 5000);
+      }
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // WebGL 检测
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) {
       setError('Your device does not support WebGL.');
     }
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleSaveScene = () => {
@@ -98,6 +135,7 @@ function App() {
         <div className="error">
           <h1>⚠️ WebGL Not Supported</h1>
           <p>{error}</p>
+          <p className="error-hint">请尝试使用 Chrome、Safari 或 Firefox 浏览器</p>
         </div>
       </div>
     );
@@ -109,32 +147,44 @@ function App() {
         <Canvas 
           shadows
           gl={{ 
-            antialias: true,
+            antialias: !isMobile, // 移动端关闭抗锯齿提升性能
             alpha: false,
-            powerPreference: 'high-performance'
+            powerPreference: isMobile ? 'default' : 'high-performance'
           }}
+          dpr={isMobile ? [1, 1.5] : [1, 2]} // 移动端降低像素比
         >
-          <Scene />
+          <Scene isMobile={isMobile} />
         </Canvas>
       </Suspense>
       
       <div className="info">
         <h1>🚀 3D Portfolio</h1>
-        <p>拖动旋转 | 滚轮缩放 | 悬停交互</p>
+        <p className="desktop-only">拖动旋转 | 滚轮缩放 | 悬停交互</p>
+        <p className="mobile-only">单指旋转 | 双指缩放</p>
       </div>
+
+      {showMobileTip && (
+        <div className="mobile-tip">
+          <p>💡 单指拖动旋转，双指缩放</p>
+        </div>
+      )}
 
       <div className="controls">
         <button className="btn-save" onClick={handleSaveScene}>
-          💾 保存场景
+          💾 {isMobile ? '保存' : '保存场景'}
         </button>
       </div>
 
       {showSaveDialog && (
         <div className="modal-overlay" onClick={() => setShowSaveDialog(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2>保存场景</h2>
+            <h2>💾 保存场景</h2>
             <p>后端开发中... 敬请期待！</p>
-            <button onClick={() => setShowSaveDialog(false)}>关闭</button>
+            <div className="modal-actions">
+              <button className="btn-primary" onClick={() => setShowSaveDialog(false)}>
+                知道了
+              </button>
+            </div>
           </div>
         </div>
       )}
