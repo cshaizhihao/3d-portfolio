@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Navigation.css';
 
 function Navigation() {
   const location = useLocation();
+  const { user, isAdmin, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     { path: '/', label: 'HOME', icon: '🏠' },
     { path: '/projects', label: 'PROJECTS', icon: '💼' },
     { path: '/about', label: 'ABOUT', icon: '👤' },
-    { path: '/login', label: 'LOGIN', icon: '🔐' },
   ];
+
+  // 根据登录状态添加不同的菜单项
+  if (user) {
+    if (isAdmin) {
+      navItems.push({ path: '/admin', label: 'ADMIN', icon: '⚙️' });
+    }
+  } else {
+    navItems.push({ path: '/login', label: 'LOGIN', icon: '🔐' });
+  }
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
 
   return (
     <nav className="cyber-nav">
@@ -37,6 +52,21 @@ function Navigation() {
               <span className="nav-underline"></span>
             </Link>
           ))}
+          
+          {user && (
+            <button onClick={handleLogout} className="nav-link logout-btn">
+              <span className="nav-icon">🚪</span>
+              <span className="nav-label">LOGOUT</span>
+            </button>
+          )}
+          
+          {user && (
+            <div className="user-badge">
+              <span className="user-icon">{user.avatar || '👤'}</span>
+              <span className="user-name">{user.username}</span>
+              {isAdmin && <span className="admin-badge">ADMIN</span>}
+            </div>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -64,6 +94,13 @@ function Navigation() {
             <span className="nav-label">{item.label}</span>
           </Link>
         ))}
+        
+        {user && (
+          <button onClick={handleLogout} className="nav-mobile-link logout-btn">
+            <span className="nav-icon">🚪</span>
+            <span className="nav-label">LOGOUT</span>
+          </button>
+        )}
       </div>
 
       {/* Scanline Effect */}

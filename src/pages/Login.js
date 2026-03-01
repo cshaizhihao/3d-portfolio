@@ -1,14 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  // 如果已登录，重定向到管理页面
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin');
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: 后端认证逻辑
-    alert('后端还没搞好呢，老板！😅');
+    setLoading(true);
+
+    try {
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        navigate('/admin');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -24,14 +57,16 @@ function Login() {
 
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">USERNAME</label>
+              <label htmlFor="email">EMAIL</label>
               <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="输入用户名"
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="输入邮箱"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -40,21 +75,23 @@ function Login() {
               <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="输入密码"
                 required
+                disabled={loading}
               />
             </div>
 
-            <button type="submit" className="login-button">
-              <span>LOGIN</span>
+            <button type="submit" className="login-button" disabled={loading}>
+              <span>{loading ? 'LOGGING IN...' : 'LOGIN'}</span>
               <span className="button-glow"></span>
             </button>
           </form>
 
           <div className="login-footer">
-            <p>🚧 后端开发中...</p>
+            <p>💡 测试账号: zaki@example.com / password123</p>
           </div>
         </div>
 

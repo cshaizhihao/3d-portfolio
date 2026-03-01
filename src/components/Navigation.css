@@ -304,3 +304,60 @@
     display: none;
   }
 }
+
+/* 用户徽章 */
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 20px;
+  margin-left: 1rem;
+}
+
+.user-icon {
+  font-size: 1.2rem;
+}
+
+.user-name {
+  color: #00ff88;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-badge {
+  padding: 0.2rem 0.5rem;
+  background: linear-gradient(135deg, #ff0088, #8800ff);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 10px;
+  letter-spacing: 1px;
+}
+
+/* 登出按钮 */
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #ff0088;
+  text-shadow: 0 0 10px rgba(255, 0, 136, 0.8);
+}
+
+@media (max-width: 768px) {
+  .user-badge {
+    display: none;
+  }
+}

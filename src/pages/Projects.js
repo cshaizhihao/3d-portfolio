@@ -1,33 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { projectAPI } from '../api';
+import toast from 'react-hot-toast';
 import './Projects.css';
 
 function Projects() {
-  const projects = [
-    {
-      id: 1,
-      title: 'Komari探针',
-      description: '服务器监控探针，实时监控系统状态',
-      url: 'http://www.zze.cc',
-      tags: ['监控', '实时数据', 'Dashboard'],
-      color: '#00ff88'
-    },
-    {
-      id: 2,
-      title: '剩余价值计算器',
-      description: '工资计算工具，帮你算清楚老板赚了多少',
-      url: 'http://syjz.zze.cc',
-      tags: ['工具', '计算器', 'Web App'],
-      color: '#0088ff'
-    },
-    {
-      id: 3,
-      title: '公共图床',
-      description: '免费图片托管服务，支持多种格式',
-      url: 'http://tuchuang.zze.cc',
-      tags: ['图床', '文件上传', 'CDN'],
-      color: '#ff0088'
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await projectAPI.getProjects({ status: 'active', limit: 50 });
+      setProjects(response.data);
+    } catch (error) {
+      toast.error('加载项目失败');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const handleLike = async (id) => {
+    try {
+      await projectAPI.likeProject(id);
+      // 更新本地状态
+      setProjects(projects.map(p => 
+        p._id === id ? { ...p, likes: p.likes + 1 } : p
+      ));
+      toast.success('点赞成功！');
+    } catch (error) {
+      toast.error('点赞失败');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="projects-page">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Loading Projects...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="projects-page">
@@ -39,34 +56,66 @@ function Projects() {
           <p className="projects-subtitle">// 我搞过的那些玩意儿</p>
         </div>
 
-        <div className="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="project-card" style={{ '--accent-color': project.color }}>
-              <div className="card-glow"></div>
-              <div className="card-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                
-                <div className="project-tags">
-                  {project.tags.map((tag, index) => (
-                    <span key={index} className="project-tag">{tag}</span>
-                  ))}
-                </div>
+        {projects.length === 0 ? (
+          <div className="empty-state">
+            <p>暂无项目，敬请期待...</p>
+          </div>
+        ) : (
+          <div className="projects-grid">
+            {projects.map((project) => (
+              <div key={project._id} className="project-card" style={{ '--accent-color': project.color }}>
+                <div className="card-glow"></div>
+                <div className="card-content">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">{project.description}</p>
+                  
+                  {project.technologies && project.technologies.length > 0 && (
+                    <div className="project-tags">
+                      {project.technologies.map((tech, index) => (
+                        <span key={index} className="project-tag">{tech}</span>
+                      ))}
+                    </div>
+                  )}
 
-                <a 
-                  href={project.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="project-link"
-                >
-                  <span>访问项目</span>
-                  <span className="link-arrow">→</span>
-                </a>
+                  <div className="project-stats">
+                    <span className="stat">👁️ {project.views}</span>
+                    <span className="stat">
+                      <button 
+                        className="like-btn" 
+                        onClick={() => handleLike(project._id)}
+                      >
+                        ❤️ {project.likes}
+                      </button>
+                    </span>
+                  </div>
+
+                  <div className="project-links">
+                    <a 
+                      href={project.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="project-link"
+                    >
+                      <span>访问项目</span>
+                      <span className="link-arrow">→</span>
+                    </a>
+                    {project.github && (
+                      <a 
+                        href={project.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="github-link"
+                      >
+                        💻 GitHub
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <div className="card-border"></div>
               </div>
-              <div className="card-border"></div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="coming-soon">
           <p>🚀 更多项目正在路上...</p>
