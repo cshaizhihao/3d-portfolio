@@ -1,81 +1,113 @@
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Stars } from '@react-three/drei';
+import { Float, PerspectiveCamera, Stars } from '@react-three/drei';
 import { EffectComposer, Bloom, ChromaticAberration, Noise, Vignette } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { configAPI, imageAPI, leadAPI, projectAPI } from '../api';
 import './Home.css';
 
-function HeroCore() {
-  const knotRef = useRef();
+function HeroCore({ isMobile }) {
+  const groupRef = useRef();
   const ringRef = useRef();
+  const panelRef = useRef();
 
-  useFrame((_, delta) => {
-    if (knotRef.current) {
-      knotRef.current.rotation.x += delta * 0.22;
-      knotRef.current.rotation.y += delta * 0.34;
+  useFrame((state, delta) => {
+    const elapsed = state.clock.getElapsedTime();
+
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.22;
+      groupRef.current.rotation.x = Math.sin(elapsed * 0.5) * 0.08;
     }
+
     if (ringRef.current) {
-      ringRef.current.rotation.z += delta * 0.12;
-      ringRef.current.rotation.x += delta * 0.06;
+      ringRef.current.rotation.z += delta * 0.35;
+      ringRef.current.rotation.x += delta * 0.12;
+    }
+
+    if (panelRef.current) {
+      panelRef.current.position.y = 0.08 + Math.sin(elapsed * 1.2) * 0.06;
+      panelRef.current.rotation.y = Math.sin(elapsed * 0.8) * 0.15;
     }
   });
 
+  const xShift = isMobile ? 0 : 1.35;
+
   return (
-    <>
-      <mesh ref={knotRef}>
-        <torusKnotGeometry args={[1.1, 0.28, 180, 28]} />
-        <meshStandardMaterial color="#00e5ff" metalness={0.75} roughness={0.2} emissive="#1a1233" />
-      </mesh>
-      <mesh ref={ringRef} rotation={[0.6, 0.2, 0]}>
-        <torusGeometry args={[2.25, 0.06, 24, 180]} />
-        <meshStandardMaterial color="#ff2bd6" emissive="#3a0836" />
-      </mesh>
-      <mesh position={[-2.6, -0.6, -0.4]}>
-        <icosahedronGeometry args={[0.36, 0]} />
-        <meshStandardMaterial color="#7a5cff" wireframe />
-      </mesh>
-      <mesh position={[2.4, 0.8, 0.2]}>
-        <octahedronGeometry args={[0.42, 0]} />
-        <meshStandardMaterial color="#00e5ff" wireframe />
-      </mesh>
-    </>
+    <group position={[xShift, -0.15, 0]}>
+      <Float speed={1.2} rotationIntensity={0.2} floatIntensity={0.45}>
+        <group ref={groupRef}>
+          <mesh>
+            <cylinderGeometry args={[0.95, 1.05, 0.22, 64, 1, true]} />
+            <meshStandardMaterial color="#0d1430" metalness={0.78} roughness={0.28} emissive="#111a3a" />
+          </mesh>
+
+          <mesh position={[0, 0.18, 0]}>
+            <torusKnotGeometry args={[0.6, 0.13, 220, 30]} />
+            <meshStandardMaterial color="#00e5ff" metalness={0.82} roughness={0.16} emissive="#123553" />
+          </mesh>
+
+          <mesh ref={ringRef} rotation={[1.12, 0, 0]} position={[0, 0.18, 0]}>
+            <torusGeometry args={[1.28, 0.04, 24, 180]} />
+            <meshStandardMaterial color="#ff2bd6" emissive="#4a103f" />
+          </mesh>
+
+          <mesh position={[0, 0.5, 0]}>
+            <sphereGeometry args={[0.14, 32, 32]} />
+            <meshStandardMaterial color="#7a5cff" emissive="#2a1f66" />
+          </mesh>
+        </group>
+      </Float>
+
+      <group ref={panelRef} position={[0.9, 0.08, 0.72]}>
+        <mesh>
+          <boxGeometry args={[0.9, 0.55, 0.06]} />
+          <meshStandardMaterial color="#110d2a" emissive="#1e1a3d" metalness={0.5} roughness={0.35} />
+        </mesh>
+        <mesh position={[0, 0.05, 0.04]}>
+          <planeGeometry args={[0.72, 0.26]} />
+          <meshBasicMaterial color="#00e5ff" transparent opacity={0.45} />
+        </mesh>
+        <mesh position={[0, -0.16, 0.04]}>
+          <planeGeometry args={[0.58, 0.09]} />
+          <meshBasicMaterial color="#ff2bd6" transparent opacity={0.38} />
+        </mesh>
+      </group>
+    </group>
   );
 }
 
 function HeroScene({ isMobile, fxLevel, particlesEnabled, particleMultiplier }) {
   const starCount = Math.max(
     220,
-    Math.floor((fxLevel === 'low' ? 650 : isMobile ? 1100 : 2200) * (particleMultiplier || 1))
+    Math.floor((fxLevel === 'low' ? 620 : isMobile ? 980 : 1800) * (particleMultiplier || 1))
   );
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, isMobile ? 9.5 : 8]} fov={isMobile ? 70 : 58} />
-      <ambientLight intensity={0.45} />
-      <pointLight position={[4, 4, 4]} intensity={1.1} color="#00e5ff" />
-      <pointLight position={[-4, -3, 2]} intensity={0.9} color="#ff2bd6" />
-      <pointLight position={[0, 3, -5]} intensity={0.7} color="#7a5cff" />
+      <PerspectiveCamera makeDefault position={[0.45, 0.32, isMobile ? 8.4 : 7.3]} fov={isMobile ? 66 : 54} />
+      <ambientLight intensity={0.36} />
+      <pointLight position={[3.8, 3.4, 3.2]} intensity={1.05} color="#00e5ff" />
+      <pointLight position={[-4.1, -1.5, 1.9]} intensity={0.85} color="#ff2bd6" />
+      <pointLight position={[0, 2.5, -4.6]} intensity={0.75} color="#7a5cff" />
 
-      {particlesEnabled && <Stars radius={90} depth={45} count={starCount} factor={3} saturation={0} fade speed={0.65} />}
+      {particlesEnabled && <Stars radius={90} depth={45} count={starCount} factor={3} saturation={0} fade speed={0.5} />}
 
-      <HeroCore />
-      <OrbitControls enablePan={false} enableZoom maxDistance={14} minDistance={3.5} enableDamping dampingFactor={0.06} />
+      <HeroCore isMobile={isMobile} />
     </>
   );
 }
 
 function PostEffects({ fxEnabled, fxLevel, noiseOpacity }) {
   if (!fxEnabled || fxLevel === 'off') return null;
-  const bloomIntensity = fxLevel === 'high' ? 1.25 : fxLevel === 'medium' ? 0.85 : 0.5;
+  const bloomIntensity = fxLevel === 'high' ? 1.2 : fxLevel === 'medium' ? 0.78 : 0.48;
 
   return (
     <EffectComposer multisampling={0}>
-      <Bloom luminanceThreshold={0.24} luminanceSmoothing={0.2} intensity={bloomIntensity} />
-      <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.0008, 0.0013]} />
-      <Noise opacity={noiseOpacity ?? (fxLevel === 'high' ? 0.06 : 0.03)} premultiply />
-      <Vignette eskil={false} offset={0.2} darkness={0.62} />
+      <Bloom luminanceThreshold={0.26} luminanceSmoothing={0.2} intensity={bloomIntensity} />
+      <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.00075, 0.00115]} />
+      <Noise opacity={noiseOpacity ?? (fxLevel === 'high' ? 0.055 : 0.03)} premultiply />
+      <Vignette eskil={false} offset={0.19} darkness={0.66} />
     </EffectComposer>
   );
 }
@@ -94,8 +126,8 @@ function Home() {
     heroImage: '',
     siteTitle: 'ZAKI.DEV',
     siteDescription: '赛博朋克时代的网络数字游民',
-    homeDesktopTip: '拖动旋转 | 滚轮缩放 | 悬停交互',
-    homeMobileTip: '单指旋转 | 双指缩放',
+    homeDesktopTip: '沉浸式数字作品集 · 交互式体验',
+    homeMobileTip: '向下探索更多作品与相册',
     homeStat1Value: '3+',
     homeStat1Label: 'PROJECTS',
     homeStat2Value: '∞',
@@ -117,7 +149,7 @@ function Home() {
   useEffect(() => {
     const checkMobile = () => {
       const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        || window.innerWidth < 768;
+        || window.innerWidth < 900;
       setIsMobile(mobile);
       if (mobile && !localStorage.getItem('mobileTipShown')) {
         setShowMobileTip(true);
@@ -229,45 +261,65 @@ function Home() {
       <section
         className="hero-stage"
         style={config.heroImage ? {
-          backgroundImage: `linear-gradient(rgba(8, 6, 18, 0.72), rgba(8, 6, 18, 0.72)), url(${toAbs(config.heroImage)})`,
+          backgroundImage: `linear-gradient(rgba(8, 6, 18, 0.78), rgba(8, 6, 18, 0.9)), url(${toAbs(config.heroImage)})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
         } : {}}
       >
-        <Suspense fallback={<div className="loading"><div className="spinner" /><p>Loading 3D Scene...</p></div>}>
-          <Canvas shadows gl={{ antialias: !isMobile, alpha: true, powerPreference: isMobile ? 'default' : 'high-performance' }} dpr={isMobile ? [1, 1.5] : [1, 2]}>
-            <HeroScene
-              isMobile={isMobile}
-              fxLevel={config.fxPreset}
-              particlesEnabled={config.fxEnableParticles}
-              particleMultiplier={config.fxParticleMultiplier}
-            />
-            <PostEffects fxEnabled={config.fxEnablePost} fxLevel={config.fxPreset} noiseOpacity={config.fxNoiseOpacity} />
-          </Canvas>
-        </Suspense>
+        <div className="hero-canvas-layer">
+          <Suspense fallback={<div className="loading"><div className="spinner" /><p>Loading 3D Scene...</p></div>}>
+            <Canvas shadows gl={{ antialias: !isMobile, alpha: true, powerPreference: isMobile ? 'default' : 'high-performance' }} dpr={isMobile ? [1, 1.5] : [1, 2]}>
+              <HeroScene
+                isMobile={isMobile}
+                fxLevel={config.fxPreset}
+                particlesEnabled={config.fxEnableParticles}
+                particleMultiplier={config.fxParticleMultiplier}
+              />
+              <PostEffects fxEnabled={config.fxEnablePost} fxLevel={config.fxPreset} noiseOpacity={config.fxNoiseOpacity} />
+            </Canvas>
+          </Suspense>
+        </div>
 
         <div className="hero-content">
-          <h1 className="hero-title glitch" data-text={config.siteTitle}>{config.siteTitle}</h1>
-          <p className="hero-subtitle">// {config.siteDescription}</p>
-          <p className="hero-description desktop-only">{config.homeDesktopTip}</p>
-          <p className="hero-description mobile-only">{config.homeMobileTip}</p>
+          <div className="hero-copy">
+            <p className="hero-kicker">NEURAL PORTFOLIO / 2026</p>
+            <h1 className="hero-title glitch" data-text={config.siteTitle}>{config.siteTitle}</h1>
+            <p className="hero-subtitle">// {config.siteDescription}</p>
+            <p className="hero-description desktop-only">{config.homeDesktopTip}</p>
+            <p className="hero-description mobile-only">{config.homeMobileTip}</p>
 
-          <div className="hero-stats">
-            <div className="stat-item"><span className="stat-value">{config.homeStat1Value}</span><span className="stat-label">{config.homeStat1Label}</span></div>
-            <div className="stat-divider" />
-            <div className="stat-item"><span className="stat-value">{config.homeStat2Value}</span><span className="stat-label">{config.homeStat2Label}</span></div>
-            <div className="stat-divider" />
-            <div className="stat-item"><span className="stat-value">{config.homeStat3Value}</span><span className="stat-label">{config.homeStat3Label}</span></div>
+            <div className="hero-actions">
+              <Link to="/projects" className="hero-btn primary">查看项目</Link>
+              <button type="button" className="hero-btn ghost" onClick={() => document.getElementById('home-more')?.scrollIntoView({ behavior: 'smooth' })}>继续下滑</button>
+            </div>
+
+            <div className="hero-stats">
+              <div className="stat-item"><span className="stat-value">{config.homeStat1Value}</span><span className="stat-label">{config.homeStat1Label}</span></div>
+              <div className="stat-divider" />
+              <div className="stat-item"><span className="stat-value">{config.homeStat2Value}</span><span className="stat-label">{config.homeStat2Label}</span></div>
+              <div className="stat-divider" />
+              <div className="stat-item"><span className="stat-value">{config.homeStat3Value}</span><span className="stat-label">{config.homeStat3Label}</span></div>
+            </div>
           </div>
 
-          <div className="hero-actions">
-            <Link to="/projects" className="hero-btn primary">查看项目</Link>
-            <button type="button" className="hero-btn ghost" onClick={() => document.getElementById('home-more')?.scrollIntoView({ behavior: 'smooth' })}>继续下滑</button>
+          <div className="hero-side-panel">
+            <div className="hud-card">
+              <span className="hud-label">CURRENT MODE</span>
+              <span className="hud-value">CYBERPUNK EXPERIENCE</span>
+            </div>
+            <div className="hud-card">
+              <span className="hud-label">FOCUS</span>
+              <span className="hud-value">WEBGL / UX / FULL STACK</span>
+            </div>
+            <div className="hud-card">
+              <span className="hud-label">STATUS</span>
+              <span className="hud-value">ONLINE · BUILDING</span>
+            </div>
           </div>
         </div>
 
-        {showMobileTip && <div className="mobile-tip">💡 单指旋转，双指缩放</div>}
+        {showMobileTip && <div className="mobile-tip">💡 向下滑动查看更多内容</div>}
 
         <button type="button" className="lead-toggle" onClick={() => setLeadOpen((open) => !open)}>
           {leadOpen ? '关闭咨询' : '快速咨询'}
@@ -294,7 +346,7 @@ function Home() {
             {featuredProjects.slice(0, 6).map((project) => (
               <a key={project._id} href={project.url} target="_blank" rel="noreferrer" className="home-project-card">
                 <div className="home-project-title">{project.title}</div>
-                <div className="home-project-desc">{project.description?.slice(0, 72)}{project.description?.length > 72 ? '...' : ''}</div>
+                <div className="home-project-desc">{project.description?.slice(0, 78)}{project.description?.length > 78 ? '...' : ''}</div>
               </a>
             ))}
           </div>
