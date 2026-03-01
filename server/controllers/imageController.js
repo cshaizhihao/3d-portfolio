@@ -2,6 +2,10 @@ import Image from '../models/Image.js';
 import { successResponse, errorResponse, paginatedResponse } from '../utils/response.js';
 import { generateThumbnail, getImageDimensions, deleteFile } from '../utils/imageProcessor.js';
 import path from 'path';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
+import { uploadDir } from '../middleware/upload.js';
 
 // @desc    上传图片
 // @route   POST /api/images/upload
@@ -184,6 +188,101 @@ export const getImagesByCategory = async (req, res, next) => {
       .lean();
 
     successResponse(res, 200, 'Images fetched successfully', images);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    从 URL 上传图片
+// @route   POST /api/images/upload-url
+// @access  Private (Admin)
+export const uploadImageFromUrl = async (req, res, next) => {
+  try {
+    const { url, title, description, tags, category } = req.body;
+
+    if (!url) {
+      return errorResponse(res, 400, 'Image URL is required');
+    }
+
+    // 验证 URL
+    let imageUrl;
+    try {
+      imageUrl = new URL(url);
+    } catch (error) {
+      return errorResponse(res, 400, 'Invalid URL');
+    }
+
+    // 生成文件名
+    const ext = path.extname(imageUrl.pathname) || '.jpg';
+    const filename = `url-${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+    const filepath = path.join(uploadDir, filename);
+
+    // 下载图片
+    const protocol = imageUrl.protocol === 'https:' ? https : http;
+    
+    await new Promise((resolve, reject) => {
+      const file = fs.createWriteStream(filepath);
+      
+      protocol.get(url, (response) => {
+        if (response.statusCode !== 200) {
+          reject(new Error(`Failed to download image: ${response.statusCode}`));
+          return;
+        }
+
+        // 检查 Content-Type
+        const contentType = response.headers['content-type'];
+        if (!contentType || !contentType.startsWith('image/')) {
+          reject(new Error('URL does not point to an image'));
+          return;
+        }
+
+        response.pipe(file);
+        
+        file.on('finish', () => {
+          file.close();
+          resolve();
+        });
+      }).on('error', (err) => {
+        fs.unlink(filepath, () => {});
+        reject(err);
+      });
+    });
+
+    // 获取文件大小
+    const stats = fs.statSync(filepath);
+    const fileSize = stats.size;
+
+    // 检查文件大小（10MB 限制）
+    if (fileSize > 10 * 1024 * 1024) {
+      deleteFile(filepath);
+      return errorResponse(res, 400, 'Image size exceeds 10MB');
+    }
+
+    // 生成缩略图
+    const thumbnailPath = await generateThumbnail(filepath, filename);
+    
+    // 获取图片尺寸
+    const dimensions = await getImageDimensions(filepath);
+
+    // 创建图片记录
+    const image = await Image.create({
+      title: title || filename,
+      description: description || '',
+      filename: filename,
+      originalName: filename,
+      mimetype: 'image/jpeg',
+      size: fileSize,
+      path: filepath,
+      url: `/uploads/${filename}`,
+      thumbnail: `/uploads/thumbnails/thumb-${filename}`,
+      width: dimensions.width,
+      height: dimensions.height,
+      tags: tags ? tags.split(',').map(t => t.trim()) : [],
+      category: category || 'gallery',
+      uploadedBy: req.user.id,
+    });
+
+    successResponse(res, 201, 'Image uploaded from URL successfully', image);
   } catch (error) {
     next(error);
   }

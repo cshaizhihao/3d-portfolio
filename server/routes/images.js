@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   uploadImage,
+  uploadImageFromUrl,
   getImages,
   getImage,
   updateImage,
@@ -20,6 +21,7 @@ router.get('/:id', idValidation, getImage);
 
 // 受保护路由（仅管理员）
 router.post('/upload', protect, admin, upload.single('image'), uploadImage);
+router.post('/upload-url', protect, admin, uploadImageFromUrl);
 router.put('/:id', protect, admin, idValidation, updateImage);
 router.delete('/:id', protect, admin, idValidation, deleteImage);
 

@@ -10,9 +10,17 @@ function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showUrlModal, setShowUrlModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [editingImage, setEditingImage] = useState(null);
   const [uploadData, setUploadData] = useState({
+    title: '',
+    description: '',
+    category: 'gallery',
+    tags: '',
+  });
+  const [urlData, setUrlData] = useState({
+    url: '',
     title: '',
     description: '',
     category: 'gallery',
@@ -127,6 +135,37 @@ function Gallery() {
     }
   };
 
+  const handleUrlUpload = async (e) => {
+    e.preventDefault();
+    if (!urlData.url) {
+      toast.error('请输入图片链接咧');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      await imageAPI.uploadImageFromUrl(urlData);
+      toast.success('图片添加成功咧！');
+      setShowUrlModal(false);
+      resetUrlForm();
+      fetchImages();
+    } catch (error) {
+      toast.error(error.message || '添加失败咧');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const resetUrlForm = () => {
+    setUrlData({
+      url: '',
+      title: '',
+      description: '',
+      category: 'gallery',
+      tags: '',
+    });
+  };
+
   const resetUploadForm = () => {
     setUploadData({
       title: '',
@@ -167,9 +206,14 @@ function Gallery() {
           <h1 className="gallery-title glitch" data-text="图库管理">
             图库管理
           </h1>
-          <button className="btn-primary" onClick={() => setShowUploadModal(true)}>
-            📸 上传图片
-          </button>
+          <div className="header-actions">
+            <button className="btn-primary" onClick={() => setShowUploadModal(true)}>
+              📸 上传图片
+            </button>
+            <button className="btn-secondary" onClick={() => setShowUrlModal(true)}>
+              🔗 添加链接
+            </button>
+          </div>
         </div>
 
         <div className="category-filter">
@@ -378,6 +422,85 @@ function Gallery() {
                 </button>
                 <button type="submit" className="btn-primary" disabled={uploading}>
                   {uploading ? '保存中...' : '保存'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* URL 上传模态框 */}
+      {showUrlModal && (
+        <div className="modal-overlay" onClick={() => setShowUrlModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>🔗 添加网络图片</h2>
+            <form onSubmit={handleUrlUpload}>
+              <div className="form-group">
+                <label>图片链接</label>
+                <input
+                  type="url"
+                  value={urlData.url}
+                  onChange={(e) => setUrlData({ ...urlData, url: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>标题</label>
+                <input
+                  type="text"
+                  value={urlData.title}
+                  onChange={(e) => setUrlData({ ...urlData, title: e.target.value })}
+                  placeholder="不填则使用文件名"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>描述</label>
+                <textarea
+                  value={urlData.description}
+                  onChange={(e) => setUrlData({ ...urlData, description: e.target.value })}
+                  rows="3"
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>分类</label>
+                  <select
+                    value={urlData.category}
+                    onChange={(e) => setUrlData({ ...urlData, category: e.target.value })}
+                  >
+                    {categories.filter(c => c.value !== 'all').map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>标签（逗号分隔）</label>
+                  <input
+                    type="text"
+                    value={urlData.tags}
+                    onChange={(e) => setUrlData({ ...urlData, tags: e.target.value })}
+                    placeholder="风景, 人物, 建筑"
+                  />
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowUrlModal(false)}
+                >
+                  取消
+                </button>
+                <button type="submit" className="btn-primary" disabled={uploading}>
+                  {uploading ? '添加中...' : '添加'}
                 </button>
               </div>
             </form>

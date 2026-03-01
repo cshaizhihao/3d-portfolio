@@ -74,6 +74,9 @@ export const imageAPI = {
     });
   },
   
+  // 从 URL 上传图片
+  uploadImageFromUrl: (data) => api.post('/images/upload-url', data),
+  
   // 获取所有图片
   getImages: (params) => api.get('/images', { params }),
   

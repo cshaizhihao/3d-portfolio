@@ -21,6 +21,12 @@
   gap: 1rem;
 }
 
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .gallery-title {
   font-size: 3rem;
   font-weight: 900;
