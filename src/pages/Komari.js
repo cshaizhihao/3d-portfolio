@@ -6,7 +6,7 @@ function Komari() {
   const [config, setConfig] = useState({
     komariTitle: 'KOMARI Monitor',
     komariDescription: '探针与监控界面',
-    komariPanelUrl: '',
+    komariPanelUrl: '/komari-panel',
   });
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function Komari() {
           ...prev,
           komariTitle: cfg.komariTitle || prev.komariTitle,
           komariDescription: cfg.komariDescription || prev.komariDescription,
-          komariPanelUrl: cfg.komariPanelUrl || '',
+          komariPanelUrl: cfg.komariPanelUrl || '/komari-panel',
         }));
       } catch (error) {
         // ignore

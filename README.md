@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:58 GMT+8
+**最后更新**: 2026-03-02 02:04 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,13 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 02:04 - v1.54.0
+- ✅ Komari 实际可用化：本机启动 Komari 容器并挂载数据目录（`integrations/komari-data`）
+- ✅ 后端新增 `/komari-panel` 反向代理（同域访问 Komari，便于前台嵌入）
+- ✅ 前台独立 `/komari` 探针界面可直接加载真实 Komari 面板
+- ✅ 首页/设置页联动修正：默认面板地址改为 `/komari-panel`
+- ✅ 顶部标签保留 Komari 导航，后台可配置文案与地址
 
 ### 2026-03-02 01:58 - v1.53.0
 - ✅ 自查修复 Komari 不显示问题：新增独立页面路由 `/komari`
