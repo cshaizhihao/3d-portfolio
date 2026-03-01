@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API 基础 URL
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // 创建 axios 实例
 const api = axios.create({

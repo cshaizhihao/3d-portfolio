@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:58 GMT+8
+**最后更新**: 2026-03-02 02:11 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,13 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 02:11 - v1.55.0
+- ✅ 已按要求回退容器化改动：移除 Komari 容器依赖与相关运行链路
+- ✅ 修复 `zaki.zze.cc` 登录 Network Error：前端 API 默认改为同域 `/api`
+- ✅ 新增 CRA 代理：`/api` 与 `/uploads` 自动转发到后端（`src/setupProxy.js`）
+- ✅ 全站资源地址回退策略改为 `window.location.origin`，避免跨域/混合内容问题
+- ✅ `.env` 调整为 `REACT_APP_API_URL=/api` 适配反向代理域名访问
 
 ### 2026-03-02 01:58 - v1.53.0
 - ✅ 自查修复 Komari 不显示问题：新增独立页面路由 `/komari`

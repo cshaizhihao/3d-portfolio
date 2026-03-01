@@ -60,7 +60,7 @@ function Profile() {
     if (!avatar) return null;
     if (avatar.startsWith('http')) return avatar;
     // 确保使用完整的服务器地址
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || window.location.origin;
     return `${baseUrl}${avatar}`;
   };
 

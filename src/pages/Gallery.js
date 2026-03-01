@@ -177,12 +177,12 @@ function Gallery() {
   };
 
   const getImageUrl = (image) => {
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || window.location.origin;
     return `${baseUrl}${image.url}`;
   };
 
   const getThumbnailUrl = (image) => {
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || window.location.origin;
     return image.thumbnail 
       ? `${baseUrl}${image.thumbnail}`
       : getImageUrl(image);

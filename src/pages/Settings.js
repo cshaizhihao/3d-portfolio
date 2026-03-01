@@ -308,7 +308,7 @@ function Settings() {
   const getImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || window.location.origin;
     return `${baseUrl}${url}`;
   };
 
