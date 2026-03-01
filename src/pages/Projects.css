@@ -113,6 +113,21 @@
   z-index: 1;
 }
 
+.project-cover,
+.project-cover-fallback {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.project-cover-fallback {
+  object-fit: cover;
+}
+
 .project-title {
   font-size: 1.5rem;
   font-weight: 700;

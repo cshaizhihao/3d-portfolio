@@ -44,7 +44,7 @@ function FloatingSphere({ position, color }) {
   );
 }
 
-function Scene({ isMobile, fxLevel, particlesEnabled }) {
+function Scene({ isMobile, fxLevel, particlesEnabled, particleMultiplier }) {
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0, isMobile ? 10 : 8]} fov={isMobile ? 70 : 60} />
@@ -56,7 +56,7 @@ function Scene({ isMobile, fxLevel, particlesEnabled }) {
         <Stars 
           radius={80} 
           depth={40} 
-          count={fxLevel === 'low' ? 500 : (isMobile ? 1000 : 2000)} 
+          count={Math.floor((fxLevel === 'low' ? 500 : (isMobile ? 1000 : 2000)) * (particleMultiplier || 1))} 
           factor={3} 
           saturation={0} 
           fade 
@@ -85,7 +85,7 @@ function Scene({ isMobile, fxLevel, particlesEnabled }) {
   );
 }
 
-function PostEffects({ fxEnabled, fxLevel }) {
+function PostEffects({ fxEnabled, fxLevel, noiseOpacity }) {
   if (!fxEnabled || fxLevel === 'off') return null;
 
   const bloomIntensity = fxLevel === 'high' ? 1.2 : fxLevel === 'medium' ? 0.8 : 0.45;
@@ -94,7 +94,7 @@ function PostEffects({ fxEnabled, fxLevel }) {
     <EffectComposer multisampling={0}>
       <Bloom luminanceThreshold={0.25} luminanceSmoothing={0.2} intensity={bloomIntensity} />
       <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.0008, 0.0012]} />
-      <Noise opacity={fxLevel === 'high' ? 0.06 : 0.03} premultiply />
+      <Noise opacity={noiseOpacity ?? (fxLevel === 'high' ? 0.06 : 0.03)} premultiply />
       <Vignette eskil={false} offset={0.22} darkness={0.55} />
     </EffectComposer>
   );
@@ -132,6 +132,8 @@ function Home() {
     fxPreset: 'medium',
     fxEnablePost: true,
     fxEnableParticles: true,
+    fxNoiseOpacity: 0.04,
+    fxParticleMultiplier: 1,
   });
 
   useEffect(() => {
@@ -185,6 +187,8 @@ function Home() {
         fxPreset: publicConfig.fxPreset || 'medium',
         fxEnablePost: publicConfig.fxEnablePost !== false,
         fxEnableParticles: publicConfig.fxEnableParticles !== false,
+        fxNoiseOpacity: typeof publicConfig.fxNoiseOpacity === 'number' ? publicConfig.fxNoiseOpacity : 0.04,
+        fxParticleMultiplier: typeof publicConfig.fxParticleMultiplier === 'number' ? publicConfig.fxParticleMultiplier : 1,
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);
@@ -260,8 +264,17 @@ function Home() {
           }}
           dpr={isMobile ? [1, 1.5] : [1, 2]}
         >
-          <Scene isMobile={isMobile} fxLevel={config.fxPreset} particlesEnabled={config.fxEnableParticles} />
-          <PostEffects fxEnabled={config.fxEnablePost} fxLevel={config.fxPreset} />
+          <Scene
+            isMobile={isMobile}
+            fxLevel={config.fxPreset}
+            particlesEnabled={config.fxEnableParticles}
+            particleMultiplier={config.fxParticleMultiplier}
+          />
+          <PostEffects
+            fxEnabled={config.fxEnablePost}
+            fxLevel={config.fxPreset}
+            noiseOpacity={config.fxNoiseOpacity}
+          />
         </Canvas>
       </Suspense>
       

@@ -47,6 +47,9 @@ function Settings() {
     fxEnableTilt: true,
     fxEnableCursor: true,
     fxEnableTransitions: true,
+    fxEnableDistortionHover: true,
+    fxNoiseOpacity: 0.04,
+    fxParticleMultiplier: 1,
     // About 页面配置
     aboutTitle: 'ABOUT ME',
     aboutSubtitle: '关于这个搞事情的人',
@@ -101,6 +104,9 @@ function Settings() {
         fxEnableTilt: publicConfig.fxEnableTilt !== false,
         fxEnableCursor: publicConfig.fxEnableCursor !== false,
         fxEnableTransitions: publicConfig.fxEnableTransitions !== false,
+        fxEnableDistortionHover: publicConfig.fxEnableDistortionHover !== false,
+        fxNoiseOpacity: typeof publicConfig.fxNoiseOpacity === 'number' ? publicConfig.fxNoiseOpacity : 0.04,
+        fxParticleMultiplier: typeof publicConfig.fxParticleMultiplier === 'number' ? publicConfig.fxParticleMultiplier : 1,
         aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
         aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
         whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
@@ -164,6 +170,9 @@ function Settings() {
         { key: 'fxEnableTilt', value: config.fxEnableTilt, description: '卡片倾斜开关', category: 'theme' },
         { key: 'fxEnableCursor', value: config.fxEnableCursor, description: '自定义光标开关', category: 'theme' },
         { key: 'fxEnableTransitions', value: config.fxEnableTransitions, description: '页面转场开关', category: 'theme' },
+        { key: 'fxEnableDistortionHover', value: config.fxEnableDistortionHover, description: 'WebGL扭曲Hover开关', category: 'theme' },
+        { key: 'fxNoiseOpacity', value: Number(config.fxNoiseOpacity), description: '噪点强度', category: 'theme' },
+        { key: 'fxParticleMultiplier', value: Number(config.fxParticleMultiplier), description: '粒子倍率', category: 'theme' },
         { key: 'aboutTitle', value: config.aboutTitle, description: 'About 标题', category: 'general' },
         { key: 'aboutSubtitle', value: config.aboutSubtitle, description: 'About 副标题', category: 'general' },
         { key: 'whoAmI', value: config.whoAmI, description: 'Who Am I', category: 'general' },
@@ -467,8 +476,17 @@ function Settings() {
                   <label><input type="checkbox" checked={config.fxEnablePost} onChange={(e) => setConfig({ ...config, fxEnablePost: e.target.checked })} /> 后处理（Bloom/Noise/Vignette）</label>
                   <label><input type="checkbox" checked={config.fxEnableParticles} onChange={(e) => setConfig({ ...config, fxEnableParticles: e.target.checked })} /> 粒子与星空</label>
                   <label><input type="checkbox" checked={config.fxEnableTilt} onChange={(e) => setConfig({ ...config, fxEnableTilt: e.target.checked })} /> 项目卡 3D 倾斜</label>
+                  <label><input type="checkbox" checked={config.fxEnableDistortionHover} onChange={(e) => setConfig({ ...config, fxEnableDistortionHover: e.target.checked })} /> 项目封面 WebGL 扭曲</label>
                   <label><input type="checkbox" checked={config.fxEnableCursor} onChange={(e) => setConfig({ ...config, fxEnableCursor: e.target.checked })} /> 自定义光标</label>
                   <label><input type="checkbox" checked={config.fxEnableTransitions} onChange={(e) => setConfig({ ...config, fxEnableTransitions: e.target.checked })} /> 页面转场</label>
+                </div>
+                <div className="form-group">
+                  <label>噪点强度（0 - 0.2）</label>
+                  <input type="number" min="0" max="0.2" step="0.01" value={config.fxNoiseOpacity} onChange={(e) => setConfig({ ...config, fxNoiseOpacity: Number(e.target.value) })} />
+                </div>
+                <div className="form-group">
+                  <label>粒子倍率（0.5 - 2）</label>
+                  <input type="number" min="0.5" max="2" step="0.1" value={config.fxParticleMultiplier} onChange={(e) => setConfig({ ...config, fxParticleMultiplier: Number(e.target.value) })} />
                 </div>
               </div>
             </>

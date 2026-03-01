@@ -14,6 +14,51 @@ body {
   overflow-x: hidden;
 }
 
+:root {
+  --hud-border: rgba(0, 255, 136, 0.28);
+  --hud-bg: rgba(8, 8, 8, 0.72);
+  --hud-glow: 0 0 28px rgba(0, 255, 136, 0.18);
+}
+
+.settings-content,
+.about-card,
+.project-card,
+.login-box,
+.modal,
+.projects-table,
+.stat-card,
+.gallery-container,
+.profile-content {
+  border: 1px solid var(--hud-border);
+  background: var(--hud-bg);
+  box-shadow: var(--hud-glow);
+}
+
+.settings-content,
+.about-card,
+.project-card,
+.login-box,
+.modal,
+.projects-table,
+.stat-card {
+  position: relative;
+}
+
+.settings-content::after,
+.about-card::after,
+.project-card::after,
+.login-box::after,
+.modal::after,
+.projects-table::after,
+.stat-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(0,255,136,0.08), transparent 35%);
+  mix-blend-mode: screen;
+}
+
 .App {
   min-height: 100vh;
   background: #000;

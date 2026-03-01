@@ -1,17 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import HoverEffect from 'hover-effect';
 import { configAPI, projectAPI } from '../api';
 import toast from 'react-hot-toast';
 import './Projects.css';
+
+function DistortionCover({ imageA, imageB, enabled }) {
+  const containerRef = useRef(null);
+  const instanceRef = useRef(null);
+
+  useEffect(() => {
+    if (!enabled || !containerRef.current || !imageA || !imageB) return undefined;
+
+    try {
+      instanceRef.current = new HoverEffect({
+        parent: containerRef.current,
+        intensity: 0.22,
+        image1: imageA,
+        image2: imageB,
+        displacementImage: 'https://raw.githubusercontent.com/robin-dela/hover-effect/master/images/displacement/4.jpg',
+        hover: true,
+      });
+    } catch (error) {
+      // fallback to normal image
+    }
+
+    return () => {
+      if (instanceRef.current?.destroy) instanceRef.current.destroy();
+      if (containerRef.current) containerRef.current.innerHTML = '';
+      instanceRef.current = null;
+    };
+  }, [enabled, imageA, imageB]);
+
+  return <div className="project-cover" ref={containerRef} />;
+}
 
 function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fxEnableTilt, setFxEnableTilt] = useState(true);
+  const [fxEnableDistortionHover, setFxEnableDistortionHover] = useState(true);
 
   useEffect(() => {
     fetchProjects();
     fetchSeo();
   }, []);
+
+  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+
+  const toAbs = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    return `${baseUrl}${path}`;
+  };
 
   const fetchSeo = async () => {
     try {
@@ -22,6 +62,7 @@ function Projects() {
         description: cfg.seoProjectsDescription || '项目案例与结果展示',
       };
       setFxEnableTilt(cfg.fxEnableTilt !== false);
+      setFxEnableDistortionHover(cfg.fxEnableDistortionHover !== false);
       document.title = nextSeo.title;
       let meta = document.querySelector('meta[name="description"]');
       if (!meta) {
@@ -49,9 +90,8 @@ function Projects() {
   const handleLike = async (id) => {
     try {
       await projectAPI.likeProject(id);
-      // 更新本地状态
-      setProjects(projects.map(p => 
-        p._id === id ? { ...p, likes: p.likes + 1 } : p
+      setProjects(projects.map((project) =>
+        project._id === id ? { ...project, likes: project.likes + 1 } : project
       ));
       toast.success('点赞成功！');
     } catch (error) {
@@ -89,90 +129,81 @@ function Projects() {
     <div className="projects-page">
       <div className="projects-container">
         <div className="projects-header">
-          <h1 className="projects-title glitch" data-text="MY PROJECTS">
-            MY PROJECTS
-          </h1>
+          <h1 className="projects-title glitch" data-text="MY PROJECTS">MY PROJECTS</h1>
           <p className="projects-subtitle">// 我搞过的那些玩意儿</p>
         </div>
 
         {projects.length === 0 ? (
-          <div className="empty-state">
-            <p>暂无项目，敬请期待...</p>
-          </div>
+          <div className="empty-state"><p>暂无项目，敬请期待...</p></div>
         ) : (
           <div className="projects-grid">
-            {projects.map((project) => (
-              <div
-                key={project._id}
-                className={`project-card ${fxEnableTilt ? 'tilt-enabled' : ''}`}
-                style={{ '--accent-color': project.color }}
-                onMouseMove={handleCardMove}
-                onMouseLeave={resetCard}
-              >
-                <div className="card-glow"></div>
-                <div className="card-content">
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
-                  
-                  {project.technologies && project.technologies.length > 0 && (
-                    <div className="project-tags">
-                      {project.technologies.map((tech, index) => (
-                        <span key={index} className="project-tag">{tech}</span>
-                      ))}
-                    </div>
-                  )}
+            {projects.map((project) => {
+              const imageA = toAbs(project.thumbnail || project.images?.[0] || '');
+              const imageB = toAbs(project.images?.[0] || project.thumbnail || '');
+              const hasCover = Boolean(imageA);
 
-                  {project.resultMetrics && project.resultMetrics.length > 0 && (
-                    <div className="result-metrics">
-                      {project.resultMetrics.map((metric, index) => (
-                        <span key={index} className="result-metric">📈 {metric}</span>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="project-stats">
-                    <span className="stat">👁️ {project.views}</span>
-                    <span className="stat">
-                      <button 
-                        className="like-btn" 
-                        onClick={() => handleLike(project._id)}
-                      >
-                        ❤️ {project.likes}
-                      </button>
-                    </span>
-                  </div>
-
-                  <div className="project-links">
-                    <a 
-                      href={project.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="project-link"
-                    >
-                      <span>访问项目</span>
-                      <span className="link-arrow">→</span>
-                    </a>
-                    {project.github && (
-                      <a 
-                        href={project.github} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="github-link"
-                      >
-                        💻 GitHub
-                      </a>
+              return (
+                <div
+                  key={project._id}
+                  className={`project-card ${fxEnableTilt ? 'tilt-enabled' : ''}`}
+                  style={{ '--accent-color': project.color }}
+                  onMouseMove={handleCardMove}
+                  onMouseLeave={resetCard}
+                >
+                  <div className="card-glow"></div>
+                  <div className="card-content">
+                    {hasCover && (
+                      fxEnableDistortionHover ? (
+                        <DistortionCover imageA={imageA} imageB={imageB} enabled={fxEnableDistortionHover} />
+                      ) : (
+                        <img src={imageA} alt={project.title} className="project-cover-fallback" />
+                      )
                     )}
+
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-description">{project.description}</p>
+
+                    {project.technologies?.length > 0 && (
+                      <div className="project-tags">
+                        {project.technologies.map((tech, index) => (
+                          <span key={index} className="project-tag">{tech}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {project.resultMetrics?.length > 0 && (
+                      <div className="result-metrics">
+                        {project.resultMetrics.map((metric, index) => (
+                          <span key={index} className="result-metric">📈 {metric}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="project-stats">
+                      <span className="stat">👁️ {project.views}</span>
+                      <span className="stat">
+                        <button className="like-btn" onClick={() => handleLike(project._id)}>❤️ {project.likes}</button>
+                      </span>
+                    </div>
+
+                    <div className="project-links">
+                      <a href={project.url} target="_blank" rel="noopener noreferrer" className="project-link">
+                        <span>访问项目</span>
+                        <span className="link-arrow">→</span>
+                      </a>
+                      {project.github && (
+                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="github-link">💻 GitHub</a>
+                      )}
+                    </div>
                   </div>
+                  <div className="card-border"></div>
                 </div>
-                <div className="card-border"></div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
-        <div className="coming-soon">
-          <p>🚀 更多项目正在路上...</p>
-        </div>
+        <div className="coming-soon"><p>🚀 更多项目正在路上...</p></div>
       </div>
     </div>
   );
