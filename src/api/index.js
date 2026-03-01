@@ -89,3 +89,21 @@ export const imageAPI = {
   // 按分类获取图片
   getImagesByCategory: (category, params) => api.get(`/images/category/${category}`, { params }),
 };
+
+// 配置 API
+export const configAPI = {
+  // 获取配置
+  getConfig: (key) => api.get(`/config/${key}`),
+  
+  // 获取所有配置
+  getAllConfigs: (params) => api.get('/config', { params }),
+  
+  // 获取公开配置
+  getPublicConfigs: () => api.get('/config/public/all'),
+  
+  // 设置配置
+  setConfig: (data) => api.post('/config', data),
+  
+  // 删除配置
+  deleteConfig: (key) => api.delete(`/config/${key}`),
+};

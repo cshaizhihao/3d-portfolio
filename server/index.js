@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.js';
 import projectRoutes from './routes/projects.js';
 import githubRoutes from './routes/github.js';
 import imageRoutes from './routes/images.js';
+import configRoutes from './routes/config.js';
 
 // 加载环境变量
 dotenv.config();
@@ -74,6 +75,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/images', imageRoutes);
+app.use('/api/config', configRoutes);
 
 // 静态文件服务 - 上传的图片
 app.use('/uploads', express.static('uploads'));
@@ -90,6 +92,7 @@ app.get('/', (req, res) => {
       projects: '/api/projects',
       github: '/api/github',
       images: '/api/images',
+      config: '/api/config',
     },
   });
 });
