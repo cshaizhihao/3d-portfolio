@@ -62,11 +62,11 @@ function Navigation() {
           )}
           
           {user && (
-            <div className="user-badge">
-              <span className="user-icon">{user.avatar || '👤'}</span>
+            <Link to="/profile" className="user-badge">
+              <span className="user-icon">{user.avatar ? '👤' : '👤'}</span>
               <span className="user-name">{user.username}</span>
               {isAdmin && <span className="admin-badge">ADMIN</span>}
-            </div>
+            </Link>
           )}
         </div>
 

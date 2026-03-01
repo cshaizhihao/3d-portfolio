@@ -9,6 +9,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import Gallery from './pages/Gallery';
+import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -38,6 +39,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Gallery />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />
