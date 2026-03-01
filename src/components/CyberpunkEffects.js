@@ -74,10 +74,11 @@ function CyberpunkEffects() {
               key={`orb-${index}`}
               className="neon-orb"
               style={{
-                left: `${8 + ((index * 13) % 84)}%`,
-                top: `${6 + ((index * 17) % 78)}%`,
+                left: `${6 + ((index * 11) % 88)}%`,
+                top: `${72 + ((index * 7) % 24)}%`,
                 animationDelay: `${(index % 9) * 0.35}s`,
-                animationDuration: `${5 + (index % 5) * 1.1}s`,
+                animationDuration: `${6 + (index % 6) * 1.2}s`,
+                '--drift-x': `${-20 + (index % 5) * 10}px`,
               }}
             />
           ))}
