@@ -19,6 +19,7 @@ function Navigation() {
     if (isAdmin) {
       navItems.push({ path: '/admin', label: 'ADMIN', icon: '⚙️' });
       navItems.push({ path: '/gallery', label: 'GALLERY', icon: '📸' });
+      navItems.push({ path: '/settings', label: 'SETTINGS', icon: '🔧' });
     }
   } else {
     navItems.push({ path: '/login', label: 'LOGIN', icon: '🔐' });

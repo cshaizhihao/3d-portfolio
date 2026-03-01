@@ -1,0 +1,210 @@
+.settings-page {
+  min-height: 100vh;
+  background: #000;
+  padding: 100px 2rem 4rem;
+  position: relative;
+}
+
+.settings-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.settings-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+  letter-spacing: 3px;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.settings-content {
+  background: rgba(10, 10, 10, 0.8);
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 20px;
+  padding: 3rem;
+}
+
+.settings-section {
+  margin-bottom: 3rem;
+}
+
+.settings-section h2 {
+  color: #00ff88;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* 英雄图预览 */
+.hero-preview {
+  width: 100%;
+  height: 300px;
+  border-radius: 15px;
+  border: 3px solid rgba(0, 255, 136, 0.3);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: rgba(0, 255, 136, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-placeholder {
+  text-align: center;
+  color: #00ff88;
+  opacity: 0.6;
+}
+
+/* 表单 */
+.settings-content .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.settings-content .form-group label {
+  display: block;
+  color: #00ff88;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.settings-content .form-group input,
+.settings-content .form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  background: rgba(0, 255, 136, 0.05);
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.settings-content .form-group input:focus,
+.settings-content .form-group textarea:focus {
+  outline: none;
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.btn-save {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #00ff88, #0088ff);
+  border: none;
+  border-radius: 15px;
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 255, 136, 0.5);
+}
+
+.btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 英雄图选择模态框 */
+.hero-modal {
+  max-width: 900px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.hero-modal h2 {
+  color: #00ff88;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-option {
+  border: 3px solid rgba(0, 255, 136, 0.3);
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 255, 136, 0.05);
+}
+
+.hero-option:hover {
+  border-color: #00ff88;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+}
+
+.hero-option img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.hero-option p {
+  padding: 1rem;
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+}
+
+.empty-hint {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #00ff88;
+  opacity: 0.6;
+  padding: 2rem;
+  line-height: 1.8;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 90px 1rem 3rem;
+  }
+
+  .settings-title {
+    font-size: 2rem;
+  }
+
+  .settings-content {
+    padding: 2rem;
+  }
+
+  .hero-preview {
+    height: 200px;
+  }
+
+  .hero-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .hero-option img {
+    height: 150px;
+  }
+}
