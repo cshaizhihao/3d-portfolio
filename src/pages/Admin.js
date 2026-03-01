@@ -11,7 +11,7 @@ function Admin() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
-  const [komariInfo, setKomariInfo] = useState({ enabled: true, title: 'KOMARI Monitor', url: 'https://github.com/cshaizhihao/komari' });
+  const [komariInfo, setKomariInfo] = useState({ enabled: true, title: 'KOMARI Monitor', url: '/komari' });
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -58,7 +58,7 @@ function Admin() {
       setKomariInfo({
         enabled: cfg.komariEnabled !== false,
         title: cfg.komariTitle || 'KOMARI Monitor',
-        url: cfg.komariUrl || 'https://github.com/cshaizhihao/komari',
+        url: cfg.komariUrl || '/komari',
       });
     } catch (error) {
       // ignore

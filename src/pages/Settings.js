@@ -41,7 +41,8 @@ function Settings() {
     komariEnabled: true,
     komariTitle: 'KOMARI Monitor',
     komariDescription: '我的监控面板与系统状态中心',
-    komariUrl: 'https://github.com/cshaizhihao/komari',
+    komariUrl: '/komari',
+    komariPanelUrl: '',
     komariEmbedEnabled: false,
     komariEmbedHeight: 480,
     integrationModules: JSON.stringify([], null, 2),
@@ -60,6 +61,7 @@ function Settings() {
     navHomeLabel: 'HOME',
     navProjectsLabel: 'PROJECTS',
     navAboutLabel: 'ABOUT',
+    navKomariLabel: 'KOMARI',
     navAdminLabel: 'ADMIN',
     navGalleryLabel: 'GALLERY',
     navSettingsLabel: 'SETTINGS',
@@ -125,7 +127,8 @@ function Settings() {
         komariEnabled: publicConfig.komariEnabled !== false,
         komariTitle: publicConfig.komariTitle || 'KOMARI Monitor',
         komariDescription: publicConfig.komariDescription || '我的监控面板与系统状态中心',
-        komariUrl: publicConfig.komariUrl || 'https://github.com/cshaizhihao/komari',
+        komariUrl: publicConfig.komariUrl || '/komari',
+        komariPanelUrl: publicConfig.komariPanelUrl || '',
         komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
         komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || 480,
         integrationModules: JSON.stringify(Array.isArray(publicConfig.integrationModules) ? publicConfig.integrationModules : [], null, 2),
@@ -143,6 +146,7 @@ function Settings() {
         navHomeLabel: publicConfig.navHomeLabel || 'HOME',
         navProjectsLabel: publicConfig.navProjectsLabel || 'PROJECTS',
         navAboutLabel: publicConfig.navAboutLabel || 'ABOUT',
+        navKomariLabel: publicConfig.navKomariLabel || 'KOMARI',
         navAdminLabel: publicConfig.navAdminLabel || 'ADMIN',
         navGalleryLabel: publicConfig.navGalleryLabel || 'GALLERY',
         navSettingsLabel: publicConfig.navSettingsLabel || 'SETTINGS',
@@ -230,6 +234,7 @@ function Settings() {
         { key: 'komariTitle', value: config.komariTitle, description: 'Komari 展示标题', category: 'general' },
         { key: 'komariDescription', value: config.komariDescription, description: 'Komari 展示描述', category: 'general' },
         { key: 'komariUrl', value: config.komariUrl, description: 'Komari 地址', category: 'general' },
+        { key: 'komariPanelUrl', value: config.komariPanelUrl, description: 'Komari 面板地址', category: 'general' },
         { key: 'komariEmbedEnabled', value: config.komariEmbedEnabled, description: 'Komari 嵌入预览开关', category: 'general' },
         { key: 'komariEmbedHeight', value: Number(config.komariEmbedHeight), description: 'Komari 嵌入高度', category: 'general' },
         { key: 'integrationModules', value: integrationModulesValue, description: '集成模块列表', category: 'general' },
@@ -247,6 +252,7 @@ function Settings() {
         { key: 'navHomeLabel', value: config.navHomeLabel, description: '导航-首页', category: 'theme' },
         { key: 'navProjectsLabel', value: config.navProjectsLabel, description: '导航-项目', category: 'theme' },
         { key: 'navAboutLabel', value: config.navAboutLabel, description: '导航-关于', category: 'theme' },
+        { key: 'navKomariLabel', value: config.navKomariLabel, description: '导航-Komari', category: 'theme' },
         { key: 'navAdminLabel', value: config.navAdminLabel, description: '导航-后台', category: 'theme' },
         { key: 'navGalleryLabel', value: config.navGalleryLabel, description: '导航-图库', category: 'theme' },
         { key: 'navSettingsLabel', value: config.navSettingsLabel, description: '导航-设置', category: 'theme' },
@@ -541,17 +547,27 @@ function Settings() {
                 </div>
 
                 <div className="form-group">
-                  <label>Komari 链接地址</label>
+                  <label>Komari 页面地址（站内路由）</label>
                   <input
                     type="text"
                     value={config.komariUrl}
                     onChange={(e) => setConfig({ ...config, komariUrl: e.target.value })}
-                    placeholder="https://github.com/cshaizhihao/komari"
+                    placeholder="/komari"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label><input type="checkbox" checked={config.komariEmbedEnabled} onChange={(e) => setConfig({ ...config, komariEmbedEnabled: e.target.checked })} /> 首页启用 Komari 嵌入预览（iframe）</label>
+                  <label>Komari 面板地址（用于 iframe 嵌入）</label>
+                  <input
+                    type="text"
+                    value={config.komariPanelUrl}
+                    onChange={(e) => setConfig({ ...config, komariPanelUrl: e.target.value })}
+                    placeholder="https://your-komari-panel.example.com"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label><input type="checkbox" checked={config.komariEmbedEnabled} onChange={(e) => setConfig({ ...config, komariEmbedEnabled: e.target.checked })} /> 首页启用 Komari 面板嵌入预览（iframe）</label>
                 </div>
 
                 <div className="form-group">
@@ -690,6 +706,7 @@ function Settings() {
                   <input type="text" value={config.navHomeLabel} onChange={(e) => setConfig({ ...config, navHomeLabel: e.target.value })} placeholder="HOME" />
                   <input type="text" value={config.navProjectsLabel} onChange={(e) => setConfig({ ...config, navProjectsLabel: e.target.value })} placeholder="PROJECTS" />
                   <input type="text" value={config.navAboutLabel} onChange={(e) => setConfig({ ...config, navAboutLabel: e.target.value })} placeholder="ABOUT" />
+                  <input type="text" value={config.navKomariLabel} onChange={(e) => setConfig({ ...config, navKomariLabel: e.target.value })} placeholder="KOMARI" />
                   <input type="text" value={config.navAdminLabel} onChange={(e) => setConfig({ ...config, navAdminLabel: e.target.value })} placeholder="ADMIN" />
                   <input type="text" value={config.navGalleryLabel} onChange={(e) => setConfig({ ...config, navGalleryLabel: e.target.value })} placeholder="GALLERY" />
                   <input type="text" value={config.navSettingsLabel} onChange={(e) => setConfig({ ...config, navSettingsLabel: e.target.value })} placeholder="SETTINGS" />

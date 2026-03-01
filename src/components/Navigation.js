@@ -14,6 +14,7 @@ function Navigation() {
     navHomeLabel: 'HOME',
     navProjectsLabel: 'PROJECTS',
     navAboutLabel: 'ABOUT',
+    navKomariLabel: 'KOMARI',
     navAdminLabel: 'ADMIN',
     navGalleryLabel: 'GALLERY',
     navSettingsLabel: 'SETTINGS',
@@ -39,6 +40,7 @@ function Navigation() {
     { path: '/', label: navConfig.navHomeLabel, icon: '🏠' },
     { path: '/projects', label: navConfig.navProjectsLabel, icon: '💼' },
     { path: '/about', label: navConfig.navAboutLabel, icon: '👤' },
+    { path: '/komari', label: navConfig.navKomariLabel || 'KOMARI', icon: '🛰️' },
   ];
 
   // 根据登录状态添加不同的菜单项

@@ -119,7 +119,8 @@ function Home() {
     komariEnabled: true,
     komariTitle: 'KOMARI Monitor',
     komariDescription: '我的监控面板与系统状态中心',
-    komariUrl: 'https://github.com/cshaizhihao/komari',
+    komariUrl: '/komari',
+    komariPanelUrl: '',
     komariEmbedEnabled: false,
     komariEmbedHeight: 480,
     integrationModules: [],
@@ -208,6 +209,7 @@ function Home() {
         komariTitle: publicConfig.komariTitle || previous.komariTitle,
         komariDescription: publicConfig.komariDescription || previous.komariDescription,
         komariUrl: publicConfig.komariUrl || previous.komariUrl,
+        komariPanelUrl: publicConfig.komariPanelUrl || previous.komariPanelUrl,
         komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
         komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || previous.komariEmbedHeight,
         integrationModules: Array.isArray(publicConfig.integrationModules) ? publicConfig.integrationModules : previous.integrationModules,
@@ -394,7 +396,7 @@ function Home() {
                 <div className="home-komari-embed-wrap">
                   <iframe
                     className="home-komari-embed"
-                    src={config.komariUrl}
+                    src={config.komariPanelUrl || config.komariUrl}
                     title="Komari Embed"
                     loading="lazy"
                     style={{ height: `${Math.max(280, Number(config.komariEmbedHeight) || 480)}px` }}

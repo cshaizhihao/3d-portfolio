@@ -15,6 +15,7 @@ import Admin from './pages/Admin';
 import Gallery from './pages/Gallery';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import Komari from './pages/Komari';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -53,6 +54,7 @@ function AnimatedRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/projects" element={<Projects />} />
       <Route path="/about" element={<About />} />
+      <Route path="/komari" element={<Komari />} />
       <Route path="/login" element={<Login />} />
       <Route
         path="/admin"
