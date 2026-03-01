@@ -14,6 +14,25 @@ function Settings() {
     heroImage: '',
     siteTitle: 'ZAKI.DEV',
     siteDescription: '赛博朋克时代的网络数字游民',
+    homeDesktopTip: '拖动旋转 | 滚轮缩放 | 悬停交互',
+    homeMobileTip: '单指旋转 | 双指缩放',
+    homeStat1Value: '3+',
+    homeStat1Label: 'PROJECTS',
+    homeStat2Value: '∞',
+    homeStat2Label: 'CREATIVITY',
+    homeStat3Value: '100%',
+    homeStat3Label: 'PASSION',
+    // 导航配置
+    navLogoTitle: 'ZAKI.DEV',
+    navLogoSubtitle: 'CYBERPUNK PORTFOLIO',
+    navHomeLabel: 'HOME',
+    navProjectsLabel: 'PROJECTS',
+    navAboutLabel: 'ABOUT',
+    navAdminLabel: 'ADMIN',
+    navGalleryLabel: 'GALLERY',
+    navSettingsLabel: 'SETTINGS',
+    navLoginLabel: 'LOGIN',
+    navLogoutLabel: 'LOGOUT',
     // About 页面配置
     aboutTitle: 'ABOUT ME',
     aboutSubtitle: '关于这个搞事情的人',
@@ -38,6 +57,24 @@ function Settings() {
         heroImage: publicConfig.heroImage || '',
         siteTitle: publicConfig.siteTitle || 'ZAKI.DEV',
         siteDescription: publicConfig.siteDescription || '赛博朋克时代的网络数字游民',
+        homeDesktopTip: publicConfig.homeDesktopTip || '拖动旋转 | 滚轮缩放 | 悬停交互',
+        homeMobileTip: publicConfig.homeMobileTip || '单指旋转 | 双指缩放',
+        homeStat1Value: publicConfig.homeStat1Value || '3+',
+        homeStat1Label: publicConfig.homeStat1Label || 'PROJECTS',
+        homeStat2Value: publicConfig.homeStat2Value || '∞',
+        homeStat2Label: publicConfig.homeStat2Label || 'CREATIVITY',
+        homeStat3Value: publicConfig.homeStat3Value || '100%',
+        homeStat3Label: publicConfig.homeStat3Label || 'PASSION',
+        navLogoTitle: publicConfig.navLogoTitle || 'ZAKI.DEV',
+        navLogoSubtitle: publicConfig.navLogoSubtitle || 'CYBERPUNK PORTFOLIO',
+        navHomeLabel: publicConfig.navHomeLabel || 'HOME',
+        navProjectsLabel: publicConfig.navProjectsLabel || 'PROJECTS',
+        navAboutLabel: publicConfig.navAboutLabel || 'ABOUT',
+        navAdminLabel: publicConfig.navAdminLabel || 'ADMIN',
+        navGalleryLabel: publicConfig.navGalleryLabel || 'GALLERY',
+        navSettingsLabel: publicConfig.navSettingsLabel || 'SETTINGS',
+        navLoginLabel: publicConfig.navLoginLabel || 'LOGIN',
+        navLogoutLabel: publicConfig.navLogoutLabel || 'LOGOUT',
         aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
         aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
         whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
@@ -71,6 +108,24 @@ function Settings() {
         { key: 'heroImage', value: config.heroImage, description: '首页英雄图', category: 'theme' },
         { key: 'siteTitle', value: config.siteTitle, description: '网站标题', category: 'general' },
         { key: 'siteDescription', value: config.siteDescription, description: '网站描述', category: 'general' },
+        { key: 'homeDesktopTip', value: config.homeDesktopTip, description: '首页桌面提示', category: 'general' },
+        { key: 'homeMobileTip', value: config.homeMobileTip, description: '首页移动端提示', category: 'general' },
+        { key: 'homeStat1Value', value: config.homeStat1Value, description: '首页统计1数值', category: 'general' },
+        { key: 'homeStat1Label', value: config.homeStat1Label, description: '首页统计1标签', category: 'general' },
+        { key: 'homeStat2Value', value: config.homeStat2Value, description: '首页统计2数值', category: 'general' },
+        { key: 'homeStat2Label', value: config.homeStat2Label, description: '首页统计2标签', category: 'general' },
+        { key: 'homeStat3Value', value: config.homeStat3Value, description: '首页统计3数值', category: 'general' },
+        { key: 'homeStat3Label', value: config.homeStat3Label, description: '首页统计3标签', category: 'general' },
+        { key: 'navLogoTitle', value: config.navLogoTitle, description: '导航Logo标题', category: 'theme' },
+        { key: 'navLogoSubtitle', value: config.navLogoSubtitle, description: '导航Logo副标题', category: 'theme' },
+        { key: 'navHomeLabel', value: config.navHomeLabel, description: '导航-首页', category: 'theme' },
+        { key: 'navProjectsLabel', value: config.navProjectsLabel, description: '导航-项目', category: 'theme' },
+        { key: 'navAboutLabel', value: config.navAboutLabel, description: '导航-关于', category: 'theme' },
+        { key: 'navAdminLabel', value: config.navAdminLabel, description: '导航-后台', category: 'theme' },
+        { key: 'navGalleryLabel', value: config.navGalleryLabel, description: '导航-图库', category: 'theme' },
+        { key: 'navSettingsLabel', value: config.navSettingsLabel, description: '导航-设置', category: 'theme' },
+        { key: 'navLoginLabel', value: config.navLoginLabel, description: '导航-登录', category: 'theme' },
+        { key: 'navLogoutLabel', value: config.navLogoutLabel, description: '导航-登出', category: 'theme' },
         { key: 'aboutTitle', value: config.aboutTitle, description: 'About 标题', category: 'general' },
         { key: 'aboutSubtitle', value: config.aboutSubtitle, description: 'About 副标题', category: 'general' },
         { key: 'whoAmI', value: config.whoAmI, description: 'Who Am I', category: 'general' },
@@ -80,11 +135,9 @@ function Settings() {
         { key: 'contactText', value: config.contactText, description: '联系文本', category: 'general' },
         { key: 'websiteUrl', value: config.websiteUrl, description: '网站链接', category: 'social' },
         { key: 'githubUrl', value: config.githubUrl, description: 'GitHub 链接', category: 'social' },
-      ];
+      ].map((item) => ({ ...item, isPublic: true }));
 
-      for (const cfg of configs) {
-        await configAPI.setConfig({ ...cfg, isPublic: true });
-      }
+      await configAPI.setConfigsBulk(configs);
 
       toast.success('设置保存成功咧！');
     } catch (error) {
@@ -139,6 +192,12 @@ function Settings() {
           >
             👤 About 页面
           </button>
+          <button
+            className={`tab-btn ${activeTab === 'nav' ? 'active' : ''}`}
+            onClick={() => setActiveTab('nav')}
+          >
+            🧭 导航与顶部
+          </button>
         </div>
 
         <div className="settings-content">
@@ -187,6 +246,121 @@ function Settings() {
                     rows="2"
                     placeholder="赛博朋克时代的网络数字游民"
                   />
+                </div>
+
+                <div className="form-group">
+                  <label>桌面交互提示</label>
+                  <input
+                    type="text"
+                    value={config.homeDesktopTip}
+                    onChange={(e) => setConfig({ ...config, homeDesktopTip: e.target.value })}
+                    placeholder="拖动旋转 | 滚轮缩放 | 悬停交互"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>移动端交互提示</label>
+                  <input
+                    type="text"
+                    value={config.homeMobileTip}
+                    onChange={(e) => setConfig({ ...config, homeMobileTip: e.target.value })}
+                    placeholder="单指旋转 | 双指缩放"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>首页统计项 1（数值 / 标签）</label>
+                  <div className="inline-grid">
+                    <input
+                      type="text"
+                      value={config.homeStat1Value}
+                      onChange={(e) => setConfig({ ...config, homeStat1Value: e.target.value })}
+                      placeholder="3+"
+                    />
+                    <input
+                      type="text"
+                      value={config.homeStat1Label}
+                      onChange={(e) => setConfig({ ...config, homeStat1Label: e.target.value })}
+                      placeholder="PROJECTS"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>首页统计项 2（数值 / 标签）</label>
+                  <div className="inline-grid">
+                    <input
+                      type="text"
+                      value={config.homeStat2Value}
+                      onChange={(e) => setConfig({ ...config, homeStat2Value: e.target.value })}
+                      placeholder="∞"
+                    />
+                    <input
+                      type="text"
+                      value={config.homeStat2Label}
+                      onChange={(e) => setConfig({ ...config, homeStat2Label: e.target.value })}
+                      placeholder="CREATIVITY"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>首页统计项 3（数值 / 标签）</label>
+                  <div className="inline-grid">
+                    <input
+                      type="text"
+                      value={config.homeStat3Value}
+                      onChange={(e) => setConfig({ ...config, homeStat3Value: e.target.value })}
+                      placeholder="100%"
+                    />
+                    <input
+                      type="text"
+                      value={config.homeStat3Label}
+                      onChange={(e) => setConfig({ ...config, homeStat3Label: e.target.value })}
+                      placeholder="PASSION"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* 导航与顶部设置 */}
+          {activeTab === 'nav' && (
+            <>
+              <div className="settings-section">
+                <h2>🧭 左上角 Logo</h2>
+                <div className="form-group">
+                  <label>Logo 主标题</label>
+                  <input
+                    type="text"
+                    value={config.navLogoTitle}
+                    onChange={(e) => setConfig({ ...config, navLogoTitle: e.target.value })}
+                    placeholder="ZAKI.DEV"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Logo 副标题</label>
+                  <input
+                    type="text"
+                    value={config.navLogoSubtitle}
+                    onChange={(e) => setConfig({ ...config, navLogoSubtitle: e.target.value })}
+                    placeholder="CYBERPUNK PORTFOLIO"
+                  />
+                </div>
+              </div>
+
+              <div className="settings-section">
+                <h2>🔝 顶部导航文案</h2>
+                <div className="inline-grid form-group">
+                  <input type="text" value={config.navHomeLabel} onChange={(e) => setConfig({ ...config, navHomeLabel: e.target.value })} placeholder="HOME" />
+                  <input type="text" value={config.navProjectsLabel} onChange={(e) => setConfig({ ...config, navProjectsLabel: e.target.value })} placeholder="PROJECTS" />
+                  <input type="text" value={config.navAboutLabel} onChange={(e) => setConfig({ ...config, navAboutLabel: e.target.value })} placeholder="ABOUT" />
+                  <input type="text" value={config.navAdminLabel} onChange={(e) => setConfig({ ...config, navAdminLabel: e.target.value })} placeholder="ADMIN" />
+                  <input type="text" value={config.navGalleryLabel} onChange={(e) => setConfig({ ...config, navGalleryLabel: e.target.value })} placeholder="GALLERY" />
+                  <input type="text" value={config.navSettingsLabel} onChange={(e) => setConfig({ ...config, navSettingsLabel: e.target.value })} placeholder="SETTINGS" />
+                  <input type="text" value={config.navLoginLabel} onChange={(e) => setConfig({ ...config, navLoginLabel: e.target.value })} placeholder="LOGIN" />
+                  <input type="text" value={config.navLogoutLabel} onChange={(e) => setConfig({ ...config, navLogoutLabel: e.target.value })} placeholder="LOGOUT" />
                 </div>
               </div>
             </>

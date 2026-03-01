@@ -98,6 +98,14 @@ function Home() {
     heroImage: '',
     siteTitle: 'ZAKI.DEV',
     siteDescription: '赛博朋克时代的网络数字游民',
+    homeDesktopTip: '拖动旋转 | 滚轮缩放 | 悬停交互',
+    homeMobileTip: '单指旋转 | 双指缩放',
+    homeStat1Value: '3+',
+    homeStat1Label: 'PROJECTS',
+    homeStat2Value: '∞',
+    homeStat2Label: 'CREATIVITY',
+    homeStat3Value: '100%',
+    homeStat3Label: 'PASSION',
   });
 
   useEffect(() => {
@@ -138,6 +146,14 @@ function Home() {
         heroImage: publicConfig.heroImage || '',
         siteTitle: publicConfig.siteTitle || 'ZAKI.DEV',
         siteDescription: publicConfig.siteDescription || '赛博朋克时代的网络数字游民',
+        homeDesktopTip: publicConfig.homeDesktopTip || '拖动旋转 | 滚轮缩放 | 悬停交互',
+        homeMobileTip: publicConfig.homeMobileTip || '单指旋转 | 双指缩放',
+        homeStat1Value: publicConfig.homeStat1Value || '3+',
+        homeStat1Label: publicConfig.homeStat1Label || 'PROJECTS',
+        homeStat2Value: publicConfig.homeStat2Value || '∞',
+        homeStat2Label: publicConfig.homeStat2Label || 'CREATIVITY',
+        homeStat3Value: publicConfig.homeStat3Value || '100%',
+        homeStat3Label: publicConfig.homeStat3Label || 'PASSION',
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);
@@ -190,26 +206,26 @@ function Home() {
         </h1>
         <p className="hero-subtitle">// {config.siteDescription}</p>
         <p className="hero-description desktop-only">
-          拖动旋转 | 滚轮缩放 | 悬停交互
+          {config.homeDesktopTip}
         </p>
         <p className="hero-description mobile-only">
-          单指旋转 | 双指缩放
+          {config.homeMobileTip}
         </p>
         
         <div className="hero-stats">
           <div className="stat-item">
-            <span className="stat-value">3+</span>
-            <span className="stat-label">PROJECTS</span>
+            <span className="stat-value">{config.homeStat1Value}</span>
+            <span className="stat-label">{config.homeStat1Label}</span>
           </div>
           <div className="stat-divider"></div>
           <div className="stat-item">
-            <span className="stat-value">∞</span>
-            <span className="stat-label">CREATIVITY</span>
+            <span className="stat-value">{config.homeStat2Value}</span>
+            <span className="stat-label">{config.homeStat2Label}</span>
           </div>
           <div className="stat-divider"></div>
           <div className="stat-item">
-            <span className="stat-value">100%</span>
-            <span className="stat-label">PASSION</span>
+            <span className="stat-value">{config.homeStat3Value}</span>
+            <span className="stat-label">{config.homeStat3Label}</span>
           </div>
         </div>
       </div>

@@ -91,6 +91,48 @@ export const setConfig = async (req, res, next) => {
   }
 };
 
+// @desc    批量设置配置
+// @route   POST /api/config/bulk
+// @access  Private (Admin)
+export const setConfigsBulk = async (req, res, next) => {
+  try {
+    const { configs } = req.body;
+
+    if (!Array.isArray(configs) || configs.length === 0) {
+      return errorResponse(res, 400, 'configs must be a non-empty array');
+    }
+
+    const operations = configs
+      .filter((item) => item && typeof item.key === 'string')
+      .map((item) => ({
+        updateOne: {
+          filter: { key: item.key },
+          update: {
+            $set: {
+              value: item.value,
+              description: item.description || '',
+              category: item.category || 'other',
+              isPublic: item.isPublic ?? true,
+            },
+          },
+          upsert: true,
+        },
+      }));
+
+    if (operations.length === 0) {
+      return errorResponse(res, 400, 'No valid config items provided');
+    }
+
+    await Config.bulkWrite(operations);
+
+    successResponse(res, 200, 'Configs saved successfully', {
+      count: operations.length,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    删除配置
 // @route   DELETE /api/config/:key
 // @access  Private (Admin)

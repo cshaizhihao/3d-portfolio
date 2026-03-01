@@ -106,6 +106,9 @@ export const configAPI = {
   
   // 设置配置
   setConfig: (data) => api.post('/config', data),
+
+  // 批量设置配置
+  setConfigsBulk: (configs) => api.post('/config/bulk', { configs }),
   
   // 删除配置
   deleteConfig: (key) => api.delete(`/config/${key}`),

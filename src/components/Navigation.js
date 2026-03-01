@@ -1,28 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { configAPI } from '../api';
 import './Navigation.css';
 
 function Navigation() {
   const location = useLocation();
   const { user, isAdmin, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [navConfig, setNavConfig] = useState({
+    navLogoTitle: 'ZAKI.DEV',
+    navLogoSubtitle: 'CYBERPUNK PORTFOLIO',
+    navHomeLabel: 'HOME',
+    navProjectsLabel: 'PROJECTS',
+    navAboutLabel: 'ABOUT',
+    navAdminLabel: 'ADMIN',
+    navGalleryLabel: 'GALLERY',
+    navSettingsLabel: 'SETTINGS',
+    navLoginLabel: 'LOGIN',
+    navLogoutLabel: 'LOGOUT',
+  });
+
+  useEffect(() => {
+    const fetchNavConfig = async () => {
+      try {
+        const response = await configAPI.getPublicConfigs();
+        const publicConfig = response.data || {};
+        setNavConfig((prev) => ({ ...prev, ...publicConfig }));
+      } catch (error) {
+        // 使用默认值
+      }
+    };
+
+    fetchNavConfig();
+  }, []);
 
   const navItems = [
-    { path: '/', label: 'HOME', icon: '🏠' },
-    { path: '/projects', label: 'PROJECTS', icon: '💼' },
-    { path: '/about', label: 'ABOUT', icon: '👤' },
+    { path: '/', label: navConfig.navHomeLabel, icon: '🏠' },
+    { path: '/projects', label: navConfig.navProjectsLabel, icon: '💼' },
+    { path: '/about', label: navConfig.navAboutLabel, icon: '👤' },
   ];
 
   // 根据登录状态添加不同的菜单项
   if (user) {
     if (isAdmin) {
-      navItems.push({ path: '/admin', label: 'ADMIN', icon: '⚙️' });
-      navItems.push({ path: '/gallery', label: 'GALLERY', icon: '📸' });
-      navItems.push({ path: '/settings', label: 'SETTINGS', icon: '🔧' });
+      navItems.push({ path: '/admin', label: navConfig.navAdminLabel, icon: '⚙️' });
+      navItems.push({ path: '/gallery', label: navConfig.navGalleryLabel, icon: '📸' });
+      navItems.push({ path: '/settings', label: navConfig.navSettingsLabel, icon: '🔧' });
     }
   } else {
-    navItems.push({ path: '/login', label: 'LOGIN', icon: '🔐' });
+    navItems.push({ path: '/login', label: navConfig.navLoginLabel, icon: '🔐' });
   }
 
   const handleLogout = () => {
@@ -42,10 +69,10 @@ function Navigation() {
       <div className="nav-container">
         {/* Logo */}
         <Link to="/" className="nav-logo">
-          <span className="logo-text glitch" data-text="ZAKI.DEV">
-            ZAKI.DEV
+          <span className="logo-text glitch" data-text={navConfig.navLogoTitle}>
+            {navConfig.navLogoTitle}
           </span>
-          <span className="logo-subtitle">// CYBERPUNK PORTFOLIO</span>
+          <span className="logo-subtitle">// {navConfig.navLogoSubtitle}</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -65,7 +92,7 @@ function Navigation() {
           {user && (
             <button onClick={handleLogout} className="nav-link logout-btn">
               <span className="nav-icon">🚪</span>
-              <span className="nav-label">LOGOUT</span>
+              <span className="nav-label">{navConfig.navLogoutLabel}</span>
             </button>
           )}
           
@@ -115,7 +142,7 @@ function Navigation() {
         {user && (
           <button onClick={handleLogout} className="nav-mobile-link logout-btn">
             <span className="nav-icon">🚪</span>
-            <span className="nav-label">LOGOUT</span>
+            <span className="nav-label">{navConfig.navLogoutLabel}</span>
           </button>
         )}
       </div>

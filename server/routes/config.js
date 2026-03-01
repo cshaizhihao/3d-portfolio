@@ -4,6 +4,7 @@ import {
   getAllConfigs,
   getPublicConfigs,
   setConfig,
+  setConfigsBulk,
   deleteConfig,
 } from '../controllers/configController.js';
 import { protect, admin } from '../middleware/auth.js';
@@ -17,6 +18,7 @@ router.get('/public/all', getPublicConfigs);
 router.get('/', protect, admin, getAllConfigs);
 router.get('/:key', getConfig);
 router.post('/', protect, admin, setConfig);
+router.post('/bulk', protect, admin, setConfigsBulk);
 router.delete('/:key', protect, admin, deleteConfig);
 
 export default router;
