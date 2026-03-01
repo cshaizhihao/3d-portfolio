@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, Stars, Text } from '@react-three/drei';
-import { configAPI, imageAPI, leadAPI, projectAPI } from '../api';
+import { configAPI, imageAPI, projectAPI } from '../api';
 import './Home.css';
 
 function HeroCore({ isMobile }) {
@@ -94,9 +94,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileTip, setShowMobileTip] = useState(false);
-  const [leadOpen, setLeadOpen] = useState(false);
-  const [submittingLead, setSubmittingLead] = useState(false);
-  const [leadForm, setLeadForm] = useState({ name: '', email: '', budget: '', message: '' });
+
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -115,6 +113,9 @@ function Home() {
     homeStat2Label: 'CREATIVITY',
     homeStat3Value: '100%',
     homeStat3Label: 'PASSION',
+    aacCustomHeader: '个人展示空间',
+    aacCustomBody: '记录灵感、作品与生活碎片。',
+    aacCustomFooter: '感谢浏览我的数字角落。',
     seoHomeTitle: 'ZAKI.DEV - 首页',
     seoHomeDescription: '赛博朋克时代的网络数字游民',
     fxPreset: 'medium',
@@ -193,6 +194,9 @@ function Home() {
         homeStat2Label: publicConfig.homeStat2Label || previous.homeStat2Label,
         homeStat3Value: publicConfig.homeStat3Value || previous.homeStat3Value,
         homeStat3Label: publicConfig.homeStat3Label || previous.homeStat3Label,
+        aacCustomHeader: publicConfig.aacCustomHeader || previous.aacCustomHeader,
+        aacCustomBody: publicConfig.aacCustomBody || previous.aacCustomBody,
+        aacCustomFooter: publicConfig.aacCustomFooter || previous.aacCustomFooter,
         seoHomeTitle: publicConfig.seoHomeTitle || previous.seoHomeTitle,
         seoHomeDescription: publicConfig.seoHomeDescription || previous.seoHomeDescription,
         fxPreset: publicConfig.fxPreset || previous.fxPreset,
@@ -227,25 +231,6 @@ function Home() {
   const showNextGallery = () => {
     if (galleryImages.length <= 1) return;
     setGalleryIndex((previous) => (previous + 1) % galleryImages.length);
-  };
-
-  const handleLeadChange = (event) => {
-    const { name, value } = event.target;
-    setLeadForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleLeadSubmit = async (event) => {
-    event.preventDefault();
-    setSubmittingLead(true);
-    try {
-      await leadAPI.createLead({ ...leadForm, source: 'home-form' });
-      setLeadForm({ name: '', email: '', budget: '', message: '' });
-      setLeadOpen(false);
-    } catch (submitError) {
-      // ignore noisy toast
-    } finally {
-      setSubmittingLead(false);
-    }
   };
 
   if (error) {
@@ -286,7 +271,7 @@ function Home() {
 
         <div className="hero-content">
           <div className="hero-copy">
-            <p className="hero-kicker">NEURAL PORTFOLIO / 2026</p>
+            <p className="hero-kicker">{config.aacCustomHeader || 'NEURAL PORTFOLIO / 2026'}</p>
             <h1 className="hero-title glitch" data-text={config.siteTitle}>{config.siteTitle}</h1>
             <p className="hero-subtitle">// {config.siteDescription}</p>
             <p className="hero-description desktop-only">{config.homeDesktopTip}</p>
@@ -324,22 +309,6 @@ function Home() {
 
         {showMobileTip && <div className="mobile-tip">💡 向下滑动查看更多内容</div>}
 
-        <button type="button" className="lead-toggle" onClick={() => setLeadOpen((open) => !open)}>
-          {leadOpen ? '关闭咨询' : '快速咨询'}
-        </button>
-
-        {leadOpen && (
-          <div className="lead-floating-form">
-            <h3>快速咨询</h3>
-            <form onSubmit={handleLeadSubmit}>
-              <input name="name" value={leadForm.name} onChange={handleLeadChange} placeholder="你的称呼" required />
-              <input name="email" type="email" value={leadForm.email} onChange={handleLeadChange} placeholder="你的邮箱" required />
-              <input name="budget" value={leadForm.budget} onChange={handleLeadChange} placeholder="预算（可选）" />
-              <textarea name="message" value={leadForm.message} onChange={handleLeadChange} placeholder="你的需求" rows="3" required />
-              <button type="submit" disabled={submittingLead}>{submittingLead ? '提交中...' : '提交需求'}</button>
-            </form>
-          </div>
-        )}
       </section>
 
       <section id="home-more" className="home-more-section">
@@ -394,28 +363,17 @@ function Home() {
             )}
           </div>
 
-          <h2>实用能力</h2>
-          <div className="home-utility-grid">
-            <div className="utility-card">
-              <h3>项目咨询</h3>
-              <p>提交需求后快速评估周期与预算，支持全流程协作。</p>
-            </div>
-            <div className="utility-card">
-              <h3>技术方案</h3>
-              <p>前后端 + 3D 交互 + CMS 配置化，一次性交付可维护版本。</p>
-            </div>
-            <div className="utility-card">
-              <h3>性能优化</h3>
-              <p>移动端优先，支持降级策略与视觉分级（off/low/medium/high）。</p>
-            </div>
+          <h2>个人随笔</h2>
+          <div className="home-blog-card">
+            <p>{config.aacCustomBody}</p>
           </div>
 
           <h2>常见问题</h2>
           <div className="home-faq-list">
             {[
-              { question: '合作流程是怎样的？', answer: '先沟通目标与预算，再输出功能拆解和里程碑，确认后进入开发。' },
-              { question: '支持后期自己维护吗？', answer: '支持。后台设置已经配置化，文案、图片、导航、SEO 都能直接改。' },
-              { question: '多久能上线一个版本？', answer: '常规展示站 1-2 周可上线 MVP，复杂 3D 体验按模块迭代。' },
+              { question: '这个站点主要用途是什么？', answer: '用于展示个人审美、作品和记录，不是商业合作页。' },
+              { question: '内容可以在后台自己改吗？', answer: '可以。你现在可以在设置里直接自定义头部、正文、页脚文案。' },
+              { question: '为什么保留赛博相册？', answer: '它是视觉中心之一，但我已缩小尺寸并优化排版，不再喧宾夺主。' },
             ].map((item, index) => (
               <button
                 key={item.question}
@@ -452,9 +410,9 @@ function Home() {
             >
               {copiedEmail ? '已复制邮箱' : '复制邮箱'}
             </button>
-            <button type="button" onClick={() => setLeadOpen(true)}>Contact</button>
+            <Link to="/about">Profile</Link>
           </div>
-          <div className="footer-copy">© {new Date().getFullYear()} ZAKI · Cyberpunk Portfolio</div>
+          <div className="footer-copy">© {new Date().getFullYear()} ZAKI · {config.aacCustomFooter || 'Cyberpunk Portfolio'}</div>
         </div>
       </footer>
     </div>

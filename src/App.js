@@ -95,6 +95,48 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  useEffect(() => {
+    const applyCustomHead = async () => {
+      try {
+        const response = await configAPI.getPublicConfigs();
+        const cfg = response.data || {};
+
+        document.querySelectorAll('[data-custom-head="aac-html"]').forEach((node) => node.remove());
+        document.querySelectorAll('[data-custom-head="aac-css"]').forEach((node) => node.remove());
+        document.querySelectorAll('[data-custom-head="aac-js"]').forEach((node) => node.remove());
+
+        if (cfg.customHeadHtml) {
+          const htmlContainer = document.createElement('div');
+          htmlContainer.innerHTML = cfg.customHeadHtml;
+
+          Array.from(htmlContainer.children).forEach((element) => {
+            const cloned = element.cloneNode(true);
+            cloned.setAttribute('data-custom-head', 'aac-html');
+            document.head.appendChild(cloned);
+          });
+        }
+
+        if (cfg.customHeadCss) {
+          const styleEl = document.createElement('style');
+          styleEl.setAttribute('data-custom-head', 'aac-css');
+          styleEl.textContent = cfg.customHeadCss;
+          document.head.appendChild(styleEl);
+        }
+
+        if (cfg.customHeadJs) {
+          const scriptEl = document.createElement('script');
+          scriptEl.setAttribute('data-custom-head', 'aac-js');
+          scriptEl.text = cfg.customHeadJs;
+          document.head.appendChild(scriptEl);
+        }
+      } catch (error) {
+        // ignore custom head failure
+      }
+    };
+
+    applyCustomHead();
+  }, []);
+
   return (
     <AuthProvider>
       <Router>

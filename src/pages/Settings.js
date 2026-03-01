@@ -22,6 +22,12 @@ function Settings() {
     homeStat2Label: 'CREATIVITY',
     homeStat3Value: '100%',
     homeStat3Label: 'PASSION',
+    aacCustomHeader: '个人展示空间',
+    aacCustomBody: '记录灵感、作品与生活碎片。',
+    aacCustomFooter: '感谢浏览我的数字角落。',
+    customHeadHtml: '',
+    customHeadCss: '',
+    customHeadJs: '',
     // 导航配置
     navLogoTitle: 'ZAKI.DEV',
     navLogoSubtitle: 'CYBERPUNK PORTFOLIO',
@@ -87,6 +93,12 @@ function Settings() {
         homeStat2Label: publicConfig.homeStat2Label || 'CREATIVITY',
         homeStat3Value: publicConfig.homeStat3Value || '100%',
         homeStat3Label: publicConfig.homeStat3Label || 'PASSION',
+        aacCustomHeader: publicConfig.aacCustomHeader || '个人展示空间',
+        aacCustomBody: publicConfig.aacCustomBody || '记录灵感、作品与生活碎片。',
+        aacCustomFooter: publicConfig.aacCustomFooter || '感谢浏览我的数字角落。',
+        customHeadHtml: publicConfig.customHeadHtml || '',
+        customHeadCss: publicConfig.customHeadCss || '',
+        customHeadJs: publicConfig.customHeadJs || '',
         navLogoTitle: publicConfig.navLogoTitle || 'ZAKI.DEV',
         navLogoSubtitle: publicConfig.navLogoSubtitle || 'CYBERPUNK PORTFOLIO',
         navHomeLabel: publicConfig.navHomeLabel || 'HOME',
@@ -158,6 +170,12 @@ function Settings() {
         { key: 'homeStat2Label', value: config.homeStat2Label, description: '首页统计2标签', category: 'general' },
         { key: 'homeStat3Value', value: config.homeStat3Value, description: '首页统计3数值', category: 'general' },
         { key: 'homeStat3Label', value: config.homeStat3Label, description: '首页统计3标签', category: 'general' },
+        { key: 'aacCustomHeader', value: config.aacCustomHeader, description: 'AAC 自定义头部', category: 'general' },
+        { key: 'aacCustomBody', value: config.aacCustomBody, description: 'AAC 自定义正文', category: 'general' },
+        { key: 'aacCustomFooter', value: config.aacCustomFooter, description: 'AAC 自定义页脚', category: 'general' },
+        { key: 'customHeadHtml', value: config.customHeadHtml, description: '全站自定义 Head HTML', category: 'theme' },
+        { key: 'customHeadCss', value: config.customHeadCss, description: '全站自定义 Head CSS', category: 'theme' },
+        { key: 'customHeadJs', value: config.customHeadJs, description: '全站自定义 Head JavaScript', category: 'theme' },
         { key: 'navLogoTitle', value: config.navLogoTitle, description: '导航Logo标题', category: 'theme' },
         { key: 'navLogoSubtitle', value: config.navLogoSubtitle, description: '导航Logo副标题', category: 'theme' },
         { key: 'navHomeLabel', value: config.navHomeLabel, description: '导航-首页', category: 'theme' },
@@ -394,6 +412,66 @@ function Settings() {
                       placeholder="PASSION"
                     />
                   </div>
+                </div>
+
+                <div className="form-group">
+                  <label>AAC 自定义头部（显示在首页标题上方）</label>
+                  <input
+                    type="text"
+                    value={config.aacCustomHeader}
+                    onChange={(e) => setConfig({ ...config, aacCustomHeader: e.target.value })}
+                    placeholder="个人展示空间"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>AAC 自定义 Body（个人展示正文）</label>
+                  <textarea
+                    value={config.aacCustomBody}
+                    onChange={(e) => setConfig({ ...config, aacCustomBody: e.target.value })}
+                    rows="4"
+                    placeholder="记录灵感、作品与生活碎片。"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>AAC 自定义页脚</label>
+                  <input
+                    type="text"
+                    value={config.aacCustomFooter}
+                    onChange={(e) => setConfig({ ...config, aacCustomFooter: e.target.value })}
+                    placeholder="感谢浏览我的数字角落。"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Head HTML（会注入到 &lt;head&gt;）</label>
+                  <textarea
+                    value={config.customHeadHtml}
+                    onChange={(e) => setConfig({ ...config, customHeadHtml: e.target.value })}
+                    rows="4"
+                    placeholder="例如：&lt;meta name='theme-color' content='#090611' /&gt;"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Head CSS（style）</label>
+                  <textarea
+                    value={config.customHeadCss}
+                    onChange={(e) => setConfig({ ...config, customHeadCss: e.target.value })}
+                    rows="5"
+                    placeholder="例如：body { letter-spacing: .02em; }"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Head JavaScript（script）</label>
+                  <textarea
+                    value={config.customHeadJs}
+                    onChange={(e) => setConfig({ ...config, customHeadJs: e.target.value })}
+                    rows="5"
+                    placeholder="例如：console.log('custom head script loaded');"
+                  />
                 </div>
               </div>
             </>
