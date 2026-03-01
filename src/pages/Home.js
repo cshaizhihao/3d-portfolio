@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, PerspectiveCamera, Stars } from '@react-three/drei';
+import { Float, PerspectiveCamera, Stars, Text } from '@react-three/drei';
 import { EffectComposer, Bloom, ChromaticAberration, Noise, Vignette } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { configAPI, imageAPI, leadAPI, projectAPI } from '../api';
@@ -10,69 +10,63 @@ import './Home.css';
 function HeroCore({ isMobile }) {
   const groupRef = useRef();
   const ringRef = useRef();
-  const panelRef = useRef();
+  const textRef = useRef();
 
   useFrame((state, delta) => {
     const elapsed = state.clock.getElapsedTime();
 
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.22;
-      groupRef.current.rotation.x = Math.sin(elapsed * 0.5) * 0.08;
+      groupRef.current.rotation.y += delta * 0.16;
+      groupRef.current.position.y = Math.sin(elapsed * 0.9) * 0.06;
     }
 
     if (ringRef.current) {
-      ringRef.current.rotation.z += delta * 0.35;
-      ringRef.current.rotation.x += delta * 0.12;
+      ringRef.current.rotation.z += delta * 0.32;
+      ringRef.current.rotation.x += delta * 0.08;
     }
 
-    if (panelRef.current) {
-      panelRef.current.position.y = 0.08 + Math.sin(elapsed * 1.2) * 0.06;
-      panelRef.current.rotation.y = Math.sin(elapsed * 0.8) * 0.15;
+    if (textRef.current) {
+      textRef.current.position.y = 0.24 + Math.sin(elapsed * 1.3) * 0.04;
     }
   });
 
-  const xShift = isMobile ? 0 : 1.35;
+  const xShift = isMobile ? 0.1 : 1.35;
 
   return (
-    <group position={[xShift, -0.15, 0]}>
-      <Float speed={1.2} rotationIntensity={0.2} floatIntensity={0.45}>
+    <group position={[xShift, -0.1, 0]}>
+      <Float speed={1} rotationIntensity={0.15} floatIntensity={0.36}>
         <group ref={groupRef}>
-          <mesh>
-            <cylinderGeometry args={[0.95, 1.05, 0.22, 64, 1, true]} />
-            <meshStandardMaterial color="#0d1430" metalness={0.78} roughness={0.28} emissive="#111a3a" />
+          <mesh position={[0, -0.02, 0]}>
+            <cylinderGeometry args={[1.05, 1.22, 0.25, 80, 1, true]} />
+            <meshStandardMaterial color="#0e1530" metalness={0.78} roughness={0.3} emissive="#11193a" />
           </mesh>
 
-          <mesh position={[0, 0.18, 0]}>
-            <torusKnotGeometry args={[0.6, 0.13, 220, 30]} />
-            <meshStandardMaterial color="#00e5ff" metalness={0.82} roughness={0.16} emissive="#123553" />
-          </mesh>
-
-          <mesh ref={ringRef} rotation={[1.12, 0, 0]} position={[0, 0.18, 0]}>
-            <torusGeometry args={[1.28, 0.04, 24, 180]} />
+          <mesh ref={ringRef} rotation={[1.24, 0, 0]} position={[0, 0.18, 0]}>
+            <torusGeometry args={[1.32, 0.04, 24, 220]} />
             <meshStandardMaterial color="#ff2bd6" emissive="#4a103f" />
           </mesh>
 
-          <mesh position={[0, 0.5, 0]}>
-            <sphereGeometry args={[0.14, 32, 32]} />
+          <mesh position={[0, 0.16, 0]}>
+            <sphereGeometry args={[0.16, 32, 32]} />
             <meshStandardMaterial color="#7a5cff" emissive="#2a1f66" />
           </mesh>
+
+          <group ref={textRef} position={[0, 0.24, 0.02]}>
+            <Text
+              fontSize={0.44}
+              letterSpacing={0.05}
+              maxWidth={3}
+              anchorX="center"
+              anchorY="middle"
+              color="#00e5ff"
+              outlineWidth={0.03}
+              outlineColor="#ff2bd6"
+            >
+              ZAKI
+            </Text>
+          </group>
         </group>
       </Float>
-
-      <group ref={panelRef} position={[0.9, 0.08, 0.72]}>
-        <mesh>
-          <boxGeometry args={[0.9, 0.55, 0.06]} />
-          <meshStandardMaterial color="#110d2a" emissive="#1e1a3d" metalness={0.5} roughness={0.35} />
-        </mesh>
-        <mesh position={[0, 0.05, 0.04]}>
-          <planeGeometry args={[0.72, 0.26]} />
-          <meshBasicMaterial color="#00e5ff" transparent opacity={0.45} />
-        </mesh>
-        <mesh position={[0, -0.16, 0.04]}>
-          <planeGeometry args={[0.58, 0.09]} />
-          <meshBasicMaterial color="#ff2bd6" transparent opacity={0.38} />
-        </mesh>
-      </group>
     </group>
   );
 }
@@ -121,6 +115,7 @@ function Home() {
   const [leadForm, setLeadForm] = useState({ name: '', email: '', budget: '', message: '' });
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryIndex, setGalleryIndex] = useState(0);
 
   const [config, setConfig] = useState({
     heroImage: '',
@@ -182,6 +177,19 @@ function Home() {
     meta.content = config.seoHomeDescription || '赛博朋克时代的网络数字游民';
   }, [config.seoHomeTitle, config.seoHomeDescription]);
 
+  useEffect(() => {
+    if (!galleryImages.length) return;
+    setGalleryIndex((previous) => previous % galleryImages.length);
+  }, [galleryImages]);
+
+  useEffect(() => {
+    if (galleryImages.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setGalleryIndex((previous) => (previous + 1) % galleryImages.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [galleryImages]);
+
   const fetchConfig = async () => {
     try {
       const response = await configAPI.getPublicConfigs();
@@ -216,13 +224,23 @@ function Home() {
     try {
       const [projectsRes, galleryRes] = await Promise.all([
         projectAPI.getProjects({ status: 'active', limit: 6 }),
-        imageAPI.getImagesByCategory('gallery', { limit: 8 }),
+        imageAPI.getImagesByCategory('gallery', { limit: 16 }),
       ]);
       setFeaturedProjects(projectsRes.data || []);
       setGalleryImages(galleryRes.data || []);
     } catch (fetchError) {
       // ignore
     }
+  };
+
+  const showPrevGallery = () => {
+    if (galleryImages.length <= 1) return;
+    setGalleryIndex((previous) => (previous - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  const showNextGallery = () => {
+    if (galleryImages.length <= 1) return;
+    setGalleryIndex((previous) => (previous + 1) % galleryImages.length);
   };
 
   const handleLeadChange = (event) => {
@@ -352,13 +370,58 @@ function Home() {
           </div>
 
           <h2>赛博相册</h2>
-          <div className="home-gallery-grid">
-            {galleryImages.slice(0, 8).map((image) => (
-              <img key={image._id} src={toAbs(image.thumbnail || image.url)} alt={image.title} className="home-gallery-item" />
-            ))}
+          <div className="home-gallery-carousel">
+            {galleryImages.length > 0 ? (
+              <>
+                <div className="home-gallery-stage">
+                  <img
+                    key={galleryImages[galleryIndex]?._id}
+                    src={toAbs(galleryImages[galleryIndex]?.url || galleryImages[galleryIndex]?.thumbnail)}
+                    alt={galleryImages[galleryIndex]?.title || 'gallery'}
+                    className="home-gallery-main"
+                  />
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button type="button" className="gallery-nav gallery-prev" onClick={showPrevGallery}>‹</button>
+                      <button type="button" className="gallery-nav gallery-next" onClick={showNextGallery}>›</button>
+                    </>
+                  )}
+                </div>
+
+                {galleryImages.length > 1 && (
+                  <div className="home-gallery-thumbs">
+                    {galleryImages.slice(0, 8).map((image, index) => (
+                      <button
+                        key={image._id}
+                        type="button"
+                        className={`home-gallery-thumb ${index === galleryIndex ? 'active' : ''}`}
+                        onClick={() => setGalleryIndex(index)}
+                        aria-label={`切换到第${index + 1}张图片`}
+                      >
+                        <img src={toAbs(image.thumbnail || image.url)} alt={image.title} className="home-gallery-item" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="home-gallery-empty">暂无相册图片，请在后台图库添加 gallery 分类图片</div>
+            )}
           </div>
         </div>
       </section>
+
+      <footer className="home-footer">
+        <div className="home-footer-inner">
+          <div className="footer-brand">ZAKI.DEV</div>
+          <div className="footer-links">
+            <Link to="/projects">Projects</Link>
+            <Link to="/about">About</Link>
+            <button type="button" onClick={() => setLeadOpen(true)}>Contact</button>
+          </div>
+          <div className="footer-copy">© {new Date().getFullYear()} ZAKI · Cyberpunk Portfolio</div>
+        </div>
+      </footer>
     </div>
   );
 }
