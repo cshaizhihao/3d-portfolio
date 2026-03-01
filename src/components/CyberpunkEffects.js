@@ -36,6 +36,18 @@ function CyberpunkEffects() {
   const mobile = useMemo(() => /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent), []);
 
   if (reduced || config.fxPreset === 'off') return null;
+  if (mobile) {
+    return (
+      <>
+        {config.fxEnableSmoke && (
+          <div className="cyber-smoke" aria-hidden="true">
+            <div className="smoke-layer smoke-1" />
+            <div className="smoke-layer smoke-2" />
+          </div>
+        )}
+      </>
+    );
+  }
 
   const densityFactor = Math.max(0.5, Math.min(2, config.fxEffectDensity || 1));
   const laserCount = Math.floor((mobile ? 22 : 48) * densityFactor * (config.fxPreset === 'high' ? 1.2 : config.fxPreset === 'low' ? 0.7 : 1));

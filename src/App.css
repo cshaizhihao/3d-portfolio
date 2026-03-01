@@ -255,3 +255,17 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+@media (max-width: 768px) {
+  .App::before,
+  .hex-pattern,
+  .scanline-overlay {
+    display: none !important;
+  }
+
+  .glitch,
+  .glitch::before,
+  .glitch::after {
+    animation: none !important;
+  }
+}
