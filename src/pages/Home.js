@@ -120,7 +120,7 @@ function Home() {
     komariTitle: 'KOMARI Monitor',
     komariDescription: '我的监控面板与系统状态中心',
     komariUrl: '/komari',
-    komariPanelUrl: '/komari-panel',
+    komariPanelUrl: '',
     komariEmbedEnabled: false,
     komariEmbedHeight: 480,
     integrationModules: [],

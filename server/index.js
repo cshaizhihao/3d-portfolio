@@ -4,7 +4,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middleware/error.js';
 import './utils/colors.js'; // 加载颜色工具
@@ -92,18 +91,6 @@ app.use('/api/github', githubRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/leads', leadRoutes);
-
-// Komari 面板代理（让前端通过同域路径访问）
-const komariTarget = process.env.KOMARI_TARGET || 'http://127.0.0.1:25774';
-app.use('/komari-panel', createProxyMiddleware({
-  target: komariTarget,
-  changeOrigin: true,
-  ws: true,
-  secure: false,
-  pathRewrite: {
-    '^/komari-panel': '',
-  },
-}));
 
 // 静态文件服务 - 上传的图片
 app.use('/uploads', express.static('uploads'));
