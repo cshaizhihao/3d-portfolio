@@ -40,6 +40,13 @@ function Settings() {
     seoAboutDescription: '关于 Zaki 的介绍与技术栈',
     seoProjectsTitle: '项目展示',
     seoProjectsDescription: '项目案例与结果展示',
+    // 高级美化配置
+    fxPreset: 'medium',
+    fxEnablePost: true,
+    fxEnableParticles: true,
+    fxEnableTilt: true,
+    fxEnableCursor: true,
+    fxEnableTransitions: true,
     // About 页面配置
     aboutTitle: 'ABOUT ME',
     aboutSubtitle: '关于这个搞事情的人',
@@ -88,6 +95,12 @@ function Settings() {
         seoAboutDescription: publicConfig.seoAboutDescription || '关于 Zaki 的介绍与技术栈',
         seoProjectsTitle: publicConfig.seoProjectsTitle || '项目展示',
         seoProjectsDescription: publicConfig.seoProjectsDescription || '项目案例与结果展示',
+        fxPreset: publicConfig.fxPreset || 'medium',
+        fxEnablePost: publicConfig.fxEnablePost !== false,
+        fxEnableParticles: publicConfig.fxEnableParticles !== false,
+        fxEnableTilt: publicConfig.fxEnableTilt !== false,
+        fxEnableCursor: publicConfig.fxEnableCursor !== false,
+        fxEnableTransitions: publicConfig.fxEnableTransitions !== false,
         aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
         aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
         whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
@@ -145,6 +158,12 @@ function Settings() {
         { key: 'seoAboutDescription', value: config.seoAboutDescription, description: 'SEO-About描述', category: 'seo' },
         { key: 'seoProjectsTitle', value: config.seoProjectsTitle, description: 'SEO-项目标题', category: 'seo' },
         { key: 'seoProjectsDescription', value: config.seoProjectsDescription, description: 'SEO-项目描述', category: 'seo' },
+        { key: 'fxPreset', value: config.fxPreset, description: '特效强度档位', category: 'theme' },
+        { key: 'fxEnablePost', value: config.fxEnablePost, description: '后处理开关', category: 'theme' },
+        { key: 'fxEnableParticles', value: config.fxEnableParticles, description: '粒子开关', category: 'theme' },
+        { key: 'fxEnableTilt', value: config.fxEnableTilt, description: '卡片倾斜开关', category: 'theme' },
+        { key: 'fxEnableCursor', value: config.fxEnableCursor, description: '自定义光标开关', category: 'theme' },
+        { key: 'fxEnableTransitions', value: config.fxEnableTransitions, description: '页面转场开关', category: 'theme' },
         { key: 'aboutTitle', value: config.aboutTitle, description: 'About 标题', category: 'general' },
         { key: 'aboutSubtitle', value: config.aboutSubtitle, description: 'About 副标题', category: 'general' },
         { key: 'whoAmI', value: config.whoAmI, description: 'Who Am I', category: 'general' },
@@ -222,6 +241,12 @@ function Settings() {
             onClick={() => setActiveTab('seo')}
           >
             🔎 SEO 设置
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'fx' ? 'active' : ''}`}
+            onClick={() => setActiveTab('fx')}
+          >
+            ✨ 高级美化
           </button>
         </div>
 
@@ -419,6 +444,31 @@ function Settings() {
                 <div className="form-group">
                   <label>Projects Description</label>
                   <textarea rows="2" value={config.seoProjectsDescription} onChange={(e) => setConfig({ ...config, seoProjectsDescription: e.target.value })} />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* 高级美化 */}
+          {activeTab === 'fx' && (
+            <>
+              <div className="settings-section">
+                <h2>✨ 兼容优先特效控制</h2>
+                <div className="form-group">
+                  <label>特效档位</label>
+                  <select value={config.fxPreset} onChange={(e) => setConfig({ ...config, fxPreset: e.target.value })}>
+                    <option value="off">off（关闭）</option>
+                    <option value="low">low（低）</option>
+                    <option value="medium">medium（中）</option>
+                    <option value="high">high（高）</option>
+                  </select>
+                </div>
+                <div className="checkbox-row">
+                  <label><input type="checkbox" checked={config.fxEnablePost} onChange={(e) => setConfig({ ...config, fxEnablePost: e.target.checked })} /> 后处理（Bloom/Noise/Vignette）</label>
+                  <label><input type="checkbox" checked={config.fxEnableParticles} onChange={(e) => setConfig({ ...config, fxEnableParticles: e.target.checked })} /> 粒子与星空</label>
+                  <label><input type="checkbox" checked={config.fxEnableTilt} onChange={(e) => setConfig({ ...config, fxEnableTilt: e.target.checked })} /> 项目卡 3D 倾斜</label>
+                  <label><input type="checkbox" checked={config.fxEnableCursor} onChange={(e) => setConfig({ ...config, fxEnableCursor: e.target.checked })} /> 自定义光标</label>
+                  <label><input type="checkbox" checked={config.fxEnableTransitions} onChange={(e) => setConfig({ ...config, fxEnableTransitions: e.target.checked })} /> 页面转场</label>
                 </div>
               </div>
             </>

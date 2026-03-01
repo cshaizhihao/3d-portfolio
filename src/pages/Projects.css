@@ -61,8 +61,13 @@
   background: rgba(10, 10, 10, 0.8);
   border-radius: 15px;
   padding: 2rem;
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
   overflow: hidden;
+}
+
+.project-card.tilt-enabled {
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .project-card::before {

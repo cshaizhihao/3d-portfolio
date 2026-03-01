@@ -148,6 +148,18 @@
   gap: 0.8rem;
 }
 
+.checkbox-row {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.checkbox-row label {
+  color: #bfffe2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .inline-grid {
     grid-template-columns: 1fr;

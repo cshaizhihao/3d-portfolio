@@ -6,6 +6,7 @@ import './Projects.css';
 function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fxEnableTilt, setFxEnableTilt] = useState(true);
 
   useEffect(() => {
     fetchProjects();
@@ -20,6 +21,7 @@ function Projects() {
         title: cfg.seoProjectsTitle || '项目展示',
         description: cfg.seoProjectsDescription || '项目案例与结果展示',
       };
+      setFxEnableTilt(cfg.fxEnableTilt !== false);
       document.title = nextSeo.title;
       let meta = document.querySelector('meta[name="description"]');
       if (!meta) {
@@ -57,6 +59,21 @@ function Projects() {
     }
   };
 
+  const handleCardMove = (event) => {
+    if (!fxEnableTilt) return;
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    const rotateY = (x - 0.5) * 10;
+    const rotateX = (0.5 - y) * 8;
+    card.style.transform = `translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const resetCard = (event) => {
+    event.currentTarget.style.transform = '';
+  };
+
   if (loading) {
     return (
       <div className="projects-page">
@@ -85,7 +102,13 @@ function Projects() {
         ) : (
           <div className="projects-grid">
             {projects.map((project) => (
-              <div key={project._id} className="project-card" style={{ '--accent-color': project.color }}>
+              <div
+                key={project._id}
+                className={`project-card ${fxEnableTilt ? 'tilt-enabled' : ''}`}
+                style={{ '--accent-color': project.color }}
+                onMouseMove={handleCardMove}
+                onMouseLeave={resetCard}
+              >
                 <div className="card-glow"></div>
                 <div className="card-content">
                   <h3 className="project-title">{project.title}</h3>

@@ -1,6 +1,8 @@
 import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Float, PerspectiveCamera } from '@react-three/drei';
+import { EffectComposer, Bloom, Noise, Vignette, ChromaticAberration } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import { configAPI, leadAPI } from '../api';
 import './Home.css';
 
@@ -42,7 +44,7 @@ function FloatingSphere({ position, color }) {
   );
 }
 
-function Scene({ isMobile }) {
+function Scene({ isMobile, fxLevel, particlesEnabled }) {
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0, isMobile ? 10 : 8]} fov={isMobile ? 70 : 60} />
@@ -50,15 +52,17 @@ function Scene({ isMobile }) {
       <pointLight position={[10, 10, 10]} intensity={0.8} castShadow />
       <pointLight position={[-10, -10, -10]} intensity={0.3} />
       
-      <Stars 
-        radius={80} 
-        depth={40} 
-        count={isMobile ? 1000 : 2000} 
-        factor={3} 
-        saturation={0} 
-        fade 
-        speed={0.5} 
-      />
+      {particlesEnabled && (
+        <Stars 
+          radius={80} 
+          depth={40} 
+          count={fxLevel === 'low' ? 500 : (isMobile ? 1000 : 2000)} 
+          factor={3} 
+          saturation={0} 
+          fade 
+          speed={0.5} 
+        />
+      )}
       
       <RotatingCube />
       <FloatingSphere position={[-2.5, 0, 0]} color="#ff0088" />
@@ -78,6 +82,21 @@ function Scene({ isMobile }) {
         dampingFactor={0.05}
       />
     </>
+  );
+}
+
+function PostEffects({ fxEnabled, fxLevel }) {
+  if (!fxEnabled || fxLevel === 'off') return null;
+
+  const bloomIntensity = fxLevel === 'high' ? 1.2 : fxLevel === 'medium' ? 0.8 : 0.45;
+
+  return (
+    <EffectComposer multisampling={0}>
+      <Bloom luminanceThreshold={0.25} luminanceSmoothing={0.2} intensity={bloomIntensity} />
+      <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.0008, 0.0012]} />
+      <Noise opacity={fxLevel === 'high' ? 0.06 : 0.03} premultiply />
+      <Vignette eskil={false} offset={0.22} darkness={0.55} />
+    </EffectComposer>
   );
 }
 
@@ -110,6 +129,9 @@ function Home() {
     homeStat3Label: 'PASSION',
     seoHomeTitle: 'ZAKI.DEV - 首页',
     seoHomeDescription: '赛博朋克时代的网络数字游民',
+    fxPreset: 'medium',
+    fxEnablePost: true,
+    fxEnableParticles: true,
   });
 
   useEffect(() => {
@@ -160,6 +182,9 @@ function Home() {
         homeStat3Label: publicConfig.homeStat3Label || 'PASSION',
         seoHomeTitle: publicConfig.seoHomeTitle || 'ZAKI.DEV - 首页',
         seoHomeDescription: publicConfig.seoHomeDescription || '赛博朋克时代的网络数字游民',
+        fxPreset: publicConfig.fxPreset || 'medium',
+        fxEnablePost: publicConfig.fxEnablePost !== false,
+        fxEnableParticles: publicConfig.fxEnableParticles !== false,
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);
@@ -235,7 +260,8 @@ function Home() {
           }}
           dpr={isMobile ? [1, 1.5] : [1, 2]}
         >
-          <Scene isMobile={isMobile} />
+          <Scene isMobile={isMobile} fxLevel={config.fxPreset} particlesEnabled={config.fxEnableParticles} />
+          <PostEffects fxEnabled={config.fxEnablePost} fxLevel={config.fxPreset} />
         </Canvas>
       </Suspense>
       
