@@ -2,379 +2,114 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  overflow: hidden;
   background: #000;
+  color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .App {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: #000;
   position: relative;
-  touch-action: none; /* 禁用默认触摸行为 */
 }
 
-.info {
+/* 全局故障效果 */
+.glitch {
+  position: relative;
+  animation: glitch-skew 3s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
   position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #fff;
-  z-index: 10;
-  pointer-events: none;
-  padding: 0 20px;
-  max-width: 100%;
-}
-
-.info h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
-  letter-spacing: -1px;
-}
-
-.info p {
-  font-size: 0.95rem;
-  opacity: 0.7;
-  font-weight: 300;
-}
-
-.desktop-only {
-  display: block;
-}
-
-.mobile-only {
-  display: none;
-}
-
-.mobile-tip {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 255, 136, 0.9);
-  color: #000;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  z-index: 20;
-  animation: fadeInOut 5s ease-in-out;
-  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
-}
-
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-  10%, 90% { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-.controls {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-.btn-save {
-  background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
-  border: none;
-  padding: 14px 32px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #000;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
-  touch-action: manipulation; /* 优化触摸响应 */
-}
-
-.btn-save:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(0, 255, 136, 0.6);
-}
-
-.btn-save:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(0, 255, 136, 0.4);
-}
-
-.loading {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #000;
-  color: #fff;
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(0, 255, 136, 0.2);
-  border-top-color: #00ff88;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 20px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.error {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #000;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-.error h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #ff0088;
-}
-
-.error p {
-  font-size: 1.1rem;
-  opacity: 0.8;
-  max-width: 500px;
-  margin-bottom: 10px;
-}
-
-.error-hint {
-  font-size: 0.9rem;
-  opacity: 0.6;
-}
-
-.modal-overlay {
-  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  padding: 20px;
-}
-
-.modal {
-  background: #1a1a1a;
-  padding: 40px;
-  border-radius: 20px;
-  max-width: 500px;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
-  border: 1px solid rgba(0, 255, 136, 0.2);
-  animation: modalSlideIn 0.3s ease-out;
+  height: 100%;
 }
 
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff0088;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
 }
 
-.modal h2 {
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #0088ff;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(31px, 9999px, 94px, 0); }
+  20% { clip: rect(85px, 9999px, 40px, 0); }
+  40% { clip: rect(65px, 9999px, 73px, 0); }
+  60% { clip: rect(20px, 9999px, 10px, 0); }
+  80% { clip: rect(50px, 9999px, 60px, 0); }
+  100% { clip: rect(70px, 9999px, 30px, 0); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  20% { clip: rect(20px, 9999px, 50px, 0); }
+  40% { clip: rect(80px, 9999px, 30px, 0); }
+  60% { clip: rect(40px, 9999px, 70px, 0); }
+  80% { clip: rect(10px, 9999px, 90px, 0); }
+  100% { clip: rect(55px, 9999px, 15px, 0); }
+}
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  10% { transform: skew(0deg); }
+  11% { transform: skew(2deg); }
+  12% { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ff88, #0088ff);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00dd77, #0077dd);
+}
+
+/* 选中文本样式 */
+::selection {
+  background: rgba(0, 255, 136, 0.3);
   color: #00ff88;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
 }
 
-.modal p {
-  color: #fff;
-  margin-bottom: 30px;
-  opacity: 0.8;
-  line-height: 1.6;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-}
-
-.modal button,
-.btn-primary {
-  background: #00ff88;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #000;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
-}
-
-.modal button:hover,
-.btn-primary:hover {
-  background: #00dd77;
-  transform: translateY(-1px);
-}
-
-.modal button:active,
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .info {
-    top: 15px;
-  }
-
-  .info h1 {
-    font-size: 1.6rem;
-  }
-
-  .info p {
-    font-size: 0.8rem;
-  }
-
-  .desktop-only {
-    display: none;
-  }
-
-  .mobile-only {
-    display: block;
-  }
-
-  .controls {
-    bottom: 20px;
-  }
-
-  .btn-save {
-    padding: 12px 24px;
-    font-size: 0.9rem;
-  }
-
-  .modal {
-    padding: 30px 20px;
-    border-radius: 15px;
-  }
-
-  .modal h2 {
-    font-size: 1.4rem;
-  }
-
-  .modal p {
-    font-size: 0.95rem;
-  }
-
-  .modal button,
-  .btn-primary {
-    padding: 10px 24px;
-    font-size: 0.9rem;
-  }
-
-  .error h1 {
-    font-size: 1.5rem;
-  }
-
-  .error p {
-    font-size: 1rem;
-  }
-}
-
-/* 小屏手机适配 */
-@media (max-width: 375px) {
-  .info h1 {
-    font-size: 1.4rem;
-  }
-
-  .info p {
-    font-size: 0.75rem;
-  }
-
-  .btn-save {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-  }
-
-  .modal {
-    padding: 25px 15px;
-  }
-
-  .modal h2 {
-    font-size: 1.2rem;
-  }
-}
-
-/* 横屏适配 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .info {
-    top: 10px;
-  }
-
-  .info h1 {
-    font-size: 1.2rem;
-    margin-bottom: 4px;
-  }
-
-  .info p {
-    font-size: 0.75rem;
-  }
-
-  .controls {
-    bottom: 15px;
-  }
-
-  .btn-save {
-    padding: 8px 20px;
-    font-size: 0.85rem;
-  }
-
-  .mobile-tip {
-    top: 60px;
-    padding: 8px 16px;
-    font-size: 0.8rem;
-  }
-}
-
-/* 高分辨率屏幕优化 */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .info h1 {
-    text-shadow: 0 0 40px rgba(0, 255, 136, 0.7);
-  }
-}
-
-/* 暗色模式支持 */
-@media (prefers-color-scheme: dark) {
-  /* 已经是暗色主题，无需额外调整 */
+::-moz-selection {
+  background: rgba(0, 255, 136, 0.3);
+  color: #00ff88;
 }
 
 /* 减少动画（用户偏好） */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

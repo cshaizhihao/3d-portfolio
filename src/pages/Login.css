@@ -1,0 +1,252 @@
+.login-page {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.login-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-box {
+  background: rgba(10, 10, 10, 0.9);
+  border: 2px solid rgba(0, 255, 136, 0.3);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #00ff88, #0088ff, #ff0088);
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  animation: borderRotate 3s linear infinite;
+}
+
+@keyframes borderRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.login-box:hover::before {
+  opacity: 0.3;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.login-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: #00ff88;
+  opacity: 0.7;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #00ff88;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+.form-group input {
+  padding: 1rem;
+  background: rgba(0, 255, 136, 0.05);
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', monospace;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.login-button {
+  position: relative;
+  padding: 1.2rem;
+  background: linear-gradient(135deg, #00ff88, #0088ff);
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  margin-top: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.button-glow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-button:hover .button-glow {
+  left: 100%;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.login-footer p {
+  color: #00ff88;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* 装饰性圆圈 */
+.deco-circle {
+  position: absolute;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.deco-1 {
+  width: 100px;
+  height: 100px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.deco-2 {
+  width: 150px;
+  height: 150px;
+  bottom: 15%;
+  right: 10%;
+  animation-delay: 2s;
+}
+
+.deco-3 {
+  width: 80px;
+  height: 80px;
+  top: 60%;
+  left: 5%;
+  animation-delay: 4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.6;
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .login-page {
+    padding: 90px 1.5rem 2rem;
+  }
+
+  .login-box {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .login-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .deco-circle {
+    display: none;
+  }
+}

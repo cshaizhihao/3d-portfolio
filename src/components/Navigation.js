@@ -1,0 +1,75 @@
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './Navigation.css';
+
+function Navigation() {
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    { path: '/', label: 'HOME', icon: '🏠' },
+    { path: '/projects', label: 'PROJECTS', icon: '💼' },
+    { path: '/about', label: 'ABOUT', icon: '👤' },
+    { path: '/login', label: 'LOGIN', icon: '🔐' },
+  ];
+
+  return (
+    <nav className="cyber-nav">
+      <div className="nav-container">
+        {/* Logo */}
+        <Link to="/" className="nav-logo">
+          <span className="logo-text glitch" data-text="ZAKI.DEV">
+            ZAKI.DEV
+          </span>
+          <span className="logo-subtitle">// CYBERPUNK PORTFOLIO</span>
+        </Link>
+
+        {/* Desktop Menu */}
+        <div className="nav-menu">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+              <span className="nav-underline"></span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Mobile Toggle */}
+        <button
+          className={`nav-toggle ${isOpen ? 'open' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`nav-mobile ${isOpen ? 'open' : ''}`}>
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`nav-mobile-link ${location.pathname === item.path ? 'active' : ''}`}
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="nav-icon">{item.icon}</span>
+            <span className="nav-label">{item.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Scanline Effect */}
+      <div className="scanline"></div>
+    </nav>
+  );
+}
+
+export default Navigation;
