@@ -8,6 +8,7 @@ import Projects from './pages/Projects';
 import About from './pages/About';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
+import Gallery from './pages/Gallery';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -29,6 +30,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/gallery"
+              element={
+                <ProtectedRoute>
+                  <Gallery />
                 </ProtectedRoute>
               }
             />
