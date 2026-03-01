@@ -439,6 +439,32 @@
   background: #090611;
 }
 
+.home-integration-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.8rem;
+}
+
+.home-integration-card {
+  text-decoration: none;
+  border: 1px solid rgba(122, 92, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(10, 12, 26, 0.74);
+  padding: 0.8rem;
+}
+
+.home-integration-title {
+  color: #00e5ff;
+  font-weight: 700;
+  margin-bottom: 0.32rem;
+}
+
+.home-integration-desc {
+  color: #d7dfff;
+  font-size: 0.86rem;
+}
+
 .home-faq-list {
   display: grid;
   gap: 0.65rem;

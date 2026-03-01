@@ -122,6 +122,7 @@ function Home() {
     komariUrl: 'https://github.com/cshaizhihao/komari',
     komariEmbedEnabled: false,
     komariEmbedHeight: 480,
+    integrationModules: [],
     seoHomeTitle: 'ZAKI.DEV - 首页',
     seoHomeDescription: '赛博朋克时代的网络数字游民',
     fxPreset: 'medium',
@@ -209,6 +210,7 @@ function Home() {
         komariUrl: publicConfig.komariUrl || previous.komariUrl,
         komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
         komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || previous.komariEmbedHeight,
+        integrationModules: Array.isArray(publicConfig.integrationModules) ? publicConfig.integrationModules : previous.integrationModules,
         seoHomeTitle: publicConfig.seoHomeTitle || previous.seoHomeTitle,
         seoHomeDescription: publicConfig.seoHomeDescription || previous.seoHomeDescription,
         fxPreset: publicConfig.fxPreset || previous.fxPreset,
@@ -399,6 +401,20 @@ function Home() {
                   />
                 </div>
               )}
+            </>
+          )}
+
+          {Array.isArray(config.integrationModules) && config.integrationModules.some((item) => item?.enabled !== false) && (
+            <>
+              <h2>更多集成</h2>
+              <div className="home-integration-grid">
+                {config.integrationModules.filter((item) => item && item.enabled !== false).slice(0, 12).map((item, index) => (
+                  <a key={`${item.title || 'integration'}-${index}`} className="home-integration-card" href={item.url || '#'} target="_blank" rel="noreferrer">
+                    <div className="home-integration-title">{item.title || 'Untitled Integration'}</div>
+                    <div className="home-integration-desc">{item.description || 'No description'}</div>
+                  </a>
+                ))}
+              </div>
             </>
           )}
 

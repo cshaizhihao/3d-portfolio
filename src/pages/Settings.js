@@ -19,6 +19,7 @@ function Settings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
+  const [integrationJsonError, setIntegrationJsonError] = useState('');
   const [showHeroModal, setShowHeroModal] = useState(false);
   const [heroImages, setHeroImages] = useState([]);
   const [config, setConfig] = useState({
@@ -43,6 +44,7 @@ function Settings() {
     komariUrl: 'https://github.com/cshaizhihao/komari',
     komariEmbedEnabled: false,
     komariEmbedHeight: 480,
+    integrationModules: JSON.stringify([], null, 2),
     customHeadHtml: AAC_PRESET.customHeadHtml,
     customHeadCss: AAC_PRESET.customHeadCss,
     customHeadJs: AAC_PRESET.customHeadJs,
@@ -126,6 +128,7 @@ function Settings() {
         komariUrl: publicConfig.komariUrl || 'https://github.com/cshaizhihao/komari',
         komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
         komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || 480,
+        integrationModules: JSON.stringify(Array.isArray(publicConfig.integrationModules) ? publicConfig.integrationModules : [], null, 2),
         customHeadHtml: publicConfig.customHeadHtml || AAC_PRESET.customHeadHtml,
         customHeadCss: publicConfig.customHeadCss || AAC_PRESET.customHeadCss,
         customHeadJs: publicConfig.customHeadJs || AAC_PRESET.customHeadJs,
@@ -193,7 +196,21 @@ function Settings() {
 
   const handleSave = async () => {
     setSaving(true);
+    setIntegrationJsonError('');
     try {
+      let integrationModulesValue = [];
+      try {
+        integrationModulesValue = JSON.parse(config.integrationModules || '[]');
+        if (!Array.isArray(integrationModulesValue)) {
+          throw new Error('integrationModules must be array');
+        }
+      } catch (parseError) {
+        setIntegrationJsonError('集成模块 JSON 格式有误，请修正后再保存');
+        toast.error('集成模块 JSON 格式错误');
+        setSaving(false);
+        return;
+      }
+
       const configs = [
         { key: 'heroImage', value: config.heroImage, description: '首页英雄图', category: 'theme' },
         { key: 'siteTitle', value: config.siteTitle, description: '网站标题', category: 'general' },
@@ -215,6 +232,7 @@ function Settings() {
         { key: 'komariUrl', value: config.komariUrl, description: 'Komari 地址', category: 'general' },
         { key: 'komariEmbedEnabled', value: config.komariEmbedEnabled, description: 'Komari 嵌入预览开关', category: 'general' },
         { key: 'komariEmbedHeight', value: Number(config.komariEmbedHeight), description: 'Komari 嵌入高度', category: 'general' },
+        { key: 'integrationModules', value: integrationModulesValue, description: '集成模块列表', category: 'general' },
         { key: 'customHeadHtml', value: config.customHeadHtml, description: '全站自定义 Head HTML', category: 'theme' },
         { key: 'customHeadCss', value: config.customHeadCss, description: '全站自定义 Head CSS', category: 'theme' },
         { key: 'customHeadJs', value: config.customHeadJs, description: '全站自定义 Head JavaScript', category: 'theme' },
@@ -337,6 +355,12 @@ function Settings() {
             onClick={() => setActiveTab('fx')}
           >
             ✨ 高级美化
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'integrations' ? 'active' : ''}`}
+            onClick={() => setActiveTab('integrations')}
+          >
+            🧩 集成管理
           </button>
         </div>
 
@@ -746,6 +770,26 @@ function Settings() {
                 <div className="form-group">
                   <label>重特效密度（0.5 - 2）</label>
                   <input type="number" min="0.5" max="2" step="0.1" value={config.fxEffectDensity} onChange={(e) => setConfig({ ...config, fxEffectDensity: Number(e.target.value) })} />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* 集成管理 */}
+          {activeTab === 'integrations' && (
+            <>
+              <div className="settings-section">
+                <h2>🧩 集成模块 JSON</h2>
+                <p style={{ opacity: 0.8, marginBottom: '0.8rem' }}>用于维护除 Komari 以外的自定义集成展示模块（会显示在首页“更多集成”）。</p>
+                <div className="form-group">
+                  <label>{'格式示例：[{"title":"My Tool","url":"https://example.com","description":"desc","enabled":true}]'}</label>
+                  <textarea
+                    value={config.integrationModules}
+                    onChange={(e) => setConfig({ ...config, integrationModules: e.target.value })}
+                    rows="12"
+                    placeholder='[{"title":"My Tool","url":"https://example.com","description":"desc","enabled":true}]'
+                  />
+                  {integrationJsonError && <p style={{ color: '#ff6bbf', marginTop: '0.5rem' }}>{integrationJsonError}</p>}
                 </div>
               </div>
             </>
