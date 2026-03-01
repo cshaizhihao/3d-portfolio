@@ -11,6 +11,7 @@ import './utils/colors.js'; // 加载颜色工具
 // 导入路由
 import authRoutes from './routes/auth.js';
 import projectRoutes from './routes/projects.js';
+import githubRoutes from './routes/github.js';
 
 // 加载环境变量
 dotenv.config();
@@ -70,6 +71,7 @@ app.get('/health', (req, res) => {
 // API 路由
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/github', githubRoutes);
 
 // 根路由
 app.get('/', (req, res) => {
@@ -81,6 +83,7 @@ app.get('/', (req, res) => {
       health: '/health',
       auth: '/api/auth',
       projects: '/api/projects',
+      github: '/api/github',
     },
   });
 });
