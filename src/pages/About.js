@@ -22,16 +22,17 @@ function About() {
   const fetchConfig = async () => {
     try {
       const response = await configAPI.getPublicConfigs();
+      const publicConfig = response.data || {};
       setConfig({
-        aboutTitle: response.aboutTitle || 'ABOUT ME',
-        aboutSubtitle: response.aboutSubtitle || '关于这个搞事情的人',
-        whoAmI: response.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
-        whatIDo: response.whatIDo || '全栈开发、服务器运维、瞎折腾各种技术。\n从前端到后端，从监控到图床，啥都搞。',
-        whyICode: response.whyICode || '因为写代码很爽啊！\n看着自己的想法变成现实，这感觉太他妈棒了。',
-        techStack: response.techStack || 'React,Node.js,Three.js,MongoDB,Docker,Nginx,Linux,Git',
-        contactText: response.contactText || '想聊聊？欢迎来撩~',
-        websiteUrl: response.websiteUrl || 'http://www.zze.cc',
-        githubUrl: response.githubUrl || 'https://github.com/cshaizhihao',
+        aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
+        aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
+        whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
+        whatIDo: publicConfig.whatIDo || '全栈开发、服务器运维、瞎折腾各种技术。\n从前端到后端，从监控到图床，啥都搞。',
+        whyICode: publicConfig.whyICode || '因为写代码很爽啊！\n看着自己的想法变成现实，这感觉太他妈棒了。',
+        techStack: publicConfig.techStack || 'React,Node.js,Three.js,MongoDB,Docker,Nginx,Linux,Git',
+        contactText: publicConfig.contactText || '想聊聊？欢迎来撩~',
+        websiteUrl: publicConfig.websiteUrl || 'http://www.zze.cc',
+        githubUrl: publicConfig.githubUrl || 'https://github.com/cshaizhihao',
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);

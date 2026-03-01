@@ -133,10 +133,11 @@ function Home() {
   const fetchConfig = async () => {
     try {
       const response = await configAPI.getPublicConfigs();
+      const publicConfig = response.data || {};
       setConfig({
-        heroImage: response.heroImage || '',
-        siteTitle: response.siteTitle || 'ZAKI.DEV',
-        siteDescription: response.siteDescription || '赛博朋克时代的网络数字游民',
+        heroImage: publicConfig.heroImage || '',
+        siteTitle: publicConfig.siteTitle || 'ZAKI.DEV',
+        siteDescription: publicConfig.siteDescription || '赛博朋克时代的网络数字游民',
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);

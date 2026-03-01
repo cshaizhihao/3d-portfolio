@@ -64,13 +64,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// 速率限制
-const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 分钟
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // 限制 100 次请求
-  message: 'Too many requests from this IP, please try again later.',
-});
-app.use('/api/', limiter);
+// 速率限制（生产环境启用，避免开发期误触发 429）
+if (process.env.NODE_ENV === 'production') {
+  const limiter = rateLimit({
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000,
+    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 300,
+    message: 'Too many requests from this IP, please try again later.',
+  });
+  app.use('/api/', limiter);
+}
 
 // 健康检查
 app.get('/health', (req, res) => {
