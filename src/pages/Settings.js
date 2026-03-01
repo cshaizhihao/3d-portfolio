@@ -3,6 +3,18 @@ import { configAPI, imageAPI } from '../api';
 import toast from 'react-hot-toast';
 import './Settings.css';
 
+const AAC_PRESET = {
+  customHeadHtml: `<meta name="theme-color" content="#090611" />\n<meta name="color-scheme" content="dark" />`,
+  customHeadCss: `:root{--neon-cyan:#00e5ff;--neon-pink:#ff2bd6;--neon-purple:#7a5cff;--bg-deep:#070611;}\nbody{background:radial-gradient(1200px 600px at 12% -10%,rgba(0,229,255,.12),transparent 60%),radial-gradient(900px 500px at 100% 0,rgba(255,43,214,.14),transparent 55%),var(--bg-deep);}\n::selection{background:rgba(0,229,255,.35);color:#fff;}`,
+  customHeadJs: `window.__CYBER_THEME__={name:'NeonPulse',version:'1.0.0'};`,
+  customBodyHtml: `<div class="global-neon-ribbon" aria-hidden="true"></div>\n<div class="global-cyber-noise" aria-hidden="true"></div>`,
+  customBodyCss: `.global-neon-ribbon{position:fixed;inset:0;pointer-events:none;z-index:6;background:linear-gradient(120deg,transparent 0%,rgba(0,229,255,.05) 35%,rgba(122,92,255,.06) 55%,transparent 100%);mix-blend-mode:screen;animation:ribbonShift 16s linear infinite;}\n.global-cyber-noise{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");}\n@keyframes ribbonShift{0%{transform:translateX(-6%)}50%{transform:translateX(6%)}100%{transform:translateX(-6%)}}`,
+  customBodyJs: `(function(){const k='cyber-last-visit';localStorage.setItem(k,new Date().toISOString());})();`,
+  customFooterHtml: `<div class="global-footer-note">NEON ARCHIVE · PERSONAL SIGNAL ONLINE</div>`,
+  customFooterCss: `.global-footer-note{margin:1rem auto 1.6rem;text-align:center;letter-spacing:.18em;font-size:.7rem;color:rgba(200,220,255,.72);text-transform:uppercase;}`,
+  customFooterJs: `console.log('[CyberPreset] footer hook ready');`,
+};
+
 function Settings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -25,15 +37,15 @@ function Settings() {
     aacCustomHeader: '个人展示空间',
     aacCustomBody: '记录灵感、作品与生活碎片。',
     aacCustomFooter: '感谢浏览我的数字角落。',
-    customHeadHtml: '',
-    customHeadCss: '',
-    customHeadJs: '',
-    customBodyHtml: '',
-    customBodyCss: '',
-    customBodyJs: '',
-    customFooterHtml: '',
-    customFooterCss: '',
-    customFooterJs: '',
+    customHeadHtml: AAC_PRESET.customHeadHtml,
+    customHeadCss: AAC_PRESET.customHeadCss,
+    customHeadJs: AAC_PRESET.customHeadJs,
+    customBodyHtml: AAC_PRESET.customBodyHtml,
+    customBodyCss: AAC_PRESET.customBodyCss,
+    customBodyJs: AAC_PRESET.customBodyJs,
+    customFooterHtml: AAC_PRESET.customFooterHtml,
+    customFooterCss: AAC_PRESET.customFooterCss,
+    customFooterJs: AAC_PRESET.customFooterJs,
     // 导航配置
     navLogoTitle: 'ZAKI.DEV',
     navLogoSubtitle: 'CYBERPUNK PORTFOLIO',
@@ -102,15 +114,15 @@ function Settings() {
         aacCustomHeader: publicConfig.aacCustomHeader || '个人展示空间',
         aacCustomBody: publicConfig.aacCustomBody || '记录灵感、作品与生活碎片。',
         aacCustomFooter: publicConfig.aacCustomFooter || '感谢浏览我的数字角落。',
-        customHeadHtml: publicConfig.customHeadHtml || '',
-        customHeadCss: publicConfig.customHeadCss || '',
-        customHeadJs: publicConfig.customHeadJs || '',
-        customBodyHtml: publicConfig.customBodyHtml || '',
-        customBodyCss: publicConfig.customBodyCss || '',
-        customBodyJs: publicConfig.customBodyJs || '',
-        customFooterHtml: publicConfig.customFooterHtml || '',
-        customFooterCss: publicConfig.customFooterCss || '',
-        customFooterJs: publicConfig.customFooterJs || '',
+        customHeadHtml: publicConfig.customHeadHtml || AAC_PRESET.customHeadHtml,
+        customHeadCss: publicConfig.customHeadCss || AAC_PRESET.customHeadCss,
+        customHeadJs: publicConfig.customHeadJs || AAC_PRESET.customHeadJs,
+        customBodyHtml: publicConfig.customBodyHtml || AAC_PRESET.customBodyHtml,
+        customBodyCss: publicConfig.customBodyCss || AAC_PRESET.customBodyCss,
+        customBodyJs: publicConfig.customBodyJs || AAC_PRESET.customBodyJs,
+        customFooterHtml: publicConfig.customFooterHtml || AAC_PRESET.customFooterHtml,
+        customFooterCss: publicConfig.customFooterCss || AAC_PRESET.customFooterCss,
+        customFooterJs: publicConfig.customFooterJs || AAC_PRESET.customFooterJs,
         navLogoTitle: publicConfig.navLogoTitle || 'ZAKI.DEV',
         navLogoSubtitle: publicConfig.navLogoSubtitle || 'CYBERPUNK PORTFOLIO',
         navHomeLabel: publicConfig.navHomeLabel || 'HOME',

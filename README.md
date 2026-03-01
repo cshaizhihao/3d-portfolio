@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:27 GMT+8
+**最后更新**: 2026-03-02 01:41 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,13 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 01:41 - v1.49.0
+- ✅ 完成全网 + GitHub 灵感检索并沉淀为“赛博霓虹全站默认预设”
+- ✅ 新增全站自定义默认模板（Head/Body/Footer 的 HTML/CSS/JS）
+- ✅ 后台 Settings 中 AAC 注入字段默认填充高质可用预设，开箱即用
+- ✅ App 注入逻辑与默认预设联动：无配置时也保持风格一致
+- ✅ 构建验证通过（保留项目既有 warning）
 
 ### 2026-03-02 01:27 - v1.48.0
 - ✅ 全站 AAC 扩展为三段注入：Head / Body / Footer 均支持 HTML/CSS/JavaScript

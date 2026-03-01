@@ -18,6 +18,18 @@ import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
+const GLOBAL_CUSTOM_PRESET = {
+  customHeadHtml: `<meta name="theme-color" content="#090611" />\n<meta name="color-scheme" content="dark" />`,
+  customHeadCss: `:root{--neon-cyan:#00e5ff;--neon-pink:#ff2bd6;--neon-purple:#7a5cff;--bg-deep:#070611;}\nbody{background:radial-gradient(1200px 600px at 12% -10%,rgba(0,229,255,.12),transparent 60%),radial-gradient(900px 500px at 100% 0,rgba(255,43,214,.14),transparent 55%),var(--bg-deep);}\n::selection{background:rgba(0,229,255,.35);color:#fff;}\n.cyber-chip{border:1px solid rgba(0,229,255,.35);border-radius:999px;padding:.2rem .6rem;}`,
+  customHeadJs: `window.__CYBER_THEME__={name:'NeonPulse',version:'1.0.0'};`,
+  customBodyHtml: `<div class="global-neon-ribbon" aria-hidden="true"></div>\n<div class="global-cyber-noise" aria-hidden="true"></div>`,
+  customBodyCss: `.global-neon-ribbon{position:fixed;inset:0;pointer-events:none;z-index:6;background:linear-gradient(120deg,transparent 0%,rgba(0,229,255,.05) 35%,rgba(122,92,255,.06) 55%,transparent 100%);mix-blend-mode:screen;animation:ribbonShift 16s linear infinite;}\n.global-cyber-noise{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");}\n@keyframes ribbonShift{0%{transform:translateX(-6%)}50%{transform:translateX(6%)}100%{transform:translateX(-6%)}}`,
+  customBodyJs: `(function(){const k='cyber-last-visit';const now=new Date().toISOString();localStorage.setItem(k,now);})();`,
+  customFooterHtml: `<div class="global-footer-note">NEON ARCHIVE · PERSONAL SIGNAL ONLINE</div>`,
+  customFooterCss: `.global-footer-note{margin:1rem auto 1.6rem;text-align:center;letter-spacing:.18em;font-size:.7rem;color:rgba(200,220,255,.72);text-transform:uppercase;}`,
+  customFooterJs: `console.log('[CyberPreset] footer hook ready');`,
+};
+
 function AnimatedRoutes() {
   const location = useLocation();
   const [enableTransitions, setEnableTransitions] = useState(true);
@@ -102,7 +114,10 @@ function App() {
     const applyGlobalCustomBlocks = async () => {
       try {
         const response = await configAPI.getPublicConfigs();
-        const cfg = response.data || {};
+        const cfg = {
+          ...GLOBAL_CUSTOM_PRESET,
+          ...(response.data || {}),
+        };
 
         const cleanupSelector = [
           '[data-custom-slot="head-html"]',
