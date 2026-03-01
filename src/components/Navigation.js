@@ -30,6 +30,13 @@ function Navigation() {
     setIsOpen(false);
   };
 
+  const getAvatarUrl = (avatar) => {
+    if (!avatar) return null;
+    if (avatar.startsWith('http')) return avatar;
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    return `${baseUrl}${avatar}`;
+  };
+
   return (
     <nav className="cyber-nav">
       <div className="nav-container">
@@ -64,7 +71,15 @@ function Navigation() {
           
           {user && (
             <Link to="/profile" className="user-badge">
-              <span className="user-icon">{user.avatar ? '👤' : '👤'}</span>
+              {user.avatar ? (
+                <img 
+                  src={getAvatarUrl(user.avatar)} 
+                  alt={user.username}
+                  className="user-avatar-img"
+                />
+              ) : (
+                <span className="user-icon">👤</span>
+              )}
               <span className="user-name">{user.username}</span>
               {isAdmin && <span className="admin-badge">ADMIN</span>}
             </Link>

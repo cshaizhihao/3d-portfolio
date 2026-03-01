@@ -1,6 +1,7 @@
 import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Float, PerspectiveCamera } from '@react-three/drei';
+import { configAPI } from '../api';
 import './Home.css';
 
 function RotatingCube() {
@@ -93,11 +94,17 @@ function Home() {
   const [error, setError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileTip, setShowMobileTip] = useState(false);
+  const [config, setConfig] = useState({
+    heroImage: '',
+    siteTitle: 'ZAKI.DEV',
+    siteDescription: '赛博朋克时代的网络数字游民',
+  });
 
   useEffect(() => {
     const checkMobile = () => {
       const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
         || window.innerWidth < 768;
+
       setIsMobile(mobile);
       
       if (mobile && !localStorage.getItem('mobileTipShown')) {
@@ -110,14 +117,38 @@ function Home() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
+    // 检查 WebGL 支持
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) {
       setError('Your device does not support WebGL.');
     }
 
+    // 加载配置
+    fetchConfig();
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const fetchConfig = async () => {
+    try {
+      const response = await configAPI.getPublicConfigs();
+      setConfig({
+        heroImage: response.heroImage || '',
+        siteTitle: response.siteTitle || 'ZAKI.DEV',
+        siteDescription: response.siteDescription || '赛博朋克时代的网络数字游民',
+      });
+    } catch (error) {
+      console.error('Failed to fetch config:', error);
+    }
+  };
+
+  const getImageUrl = (url) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    return `${baseUrl}${url}`;
+  };
 
   if (error) {
     return (
@@ -132,13 +163,18 @@ function Home() {
   }
 
   return (
-    <div className="home-page">
+    <div className="home-page" style={config.heroImage ? {
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${getImageUrl(config.heroImage)})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+    } : {}}>
       <Suspense fallback={<LoadingFallback />}>
         <Canvas 
           shadows
           gl={{ 
             antialias: !isMobile,
-            alpha: false,
+            alpha: true,
             powerPreference: isMobile ? 'default' : 'high-performance'
           }}
           dpr={isMobile ? [1, 1.5] : [1, 2]}
@@ -148,10 +184,10 @@ function Home() {
       </Suspense>
       
       <div className="hero-content">
-        <h1 className="hero-title glitch" data-text="WELCOME TO THE FUTURE">
-          WELCOME TO THE FUTURE
+        <h1 className="hero-title glitch" data-text={config.siteTitle}>
+          {config.siteTitle}
         </h1>
-        <p className="hero-subtitle">// CYBERPUNK DEVELOPER PORTFOLIO</p>
+        <p className="hero-subtitle">// {config.siteDescription}</p>
         <p className="hero-description desktop-only">
           拖动旋转 | 滚轮缩放 | 悬停交互
         </p>

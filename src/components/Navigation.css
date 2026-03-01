@@ -315,6 +315,22 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
   border-radius: 20px;
   margin-left: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.user-badge:hover {
+  background: rgba(0, 255, 136, 0.2);
+  border-color: #00ff88;
+  transform: translateY(-2px);
+}
+
+.user-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00ff88;
 }
 
 .user-icon {
