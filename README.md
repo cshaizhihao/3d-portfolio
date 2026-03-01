@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:46 GMT+8
+**最后更新**: 2026-03-02 01:50 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,12 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 01:50 - v1.51.0
+- ✅ Komari 展示升级：支持首页嵌入预览（iframe）
+- ✅ 后台新增 Komari 嵌入控制项：开关 + 预览高度
+- ✅ 首页保留外链卡片，同时可选择内嵌展示
+- ✅ 构建验证通过，端口与现有运行方式保持不变
 
 ### 2026-03-02 01:46 - v1.50.0
 - ✅ 已 Fork `komari-monitor/komari` 到你的账号：`https://github.com/cshaizhihao/komari`

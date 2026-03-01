@@ -120,6 +120,8 @@ function Home() {
     komariTitle: 'KOMARI Monitor',
     komariDescription: '我的监控面板与系统状态中心',
     komariUrl: 'https://github.com/cshaizhihao/komari',
+    komariEmbedEnabled: false,
+    komariEmbedHeight: 480,
     seoHomeTitle: 'ZAKI.DEV - 首页',
     seoHomeDescription: '赛博朋克时代的网络数字游民',
     fxPreset: 'medium',
@@ -205,6 +207,8 @@ function Home() {
         komariTitle: publicConfig.komariTitle || previous.komariTitle,
         komariDescription: publicConfig.komariDescription || previous.komariDescription,
         komariUrl: publicConfig.komariUrl || previous.komariUrl,
+        komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
+        komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || previous.komariEmbedHeight,
         seoHomeTitle: publicConfig.seoHomeTitle || previous.seoHomeTitle,
         seoHomeDescription: publicConfig.seoHomeDescription || previous.seoHomeDescription,
         fxPreset: publicConfig.fxPreset || previous.fxPreset,
@@ -384,6 +388,17 @@ function Home() {
                 <div className="home-komari-desc">{config.komariDescription}</div>
                 <div className="home-komari-action">进入 Komari 面板 →</div>
               </a>
+              {config.komariEmbedEnabled && (
+                <div className="home-komari-embed-wrap">
+                  <iframe
+                    className="home-komari-embed"
+                    src={config.komariUrl}
+                    title="Komari Embed"
+                    loading="lazy"
+                    style={{ height: `${Math.max(280, Number(config.komariEmbedHeight) || 480)}px` }}
+                  />
+                </div>
+              )}
             </>
           )}
 

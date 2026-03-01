@@ -41,6 +41,8 @@ function Settings() {
     komariTitle: 'KOMARI Monitor',
     komariDescription: '我的监控面板与系统状态中心',
     komariUrl: 'https://github.com/cshaizhihao/komari',
+    komariEmbedEnabled: false,
+    komariEmbedHeight: 480,
     customHeadHtml: AAC_PRESET.customHeadHtml,
     customHeadCss: AAC_PRESET.customHeadCss,
     customHeadJs: AAC_PRESET.customHeadJs,
@@ -122,6 +124,8 @@ function Settings() {
         komariTitle: publicConfig.komariTitle || 'KOMARI Monitor',
         komariDescription: publicConfig.komariDescription || '我的监控面板与系统状态中心',
         komariUrl: publicConfig.komariUrl || 'https://github.com/cshaizhihao/komari',
+        komariEmbedEnabled: publicConfig.komariEmbedEnabled === true,
+        komariEmbedHeight: Number(publicConfig.komariEmbedHeight) || 480,
         customHeadHtml: publicConfig.customHeadHtml || AAC_PRESET.customHeadHtml,
         customHeadCss: publicConfig.customHeadCss || AAC_PRESET.customHeadCss,
         customHeadJs: publicConfig.customHeadJs || AAC_PRESET.customHeadJs,
@@ -209,6 +213,8 @@ function Settings() {
         { key: 'komariTitle', value: config.komariTitle, description: 'Komari 展示标题', category: 'general' },
         { key: 'komariDescription', value: config.komariDescription, description: 'Komari 展示描述', category: 'general' },
         { key: 'komariUrl', value: config.komariUrl, description: 'Komari 地址', category: 'general' },
+        { key: 'komariEmbedEnabled', value: config.komariEmbedEnabled, description: 'Komari 嵌入预览开关', category: 'general' },
+        { key: 'komariEmbedHeight', value: Number(config.komariEmbedHeight), description: 'Komari 嵌入高度', category: 'general' },
         { key: 'customHeadHtml', value: config.customHeadHtml, description: '全站自定义 Head HTML', category: 'theme' },
         { key: 'customHeadCss', value: config.customHeadCss, description: '全站自定义 Head CSS', category: 'theme' },
         { key: 'customHeadJs', value: config.customHeadJs, description: '全站自定义 Head JavaScript', category: 'theme' },
@@ -517,6 +523,22 @@ function Settings() {
                     value={config.komariUrl}
                     onChange={(e) => setConfig({ ...config, komariUrl: e.target.value })}
                     placeholder="https://github.com/cshaizhihao/komari"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label><input type="checkbox" checked={config.komariEmbedEnabled} onChange={(e) => setConfig({ ...config, komariEmbedEnabled: e.target.checked })} /> 首页启用 Komari 嵌入预览（iframe）</label>
+                </div>
+
+                <div className="form-group">
+                  <label>Komari 嵌入高度（px）</label>
+                  <input
+                    type="number"
+                    min="280"
+                    max="1200"
+                    value={config.komariEmbedHeight}
+                    onChange={(e) => setConfig({ ...config, komariEmbedHeight: Number(e.target.value) || 480 })}
+                    placeholder="480"
                   />
                 </div>
 
