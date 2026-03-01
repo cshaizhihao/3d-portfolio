@@ -11,6 +11,8 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <div className="scanline-overlay"></div>
+        <div className="hex-pattern"></div>
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
