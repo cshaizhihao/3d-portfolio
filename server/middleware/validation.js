@@ -75,6 +75,10 @@ export const projectValidation = [
     .optional()
     .isArray()
     .withMessage('Technologies must be an array'),
+  body('resultMetrics')
+    .optional()
+    .isArray()
+    .withMessage('resultMetrics must be an array'),
   body('featured')
     .optional()
     .isBoolean()

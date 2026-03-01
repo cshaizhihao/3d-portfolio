@@ -72,6 +72,11 @@ const projectSchema = new mongoose.Schema(
       default: '#00ff88',
       match: [/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, 'Please provide a valid hex color'],
     },
+    resultMetrics: [{
+      type: String,
+      trim: true,
+      maxlength: [100, 'Metric too long'],
+    }],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

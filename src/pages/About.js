@@ -13,6 +13,8 @@ function About() {
     contactText: '想聊聊？欢迎来撩~',
     websiteUrl: 'http://www.zze.cc',
     githubUrl: 'https://github.com/cshaizhihao',
+    seoAboutTitle: 'ABOUT ME',
+    seoAboutDescription: '关于 Zaki 的介绍与技术栈',
   });
 
   useEffect(() => {
@@ -33,6 +35,8 @@ function About() {
         contactText: publicConfig.contactText || '想聊聊？欢迎来撩~',
         websiteUrl: publicConfig.websiteUrl || 'http://www.zze.cc',
         githubUrl: publicConfig.githubUrl || 'https://github.com/cshaizhihao',
+        seoAboutTitle: publicConfig.seoAboutTitle || 'ABOUT ME',
+        seoAboutDescription: publicConfig.seoAboutDescription || '关于 Zaki 的介绍与技术栈',
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);
@@ -40,6 +44,17 @@ function About() {
   };
 
   const techStackArray = config.techStack.split(',').map(t => t.trim());
+
+  useEffect(() => {
+    document.title = config.seoAboutTitle || 'ABOUT ME';
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    meta.content = config.seoAboutDescription || '关于 Zaki 的介绍与技术栈';
+  }, [config.seoAboutTitle, config.seoAboutDescription]);
 
   return (
     <div className="about-page">

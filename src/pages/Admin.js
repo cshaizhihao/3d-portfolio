@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { projectAPI } from '../api';
+import { leadAPI, projectAPI } from '../api';
 import toast from 'react-hot-toast';
 import './Admin.css';
 
 function Admin() {
   const { user } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
@@ -19,11 +20,13 @@ function Admin() {
     technologies: '',
     featured: false,
     color: '#00ff88',
+    resultMetrics: '',
   });
 
   // 加载项目列表
   useEffect(() => {
     fetchProjects();
+    fetchLeads();
   }, []);
 
   const fetchProjects = async () => {
@@ -34,6 +37,15 @@ function Admin() {
       toast.error('加载项目失败');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLeads = async () => {
+    try {
+      const response = await leadAPI.getLeads({ limit: 30 });
+      setLeads(response.data || []);
+    } catch (error) {
+      // ignore
     }
   };
 
@@ -52,6 +64,7 @@ function Admin() {
       ...formData,
       tags: formData.tags.split(',').map((t) => t.trim()).filter(Boolean),
       technologies: formData.technologies.split(',').map((t) => t.trim()).filter(Boolean),
+      resultMetrics: formData.resultMetrics.split(',').map((t) => t.trim()).filter(Boolean),
     };
 
     try {
@@ -83,6 +96,7 @@ function Admin() {
       technologies: project.technologies.join(', '),
       featured: project.featured,
       color: project.color,
+      resultMetrics: (project.resultMetrics || []).join(', '),
     });
     setShowModal(true);
   };
@@ -109,6 +123,7 @@ function Admin() {
       technologies: '',
       featured: false,
       color: '#00ff88',
+      resultMetrics: '',
     });
   };
 
@@ -219,6 +234,34 @@ function Admin() {
             </tbody>
           </table>
         </div>
+
+        <div className="projects-table" style={{ marginTop: '2rem' }}>
+          <h2>线索管理</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>姓名</th>
+                <th>邮箱</th>
+                <th>预算</th>
+                <th>需求</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leads.map((lead) => (
+                <tr key={lead._id}>
+                  <td>{new Date(lead.createdAt).toLocaleString()}</td>
+                  <td>{lead.name}</td>
+                  <td>{lead.email}</td>
+                  <td>{lead.budget || '-'}</td>
+                  <td>{lead.message?.slice(0, 48)}{lead.message?.length > 48 ? '...' : ''}</td>
+                  <td>{lead.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* 项目表单模态框 */}
@@ -294,6 +337,17 @@ function Admin() {
                     placeholder="React, Node.js, MongoDB"
                   />
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label>结果指标（逗号分隔）</label>
+                <input
+                  type="text"
+                  name="resultMetrics"
+                  value={formData.resultMetrics}
+                  onChange={handleChange}
+                  placeholder="性能提升40%, 首屏缩短1.2s, 转化率+18%"
+                />
               </div>
 
               <div className="form-row">

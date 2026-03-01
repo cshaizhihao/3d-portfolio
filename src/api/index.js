@@ -113,3 +113,10 @@ export const configAPI = {
   // 删除配置
   deleteConfig: (key) => api.delete(`/config/${key}`),
 };
+
+// 线索 API
+export const leadAPI = {
+  createLead: (data) => api.post('/leads', data),
+  getLeads: (params) => api.get('/leads', { params }),
+  updateStatus: (id, status) => api.put(`/leads/${id}/status`, { status }),
+};

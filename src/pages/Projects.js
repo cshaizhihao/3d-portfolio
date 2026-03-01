@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { projectAPI } from '../api';
+import { configAPI, projectAPI } from '../api';
 import toast from 'react-hot-toast';
 import './Projects.css';
 
@@ -9,7 +9,29 @@ function Projects() {
 
   useEffect(() => {
     fetchProjects();
+    fetchSeo();
   }, []);
+
+  const fetchSeo = async () => {
+    try {
+      const response = await configAPI.getPublicConfigs();
+      const cfg = response.data || {};
+      const nextSeo = {
+        title: cfg.seoProjectsTitle || '项目展示',
+        description: cfg.seoProjectsDescription || '项目案例与结果展示',
+      };
+      document.title = nextSeo.title;
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'description';
+        document.head.appendChild(meta);
+      }
+      meta.content = nextSeo.description;
+    } catch (error) {
+      // ignore
+    }
+  };
 
   const fetchProjects = async () => {
     try {
@@ -73,6 +95,14 @@ function Projects() {
                     <div className="project-tags">
                       {project.technologies.map((tech, index) => (
                         <span key={index} className="project-tag">{tech}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {project.resultMetrics && project.resultMetrics.length > 0 && (
+                    <div className="result-metrics">
+                      {project.resultMetrics.map((metric, index) => (
+                        <span key={index} className="result-metric">📈 {metric}</span>
                       ))}
                     </div>
                   )}

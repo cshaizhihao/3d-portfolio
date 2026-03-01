@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-01 23:27 GMT+8
+**最后更新**: 2026-03-01 23:42 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -42,6 +42,9 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 - ✅ 网络图片链接上传
 - ✅ 用户资料管理
 - ✅ 网站设置页面（标签化）
+- ✅ 线索收集表单（前台）+ 后台线索列表
+- ✅ SEO 设置（首页/About/Projects）
+- ✅ 项目结果指标展示
 
 **图库功能** 📸
 - ✅ 本地图片上传
@@ -358,7 +361,13 @@ REACT_APP_API_URL=http://141.98.197.210:5000/api
 - `GET /api/config` - 获取所有配置（Admin）
 - `GET /api/config/:key` - 获取单个配置
 - `POST /api/config` - 设置配置（Admin）
+- `POST /api/config/bulk` - 批量设置配置（Admin）
 - `DELETE /api/config/:key` - 删除配置（Admin）
+
+### 线索 API
+- `POST /api/leads` - 提交咨询线索（公开）
+- `GET /api/leads` - 获取线索列表（Admin）
+- `PUT /api/leads/:id/status` - 更新线索状态（Admin）
 
 ---
 
@@ -376,6 +385,13 @@ REACT_APP_API_URL=http://141.98.197.210:5000/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-01 23:42 - v1.10.0
+- ✅ 三件套完成：线索表单 + 后台线索列表
+- ✅ 三件套完成：SEO 设置（首页/About/Projects）并前台生效
+- ✅ 三件套完成：项目结果指标（后台编辑 + 前台展示）
+- ✅ 新增 `Lead` 模型与 `/api/leads` 接口
+- ✅ 新增配置批量保存接口 `/api/config/bulk`，Settings 一次保存全部
 
 ### 2026-03-01 23:27 - v1.00.0
 - ✅ 新增设置项：左上角 Logo 主/副标题可编辑

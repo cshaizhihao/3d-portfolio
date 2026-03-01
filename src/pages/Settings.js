@@ -33,6 +33,13 @@ function Settings() {
     navSettingsLabel: 'SETTINGS',
     navLoginLabel: 'LOGIN',
     navLogoutLabel: 'LOGOUT',
+    // SEO 配置
+    seoHomeTitle: 'ZAKI.DEV - 首页',
+    seoHomeDescription: '赛博朋克时代的网络数字游民',
+    seoAboutTitle: 'ABOUT ME',
+    seoAboutDescription: '关于 Zaki 的介绍与技术栈',
+    seoProjectsTitle: '项目展示',
+    seoProjectsDescription: '项目案例与结果展示',
     // About 页面配置
     aboutTitle: 'ABOUT ME',
     aboutSubtitle: '关于这个搞事情的人',
@@ -75,6 +82,12 @@ function Settings() {
         navSettingsLabel: publicConfig.navSettingsLabel || 'SETTINGS',
         navLoginLabel: publicConfig.navLoginLabel || 'LOGIN',
         navLogoutLabel: publicConfig.navLogoutLabel || 'LOGOUT',
+        seoHomeTitle: publicConfig.seoHomeTitle || 'ZAKI.DEV - 首页',
+        seoHomeDescription: publicConfig.seoHomeDescription || '赛博朋克时代的网络数字游民',
+        seoAboutTitle: publicConfig.seoAboutTitle || 'ABOUT ME',
+        seoAboutDescription: publicConfig.seoAboutDescription || '关于 Zaki 的介绍与技术栈',
+        seoProjectsTitle: publicConfig.seoProjectsTitle || '项目展示',
+        seoProjectsDescription: publicConfig.seoProjectsDescription || '项目案例与结果展示',
         aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
         aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
         whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
@@ -126,6 +139,12 @@ function Settings() {
         { key: 'navSettingsLabel', value: config.navSettingsLabel, description: '导航-设置', category: 'theme' },
         { key: 'navLoginLabel', value: config.navLoginLabel, description: '导航-登录', category: 'theme' },
         { key: 'navLogoutLabel', value: config.navLogoutLabel, description: '导航-登出', category: 'theme' },
+        { key: 'seoHomeTitle', value: config.seoHomeTitle, description: 'SEO-首页标题', category: 'seo' },
+        { key: 'seoHomeDescription', value: config.seoHomeDescription, description: 'SEO-首页描述', category: 'seo' },
+        { key: 'seoAboutTitle', value: config.seoAboutTitle, description: 'SEO-About标题', category: 'seo' },
+        { key: 'seoAboutDescription', value: config.seoAboutDescription, description: 'SEO-About描述', category: 'seo' },
+        { key: 'seoProjectsTitle', value: config.seoProjectsTitle, description: 'SEO-项目标题', category: 'seo' },
+        { key: 'seoProjectsDescription', value: config.seoProjectsDescription, description: 'SEO-项目描述', category: 'seo' },
         { key: 'aboutTitle', value: config.aboutTitle, description: 'About 标题', category: 'general' },
         { key: 'aboutSubtitle', value: config.aboutSubtitle, description: 'About 副标题', category: 'general' },
         { key: 'whoAmI', value: config.whoAmI, description: 'Who Am I', category: 'general' },
@@ -197,6 +216,12 @@ function Settings() {
             onClick={() => setActiveTab('nav')}
           >
             🧭 导航与顶部
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'seo' ? 'active' : ''}`}
+            onClick={() => setActiveTab('seo')}
+          >
+            🔎 SEO 设置
           </button>
         </div>
 
@@ -361,6 +386,39 @@ function Settings() {
                   <input type="text" value={config.navSettingsLabel} onChange={(e) => setConfig({ ...config, navSettingsLabel: e.target.value })} placeholder="SETTINGS" />
                   <input type="text" value={config.navLoginLabel} onChange={(e) => setConfig({ ...config, navLoginLabel: e.target.value })} placeholder="LOGIN" />
                   <input type="text" value={config.navLogoutLabel} onChange={(e) => setConfig({ ...config, navLogoutLabel: e.target.value })} placeholder="LOGOUT" />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* SEO 设置 */}
+          {activeTab === 'seo' && (
+            <>
+              <div className="settings-section">
+                <h2>🔎 SEO 文案</h2>
+                <div className="form-group">
+                  <label>首页 Title</label>
+                  <input type="text" value={config.seoHomeTitle} onChange={(e) => setConfig({ ...config, seoHomeTitle: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>首页 Description</label>
+                  <textarea rows="2" value={config.seoHomeDescription} onChange={(e) => setConfig({ ...config, seoHomeDescription: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>About Title</label>
+                  <input type="text" value={config.seoAboutTitle} onChange={(e) => setConfig({ ...config, seoAboutTitle: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>About Description</label>
+                  <textarea rows="2" value={config.seoAboutDescription} onChange={(e) => setConfig({ ...config, seoAboutDescription: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>Projects Title</label>
+                  <input type="text" value={config.seoProjectsTitle} onChange={(e) => setConfig({ ...config, seoProjectsTitle: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>Projects Description</label>
+                  <textarea rows="2" value={config.seoProjectsDescription} onChange={(e) => setConfig({ ...config, seoProjectsDescription: e.target.value })} />
                 </div>
               </div>
             </>

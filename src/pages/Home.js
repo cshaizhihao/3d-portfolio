@@ -1,7 +1,7 @@
 import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Float, PerspectiveCamera } from '@react-three/drei';
-import { configAPI } from '../api';
+import { configAPI, leadAPI } from '../api';
 import './Home.css';
 
 function RotatingCube() {
@@ -94,6 +94,8 @@ function Home() {
   const [error, setError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileTip, setShowMobileTip] = useState(false);
+  const [submittingLead, setSubmittingLead] = useState(false);
+  const [leadForm, setLeadForm] = useState({ name: '', email: '', budget: '', message: '' });
   const [config, setConfig] = useState({
     heroImage: '',
     siteTitle: 'ZAKI.DEV',
@@ -106,6 +108,8 @@ function Home() {
     homeStat2Label: 'CREATIVITY',
     homeStat3Value: '100%',
     homeStat3Label: 'PASSION',
+    seoHomeTitle: 'ZAKI.DEV - 首页',
+    seoHomeDescription: '赛博朋克时代的网络数字游民',
   });
 
   useEffect(() => {
@@ -154,6 +158,8 @@ function Home() {
         homeStat2Label: publicConfig.homeStat2Label || 'CREATIVITY',
         homeStat3Value: publicConfig.homeStat3Value || '100%',
         homeStat3Label: publicConfig.homeStat3Label || 'PASSION',
+        seoHomeTitle: publicConfig.seoHomeTitle || 'ZAKI.DEV - 首页',
+        seoHomeDescription: publicConfig.seoHomeDescription || '赛博朋克时代的网络数字游民',
       });
     } catch (error) {
       console.error('Failed to fetch config:', error);
@@ -165,6 +171,39 @@ function Home() {
     if (url.startsWith('http')) return url;
     const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
     return `${baseUrl}${url}`;
+  };
+
+  const setMetaDescription = (content) => {
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  };
+
+  useEffect(() => {
+    document.title = config.seoHomeTitle || 'ZAKI.DEV - 首页';
+    setMetaDescription(config.seoHomeDescription || '赛博朋克时代的网络数字游民');
+  }, [config.seoHomeTitle, config.seoHomeDescription]);
+
+  const handleLeadChange = (event) => {
+    const { name, value } = event.target;
+    setLeadForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLeadSubmit = async (event) => {
+    event.preventDefault();
+    setSubmittingLead(true);
+    try {
+      await leadAPI.createLead({ ...leadForm, source: 'home-form' });
+      setLeadForm({ name: '', email: '', budget: '', message: '' });
+    } catch (error) {
+      // ignore toast in home to avoid noisy UX
+    } finally {
+      setSubmittingLead(false);
+    }
   };
 
   if (error) {
@@ -235,6 +274,17 @@ function Home() {
           💡 单指拖动旋转，双指缩放
         </div>
       )}
+
+      <div className="lead-floating-form">
+        <h3>快速咨询</h3>
+        <form onSubmit={handleLeadSubmit}>
+          <input name="name" value={leadForm.name} onChange={handleLeadChange} placeholder="你的称呼" required />
+          <input name="email" type="email" value={leadForm.email} onChange={handleLeadChange} placeholder="你的邮箱" required />
+          <input name="budget" value={leadForm.budget} onChange={handleLeadChange} placeholder="预算（可选）" />
+          <textarea name="message" value={leadForm.message} onChange={handleLeadChange} placeholder="你的需求" rows="3" required />
+          <button type="submit" disabled={submittingLead}>{submittingLead ? '提交中...' : '提交需求'}</button>
+        </form>
+      </div>
     </div>
   );
 }
