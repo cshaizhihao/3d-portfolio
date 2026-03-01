@@ -37,6 +37,10 @@ function Settings() {
     aacCustomHeader: '个人展示空间',
     aacCustomBody: '记录灵感、作品与生活碎片。',
     aacCustomFooter: '感谢浏览我的数字角落。',
+    komariEnabled: true,
+    komariTitle: 'KOMARI Monitor',
+    komariDescription: '我的监控面板与系统状态中心',
+    komariUrl: 'https://github.com/cshaizhihao/komari',
     customHeadHtml: AAC_PRESET.customHeadHtml,
     customHeadCss: AAC_PRESET.customHeadCss,
     customHeadJs: AAC_PRESET.customHeadJs,
@@ -114,6 +118,10 @@ function Settings() {
         aacCustomHeader: publicConfig.aacCustomHeader || '个人展示空间',
         aacCustomBody: publicConfig.aacCustomBody || '记录灵感、作品与生活碎片。',
         aacCustomFooter: publicConfig.aacCustomFooter || '感谢浏览我的数字角落。',
+        komariEnabled: publicConfig.komariEnabled !== false,
+        komariTitle: publicConfig.komariTitle || 'KOMARI Monitor',
+        komariDescription: publicConfig.komariDescription || '我的监控面板与系统状态中心',
+        komariUrl: publicConfig.komariUrl || 'https://github.com/cshaizhihao/komari',
         customHeadHtml: publicConfig.customHeadHtml || AAC_PRESET.customHeadHtml,
         customHeadCss: publicConfig.customHeadCss || AAC_PRESET.customHeadCss,
         customHeadJs: publicConfig.customHeadJs || AAC_PRESET.customHeadJs,
@@ -197,6 +205,10 @@ function Settings() {
         { key: 'aacCustomHeader', value: config.aacCustomHeader, description: 'AAC 自定义头部', category: 'general' },
         { key: 'aacCustomBody', value: config.aacCustomBody, description: 'AAC 自定义正文', category: 'general' },
         { key: 'aacCustomFooter', value: config.aacCustomFooter, description: 'AAC 自定义页脚', category: 'general' },
+        { key: 'komariEnabled', value: config.komariEnabled, description: 'Komari 展示开关', category: 'general' },
+        { key: 'komariTitle', value: config.komariTitle, description: 'Komari 展示标题', category: 'general' },
+        { key: 'komariDescription', value: config.komariDescription, description: 'Komari 展示描述', category: 'general' },
+        { key: 'komariUrl', value: config.komariUrl, description: 'Komari 地址', category: 'general' },
         { key: 'customHeadHtml', value: config.customHeadHtml, description: '全站自定义 Head HTML', category: 'theme' },
         { key: 'customHeadCss', value: config.customHeadCss, description: '全站自定义 Head CSS', category: 'theme' },
         { key: 'customHeadJs', value: config.customHeadJs, description: '全站自定义 Head JavaScript', category: 'theme' },
@@ -471,6 +483,40 @@ function Settings() {
                     value={config.aacCustomFooter}
                     onChange={(e) => setConfig({ ...config, aacCustomFooter: e.target.value })}
                     placeholder="感谢浏览我的数字角落。"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label><input type="checkbox" checked={config.komariEnabled} onChange={(e) => setConfig({ ...config, komariEnabled: e.target.checked })} /> 启用 Komari 首页展示</label>
+                </div>
+
+                <div className="form-group">
+                  <label>Komari 标题</label>
+                  <input
+                    type="text"
+                    value={config.komariTitle}
+                    onChange={(e) => setConfig({ ...config, komariTitle: e.target.value })}
+                    placeholder="KOMARI Monitor"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Komari 描述</label>
+                  <input
+                    type="text"
+                    value={config.komariDescription}
+                    onChange={(e) => setConfig({ ...config, komariDescription: e.target.value })}
+                    placeholder="我的监控面板与系统状态中心"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Komari 链接地址</label>
+                  <input
+                    type="text"
+                    value={config.komariUrl}
+                    onChange={(e) => setConfig({ ...config, komariUrl: e.target.value })}
+                    placeholder="https://github.com/cshaizhihao/komari"
                   />
                 </div>
 

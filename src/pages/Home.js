@@ -116,6 +116,10 @@ function Home() {
     aacCustomHeader: '个人展示空间',
     aacCustomBody: '记录灵感、作品与生活碎片。',
     aacCustomFooter: '感谢浏览我的数字角落。',
+    komariEnabled: true,
+    komariTitle: 'KOMARI Monitor',
+    komariDescription: '我的监控面板与系统状态中心',
+    komariUrl: 'https://github.com/cshaizhihao/komari',
     seoHomeTitle: 'ZAKI.DEV - 首页',
     seoHomeDescription: '赛博朋克时代的网络数字游民',
     fxPreset: 'medium',
@@ -197,6 +201,10 @@ function Home() {
         aacCustomHeader: publicConfig.aacCustomHeader || previous.aacCustomHeader,
         aacCustomBody: publicConfig.aacCustomBody || previous.aacCustomBody,
         aacCustomFooter: publicConfig.aacCustomFooter || previous.aacCustomFooter,
+        komariEnabled: publicConfig.komariEnabled !== false,
+        komariTitle: publicConfig.komariTitle || previous.komariTitle,
+        komariDescription: publicConfig.komariDescription || previous.komariDescription,
+        komariUrl: publicConfig.komariUrl || previous.komariUrl,
         seoHomeTitle: publicConfig.seoHomeTitle || previous.seoHomeTitle,
         seoHomeDescription: publicConfig.seoHomeDescription || previous.seoHomeDescription,
         fxPreset: publicConfig.fxPreset || previous.fxPreset,
@@ -367,6 +375,17 @@ function Home() {
           <div className="home-blog-card">
             <p>{config.aacCustomBody}</p>
           </div>
+
+          {config.komariEnabled && (
+            <>
+              <h2>{config.komariTitle}</h2>
+              <a className="home-komari-card" href={config.komariUrl} target="_blank" rel="noreferrer">
+                <div className="home-komari-title">{config.komariTitle}</div>
+                <div className="home-komari-desc">{config.komariDescription}</div>
+                <div className="home-komari-action">进入 Komari 面板 →</div>
+              </a>
+            </>
+          )}
 
           <h2>常见问题</h2>
           <div className="home-faq-list">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { leadAPI, projectAPI } from '../api';
+import { configAPI, leadAPI, projectAPI } from '../api';
 import toast from 'react-hot-toast';
 import './Admin.css';
 
@@ -11,6 +11,7 @@ function Admin() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [komariInfo, setKomariInfo] = useState({ enabled: true, title: 'KOMARI Monitor', url: 'https://github.com/cshaizhihao/komari' });
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -27,6 +28,7 @@ function Admin() {
   useEffect(() => {
     fetchProjects();
     fetchLeads();
+    fetchKomari();
   }, []);
 
   const fetchProjects = async () => {
@@ -44,6 +46,20 @@ function Admin() {
     try {
       const response = await leadAPI.getLeads({ limit: 30 });
       setLeads(response.data || []);
+    } catch (error) {
+      // ignore
+    }
+  };
+
+  const fetchKomari = async () => {
+    try {
+      const response = await configAPI.getPublicConfigs();
+      const cfg = response.data || {};
+      setKomariInfo({
+        enabled: cfg.komariEnabled !== false,
+        title: cfg.komariTitle || 'KOMARI Monitor',
+        url: cfg.komariUrl || 'https://github.com/cshaizhihao/komari',
+      });
     } catch (error) {
       // ignore
     }
@@ -188,6 +204,13 @@ function Admin() {
               <div className="stat-label">总点赞数</div>
             </div>
           </div>
+          <a className="stat-card" href={komariInfo.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+            <div className="stat-icon">🛰️</div>
+            <div className="stat-info">
+              <div className="stat-value">{komariInfo.enabled ? 'ON' : 'OFF'}</div>
+              <div className="stat-label">{komariInfo.title}</div>
+            </div>
+          </a>
         </div>
 
         <div className="projects-table">

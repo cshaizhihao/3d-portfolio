@@ -397,6 +397,33 @@
   white-space: pre-wrap;
 }
 
+.home-komari-card {
+  display: block;
+  text-decoration: none;
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(10, 12, 28, 0.82), rgba(12, 8, 24, 0.82));
+  padding: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.home-komari-title {
+  color: #00e5ff;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.home-komari-desc {
+  color: #d7dfff;
+  font-size: 0.9rem;
+  margin-bottom: 0.45rem;
+}
+
+.home-komari-action {
+  color: #ff9df0;
+  font-size: 0.84rem;
+}
+
 .home-faq-list {
   display: grid;
   gap: 0.65rem;

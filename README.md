@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:41 GMT+8
+**最后更新**: 2026-03-02 01:46 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,13 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 01:46 - v1.50.0
+- ✅ 已 Fork `komari-monitor/komari` 到你的账号：`https://github.com/cshaizhihao/komari`
+- ✅ 已将 Komari 源码完整纳入当前项目：`integrations/komari`
+- ✅ 首页新增 Komari 展示卡片（可后台配置开关/标题/描述/链接）
+- ✅ 管理后台新增 Komari 快捷入口卡片（统一管理入口）
+- ✅ Settings 新增 Komari 配置项并接入配置系统
 
 ### 2026-03-02 01:41 - v1.49.0
 - ✅ 完成全网 + GitHub 灵感检索并沉淀为“赛博霓虹全站默认预设”
