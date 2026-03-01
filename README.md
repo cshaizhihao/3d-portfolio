@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 00:53 GMT+8
+**最后更新**: 2026-03-02 01:01 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -62,23 +62,25 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ---
 
-## 🌐 在线访问
+## 🌐 访问说明
+
+为保护隐私与部署安全，README 不再展示真实服务器 IP/端口。
 
 ### 前台页面
-- **首页**: http://141.98.197.210:3001
-- **项目展示**: http://141.98.197.210:3001/projects
-- **关于我**: http://141.98.197.210:3001/about
+- **首页**: `/`
+- **项目展示**: `/projects`
+- **关于我**: `/about`
 
 ### 后台管理（需要登录）
-- **登录页面**: http://141.98.197.210:3001/login
-- **管理后台**: http://141.98.197.210:3001/admin
-- **图库管理**: http://141.98.197.210:3001/gallery
-- **用户资料**: http://141.98.197.210:3001/profile
-- **网站设置**: http://141.98.197.210:3001/settings
+- **登录页面**: `/login`
+- **管理后台**: `/admin`
+- **图库管理**: `/gallery`
+- **用户资料**: `/profile`
+- **网站设置**: `/settings`
 
 ### API 服务
-- **后端 API**: http://141.98.197.210:5000
-- **健康检查**: http://141.98.197.210:5000/health
+- **后端 API 前缀**: `/api`
+- **健康检查**: `/health`
 
 ### 测试账号
 - **邮箱**: zaki@example.com
@@ -294,14 +296,14 @@ PORT=5000
 MONGODB_URI=mongodb://localhost:27017/3d-portfolio
 JWT_SECRET=your_jwt_secret_key_here
 JWT_EXPIRE=7d
-CORS_ORIGIN=http://localhost:3001,http://141.98.197.210:3001
+CORS_ORIGIN=http://localhost:3001,https://your-domain.com
 GITHUB_TOKEN=your_github_token
 GITHUB_USERNAME=your_github_username
 ```
 
 ### 前端 (.env)
 ```env
-REACT_APP_API_URL=http://141.98.197.210:5000/api
+REACT_APP_API_URL=https://your-domain.com/api
 ```
 
 ---
@@ -309,8 +311,8 @@ REACT_APP_API_URL=http://141.98.197.210:5000/api
 ## 🚀 部署
 
 ### VPS 部署（当前）
-- **前端**: http://141.98.197.210:3001
-- **后端**: http://141.98.197.210:5000
+- **前端**: 由反向代理统一暴露（已隐藏具体地址）
+- **后端**: 由反向代理统一暴露（已隐藏具体地址）
 - **MongoDB**: Docker 容器
 
 ### 生产环境建议
@@ -385,6 +387,13 @@ REACT_APP_API_URL=http://141.98.197.210:5000/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 01:01 - v1.46.0
+- ✅ README 隐私清理：移除真实服务器 IP/端口与公开暴露信息
+- ✅ 修复首页刷新崩溃（alpha 报错）：移除不稳定后处理链路
+- ✅ 首页继续下滑增强：新增“实用能力”和“常见问题”区块
+- ✅ 页脚新增实用操作：一键复制联系邮箱
+- ✅ 构建通过，主包较上版本下降约 17.42kB（gzip）
 
 ### 2026-03-02 00:53 - v1.45.0
 - ✅ Hero 主视觉替换为 3D 文本核心：`ZAKI` 立体发光装置

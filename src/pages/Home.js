@@ -2,8 +2,6 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, Stars, Text } from '@react-three/drei';
-import { EffectComposer, Bloom, ChromaticAberration, Noise, Vignette } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
 import { configAPI, imageAPI, leadAPI, projectAPI } from '../api';
 import './Home.css';
 
@@ -92,20 +90,6 @@ function HeroScene({ isMobile, fxLevel, particlesEnabled, particleMultiplier }) 
   );
 }
 
-function PostEffects({ fxEnabled, fxLevel, noiseOpacity }) {
-  if (!fxEnabled || fxLevel === 'off') return null;
-  const bloomIntensity = fxLevel === 'high' ? 1.2 : fxLevel === 'medium' ? 0.78 : 0.48;
-
-  return (
-    <EffectComposer multisampling={0}>
-      <Bloom luminanceThreshold={0.26} luminanceSmoothing={0.2} intensity={bloomIntensity} />
-      <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.00075, 0.00115]} />
-      <Noise opacity={noiseOpacity ?? (fxLevel === 'high' ? 0.055 : 0.03)} premultiply />
-      <Vignette eskil={false} offset={0.19} darkness={0.66} />
-    </EffectComposer>
-  );
-}
-
 function Home() {
   const [error, setError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -116,6 +100,8 @@ function Home() {
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryIndex, setGalleryIndex] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   const [config, setConfig] = useState({
     heroImage: '',
@@ -294,7 +280,6 @@ function Home() {
                 particlesEnabled={config.fxEnableParticles}
                 particleMultiplier={config.fxParticleMultiplier}
               />
-              <PostEffects fxEnabled={config.fxEnablePost} fxLevel={config.fxPreset} noiseOpacity={config.fxNoiseOpacity} />
             </Canvas>
           </Suspense>
         </div>
@@ -408,6 +393,42 @@ function Home() {
               <div className="home-gallery-empty">暂无相册图片，请在后台图库添加 gallery 分类图片</div>
             )}
           </div>
+
+          <h2>实用能力</h2>
+          <div className="home-utility-grid">
+            <div className="utility-card">
+              <h3>项目咨询</h3>
+              <p>提交需求后快速评估周期与预算，支持全流程协作。</p>
+            </div>
+            <div className="utility-card">
+              <h3>技术方案</h3>
+              <p>前后端 + 3D 交互 + CMS 配置化，一次性交付可维护版本。</p>
+            </div>
+            <div className="utility-card">
+              <h3>性能优化</h3>
+              <p>移动端优先，支持降级策略与视觉分级（off/low/medium/high）。</p>
+            </div>
+          </div>
+
+          <h2>常见问题</h2>
+          <div className="home-faq-list">
+            {[
+              { question: '合作流程是怎样的？', answer: '先沟通目标与预算，再输出功能拆解和里程碑，确认后进入开发。' },
+              { question: '支持后期自己维护吗？', answer: '支持。后台设置已经配置化，文案、图片、导航、SEO 都能直接改。' },
+              { question: '多久能上线一个版本？', answer: '常规展示站 1-2 周可上线 MVP，复杂 3D 体验按模块迭代。' },
+            ].map((item, index) => (
+              <button
+                key={item.question}
+                type="button"
+                className={`faq-item ${openFaqIndex === index ? 'active' : ''}`}
+                onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
+              >
+                <span className="faq-question">{item.question}</span>
+                <span className="faq-toggle">{openFaqIndex === index ? '−' : '+'}</span>
+                {openFaqIndex === index && <span className="faq-answer">{item.answer}</span>}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -417,6 +438,20 @@ function Home() {
           <div className="footer-links">
             <Link to="/projects">Projects</Link>
             <Link to="/about">About</Link>
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText('zaki@example.com');
+                  setCopiedEmail(true);
+                  setTimeout(() => setCopiedEmail(false), 1500);
+                } catch (clipboardError) {
+                  // ignore
+                }
+              }}
+            >
+              {copiedEmail ? '已复制邮箱' : '复制邮箱'}
+            </button>
             <button type="button" onClick={() => setLeadOpen(true)}>Contact</button>
           </div>
           <div className="footer-copy">© {new Date().getFullYear()} ZAKI · Cyberpunk Portfolio</div>
