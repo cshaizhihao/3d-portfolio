@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (data) => {
     try {
       const response = await authAPI.updateProfile(data);
-      setUser(response.data);
+      setUser(response.data); // 后端返回的是 response.data
       toast.success('信息更新成功！');
       return { success: true };
     } catch (error) {

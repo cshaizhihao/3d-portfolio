@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import './Profile.css';
 
 function Profile() {
-  const { user, updateUser } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [loading, setLoading] = useState(false);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [avatarImages, setAvatarImages] = useState([]);
@@ -41,8 +41,7 @@ function Profile() {
     setLoading(true);
 
     try {
-      const response = await authAPI.updateProfile(formData);
-      updateUser(response.user);
+      await updateProfile(formData);
       toast.success('资料更新成功咧！');
     } catch (error) {
       toast.error(error.message || '更新失败咧');
@@ -60,7 +59,9 @@ function Profile() {
   const getAvatarUrl = (avatar) => {
     if (!avatar) return null;
     if (avatar.startsWith('http')) return avatar;
-    return `http://141.98.197.210:5000${avatar}`;
+    // 确保使用完整的服务器地址
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    return `${baseUrl}${avatar}`;
   };
 
   return (

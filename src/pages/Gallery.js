@@ -138,12 +138,14 @@ function Gallery() {
   };
 
   const getImageUrl = (image) => {
-    return `http://141.98.197.210:5000${image.url}`;
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
+    return `${baseUrl}${image.url}`;
   };
 
   const getThumbnailUrl = (image) => {
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://141.98.197.210:5000';
     return image.thumbnail 
-      ? `http://141.98.197.210:5000${image.thumbnail}`
+      ? `${baseUrl}${image.thumbnail}`
       : getImageUrl(image);
   };
 
