@@ -48,8 +48,13 @@ function Settings() {
     fxEnableCursor: true,
     fxEnableTransitions: true,
     fxEnableDistortionHover: true,
+    fxEnableLaserRain: true,
+    fxEnableSmoke: true,
+    fxEnableGlitchOverlay: true,
+    fxEnableNeonOrbs: true,
     fxNoiseOpacity: 0.04,
     fxParticleMultiplier: 1,
+    fxEffectDensity: 1,
     // About 页面配置
     aboutTitle: 'ABOUT ME',
     aboutSubtitle: '关于这个搞事情的人',
@@ -105,8 +110,13 @@ function Settings() {
         fxEnableCursor: publicConfig.fxEnableCursor !== false,
         fxEnableTransitions: publicConfig.fxEnableTransitions !== false,
         fxEnableDistortionHover: publicConfig.fxEnableDistortionHover !== false,
+        fxEnableLaserRain: publicConfig.fxEnableLaserRain !== false,
+        fxEnableSmoke: publicConfig.fxEnableSmoke !== false,
+        fxEnableGlitchOverlay: publicConfig.fxEnableGlitchOverlay !== false,
+        fxEnableNeonOrbs: publicConfig.fxEnableNeonOrbs !== false,
         fxNoiseOpacity: typeof publicConfig.fxNoiseOpacity === 'number' ? publicConfig.fxNoiseOpacity : 0.04,
         fxParticleMultiplier: typeof publicConfig.fxParticleMultiplier === 'number' ? publicConfig.fxParticleMultiplier : 1,
+        fxEffectDensity: typeof publicConfig.fxEffectDensity === 'number' ? publicConfig.fxEffectDensity : 1,
         aboutTitle: publicConfig.aboutTitle || 'ABOUT ME',
         aboutSubtitle: publicConfig.aboutSubtitle || '关于这个搞事情的人',
         whoAmI: publicConfig.whoAmI || '我是 Zaki，一个热爱折腾的开发者。\n喜欢用代码解决问题，更喜欢创造有趣的东西。',
@@ -171,8 +181,13 @@ function Settings() {
         { key: 'fxEnableCursor', value: config.fxEnableCursor, description: '自定义光标开关', category: 'theme' },
         { key: 'fxEnableTransitions', value: config.fxEnableTransitions, description: '页面转场开关', category: 'theme' },
         { key: 'fxEnableDistortionHover', value: config.fxEnableDistortionHover, description: 'WebGL扭曲Hover开关', category: 'theme' },
+        { key: 'fxEnableLaserRain', value: config.fxEnableLaserRain, description: '激光雨开关', category: 'theme' },
+        { key: 'fxEnableSmoke', value: config.fxEnableSmoke, description: '赛博烟雾开关', category: 'theme' },
+        { key: 'fxEnableGlitchOverlay', value: config.fxEnableGlitchOverlay, description: '故障叠层开关', category: 'theme' },
+        { key: 'fxEnableNeonOrbs', value: config.fxEnableNeonOrbs, description: '霓虹光点开关', category: 'theme' },
         { key: 'fxNoiseOpacity', value: Number(config.fxNoiseOpacity), description: '噪点强度', category: 'theme' },
         { key: 'fxParticleMultiplier', value: Number(config.fxParticleMultiplier), description: '粒子倍率', category: 'theme' },
+        { key: 'fxEffectDensity', value: Number(config.fxEffectDensity), description: '重特效密度', category: 'theme' },
         { key: 'aboutTitle', value: config.aboutTitle, description: 'About 标题', category: 'general' },
         { key: 'aboutSubtitle', value: config.aboutSubtitle, description: 'About 副标题', category: 'general' },
         { key: 'whoAmI', value: config.whoAmI, description: 'Who Am I', category: 'general' },
@@ -477,6 +492,10 @@ function Settings() {
                   <label><input type="checkbox" checked={config.fxEnableParticles} onChange={(e) => setConfig({ ...config, fxEnableParticles: e.target.checked })} /> 粒子与星空</label>
                   <label><input type="checkbox" checked={config.fxEnableTilt} onChange={(e) => setConfig({ ...config, fxEnableTilt: e.target.checked })} /> 项目卡 3D 倾斜</label>
                   <label><input type="checkbox" checked={config.fxEnableDistortionHover} onChange={(e) => setConfig({ ...config, fxEnableDistortionHover: e.target.checked })} /> 项目封面 WebGL 扭曲</label>
+                  <label><input type="checkbox" checked={config.fxEnableLaserRain} onChange={(e) => setConfig({ ...config, fxEnableLaserRain: e.target.checked })} /> 激光雨</label>
+                  <label><input type="checkbox" checked={config.fxEnableSmoke} onChange={(e) => setConfig({ ...config, fxEnableSmoke: e.target.checked })} /> 赛博烟雾</label>
+                  <label><input type="checkbox" checked={config.fxEnableGlitchOverlay} onChange={(e) => setConfig({ ...config, fxEnableGlitchOverlay: e.target.checked })} /> 故障叠层</label>
+                  <label><input type="checkbox" checked={config.fxEnableNeonOrbs} onChange={(e) => setConfig({ ...config, fxEnableNeonOrbs: e.target.checked })} /> 霓虹光点</label>
                   <label><input type="checkbox" checked={config.fxEnableCursor} onChange={(e) => setConfig({ ...config, fxEnableCursor: e.target.checked })} /> 自定义光标</label>
                   <label><input type="checkbox" checked={config.fxEnableTransitions} onChange={(e) => setConfig({ ...config, fxEnableTransitions: e.target.checked })} /> 页面转场</label>
                 </div>
@@ -487,6 +506,10 @@ function Settings() {
                 <div className="form-group">
                   <label>粒子倍率（0.5 - 2）</label>
                   <input type="number" min="0.5" max="2" step="0.1" value={config.fxParticleMultiplier} onChange={(e) => setConfig({ ...config, fxParticleMultiplier: Number(e.target.value) })} />
+                </div>
+                <div className="form-group">
+                  <label>重特效密度（0.5 - 2）</label>
+                  <input type="number" min="0.5" max="2" step="0.1" value={config.fxEffectDensity} onChange={(e) => setConfig({ ...config, fxEffectDensity: Number(e.target.value) })} />
                 </div>
               </div>
             </>

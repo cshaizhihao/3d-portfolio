@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import { configAPI } from './api';
 import Navigation from './components/Navigation';
 import CustomCursor from './components/CustomCursor';
+import CyberpunkEffects from './components/CyberpunkEffects';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import About from './pages/About';
@@ -100,6 +101,7 @@ function App() {
         <div className="App">
           <div className="scanline-overlay"></div>
           <div className="hex-pattern"></div>
+          <CyberpunkEffects />
           <CustomCursor />
           <Navigation />
           <AnimatedRoutes />
