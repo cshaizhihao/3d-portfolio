@@ -121,6 +121,7 @@
 }
 
 .btn-view,
+.btn-edit,
 .btn-delete {
   padding: 0.6rem 1.2rem;
   border: none;
@@ -135,12 +136,18 @@
   color: #000;
 }
 
+.btn-edit {
+  background: rgba(255, 136, 0, 0.8);
+  color: #fff;
+}
+
 .btn-delete {
   background: rgba(255, 0, 136, 0.8);
   color: #fff;
 }
 
 .btn-view:hover,
+.btn-edit:hover,
 .btn-delete:hover {
   transform: scale(1.05);
 }

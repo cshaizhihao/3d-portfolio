@@ -9,7 +9,9 @@ function Gallery() {
   const [uploading, setUploading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [editingImage, setEditingImage] = useState(null);
   const [uploadData, setUploadData] = useState({
     title: '',
     description: '',
@@ -92,6 +94,39 @@ function Gallery() {
     }
   };
 
+  const handleEdit = (image) => {
+    setEditingImage({
+      id: image._id,
+      title: image.title,
+      description: image.description || '',
+      category: image.category,
+      tags: image.tags ? image.tags.join(', ') : '',
+    });
+    setShowEditModal(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setUploading(true);
+
+    try {
+      await imageAPI.updateImage(editingImage.id, {
+        title: editingImage.title,
+        description: editingImage.description,
+        category: editingImage.category,
+        tags: editingImage.tags,
+      });
+      toast.success('更新成功咧！');
+      setShowEditModal(false);
+      setEditingImage(null);
+      fetchImages();
+    } catch (error) {
+      toast.error('更新失败咧');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const resetUploadForm = () => {
     setUploadData({
       title: '',
@@ -163,6 +198,12 @@ function Gallery() {
                       onClick={() => window.open(getImageUrl(image), '_blank')}
                     >
                       👁️ 查看
+                    </button>
+                    <button
+                      className="btn-edit"
+                      onClick={() => handleEdit(image)}
+                    >
+                      ✏️ 编辑
                     </button>
                     <button
                       className="btn-delete"
@@ -267,6 +308,74 @@ function Gallery() {
                 </button>
                 <button type="submit" className="btn-primary" disabled={uploading}>
                   {uploading ? '上传中...' : '上传'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 编辑模态框 */}
+      {showEditModal && editingImage && (
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>✏️ 编辑图片</h2>
+            <form onSubmit={handleUpdate}>
+              <div className="form-group">
+                <label>标题</label>
+                <input
+                  type="text"
+                  value={editingImage.title}
+                  onChange={(e) => setEditingImage({ ...editingImage, title: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>描述</label>
+                <textarea
+                  value={editingImage.description}
+                  onChange={(e) => setEditingImage({ ...editingImage, description: e.target.value })}
+                  rows="3"
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>分类</label>
+                  <select
+                    value={editingImage.category}
+                    onChange={(e) => setEditingImage({ ...editingImage, category: e.target.value })}
+                  >
+                    {categories.filter(c => c.value !== 'all').map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>标签（逗号分隔）</label>
+                  <input
+                    type="text"
+                    value={editingImage.tags}
+                    onChange={(e) => setEditingImage({ ...editingImage, tags: e.target.value })}
+                    placeholder="风景, 人物, 建筑"
+                  />
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  取消
+                </button>
+                <button type="submit" className="btn-primary" disabled={uploading}>
+                  {uploading ? '保存中...' : '保存'}
                 </button>
               </div>
             </form>
