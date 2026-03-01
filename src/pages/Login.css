@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, transparent 50%);
   animation: pulse 4s ease-in-out infinite;
 }
 
@@ -35,10 +35,10 @@
 
 .login-box {
   background: rgba(10, 10, 10, 0.9);
-  border: 2px solid rgba(0, 255, 136, 0.3);
+  border: 2px solid rgba(0, 229, 255, 0.3);
   border-radius: 20px;
   padding: 3rem 2.5rem;
-  box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 229, 255, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -50,7 +50,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(135deg, #00ff88, #0088ff, #ff0088);
+  background: linear-gradient(135deg, #00e5ff, #7a5cff, #ff2bd6);
   border-radius: 20px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -75,15 +75,15 @@
 .login-title {
   font-size: 2.5rem;
   font-weight: 900;
-  color: #00ff88;
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+  color: #00e5ff;
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.8);
   letter-spacing: 3px;
   margin-bottom: 0.5rem;
 }
 
 .login-subtitle {
   font-size: 0.9rem;
-  color: #00ff88;
+  color: #00e5ff;
   opacity: 0.7;
   letter-spacing: 2px;
   font-family: 'Courier New', monospace;
@@ -102,7 +102,7 @@
 }
 
 .form-group label {
-  color: #00ff88;
+  color: #00e5ff;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 1px;
@@ -111,8 +111,8 @@
 
 .form-group input {
   padding: 1rem;
-  background: rgba(0, 255, 136, 0.05);
-  border: 2px solid rgba(0, 255, 136, 0.2);
+  background: rgba(0, 229, 255, 0.05);
+  border: 2px solid rgba(0, 229, 255, 0.2);
   border-radius: 10px;
   color: #fff;
   font-size: 1rem;
@@ -122,9 +122,9 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #00ff88;
-  background: rgba(0, 255, 136, 0.1);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+  border-color: #00e5ff;
+  background: rgba(0, 229, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
 }
 
 .form-group input::placeholder {
@@ -134,7 +134,7 @@
 .login-button {
   position: relative;
   padding: 1.2rem;
-  background: linear-gradient(135deg, #00ff88, #0088ff);
+  background: linear-gradient(135deg, #00e5ff, #7a5cff);
   border: none;
   border-radius: 10px;
   color: #000;
@@ -149,7 +149,7 @@
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.5);
 }
 
 .login-button:active {
@@ -174,11 +174,11 @@
   text-align: center;
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(0, 255, 136, 0.2);
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
 }
 
 .login-footer p {
-  color: #00ff88;
+  color: #00e5ff;
   opacity: 0.6;
   font-size: 0.9rem;
   font-family: 'Courier New', monospace;
@@ -187,7 +187,7 @@
 /* 装饰性圆圈 */
 .deco-circle {
   position: absolute;
-  border: 2px solid rgba(0, 255, 136, 0.2);
+  border: 2px solid rgba(0, 229, 255, 0.2);
   border-radius: 50%;
   animation: float 6s ease-in-out infinite;
 }

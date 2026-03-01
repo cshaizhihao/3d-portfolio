@@ -22,8 +22,8 @@
 .hero-title {
   font-size: 3rem;
   font-weight: 900;
-  color: #00ff88;
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+  color: #00e5ff;
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.8);
   letter-spacing: 3px;
   margin-bottom: 1rem;
   position: relative;
@@ -31,7 +31,7 @@
 
 .hero-subtitle {
   font-size: 1rem;
-  color: #00ff88;
+  color: #00e5ff;
   opacity: 0.7;
   letter-spacing: 2px;
   font-family: 'Courier New', monospace;
@@ -63,8 +63,8 @@
 .stat-value {
   font-size: 2.5rem;
   font-weight: 900;
-  color: #00ff88;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+  color: #00e5ff;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
   font-family: 'Courier New', monospace;
 }
 
@@ -81,7 +81,7 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    #00ff88,
+    #00e5ff,
     transparent
   );
   opacity: 0.5;
@@ -100,7 +100,7 @@
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 255, 136, 0.9);
+  background: rgba(0, 229, 255, 0.9);
   color: #000;
   padding: 12px 24px;
   border-radius: 50px;
@@ -108,7 +108,7 @@
   font-weight: 600;
   z-index: 20;
   animation: fadeInOut 5s ease-in-out;
-  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
 }
 
 @keyframes fadeInOut {
@@ -130,8 +130,8 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 3px solid rgba(0, 255, 136, 0.2);
-  border-top-color: #00ff88;
+  border: 3px solid rgba(0, 229, 255, 0.2);
+  border-top-color: #00e5ff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin-bottom: 20px;
@@ -157,7 +157,7 @@
 .error h1 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #ff0088;
+  color: #ff2bd6;
 }
 
 .error p {
@@ -236,14 +236,14 @@
   bottom: 1.5rem;
   width: 320px;
   background: rgba(0, 0, 0, 0.86);
-  border: 1px solid rgba(0, 255, 136, 0.45);
+  border: 1px solid rgba(0, 229, 255, 0.45);
   border-radius: 12px;
   padding: 0.9rem;
   z-index: 20;
 }
 
 .lead-floating-form h3 {
-  color: #00ff88;
+  color: #00e5ff;
   margin: 0 0 0.6rem;
   font-size: 0.95rem;
 }
@@ -256,14 +256,14 @@
 .lead-floating-form input,
 .lead-floating-form textarea {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(0, 255, 136, 0.25);
+  border: 1px solid rgba(0, 229, 255, 0.25);
   color: #fff;
   border-radius: 8px;
   padding: 0.5rem 0.6rem;
 }
 
 .lead-floating-form button {
-  background: linear-gradient(135deg, #00ff88, #00d4ff);
+  background: linear-gradient(135deg, #00e5ff, #00d4ff);
   border: none;
   border-radius: 8px;
   color: #000;

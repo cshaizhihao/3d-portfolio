@@ -33,15 +33,15 @@
 .about-title {
   font-size: 3.5rem;
   font-weight: 900;
-  color: #00ff88;
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+  color: #00e5ff;
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.8);
   letter-spacing: 4px;
   margin-bottom: 1rem;
 }
 
 .about-subtitle {
   font-size: 1.1rem;
-  color: #00ff88;
+  color: #00e5ff;
   opacity: 0.7;
   letter-spacing: 2px;
   font-family: 'Courier New', monospace;
@@ -56,7 +56,7 @@
 
 .about-card {
   background: rgba(10, 10, 10, 0.8);
-  border: 2px solid rgba(0, 255, 136, 0.2);
+  border: 2px solid rgba(0, 229, 255, 0.2);
   border-radius: 15px;
   padding: 2rem;
   text-align: center;
@@ -64,20 +64,20 @@
 }
 
 .about-card:hover {
-  border-color: #00ff88;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  border-color: #00e5ff;
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
   transform: translateY(-5px);
 }
 
 .card-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
 }
 
 .about-card h3 {
   font-size: 1.3rem;
-  color: #00ff88;
+  color: #00e5ff;
   margin-bottom: 1rem;
   letter-spacing: 2px;
 }
@@ -96,10 +96,10 @@
 
 .stack-title {
   font-size: 2rem;
-  color: #00ff88;
+  color: #00e5ff;
   margin-bottom: 2rem;
   letter-spacing: 3px;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
 }
 
 .stack-grid {
@@ -112,10 +112,10 @@
 
 .stack-item {
   padding: 1rem;
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
   border-radius: 10px;
-  color: #00ff88;
+  color: #00e5ff;
   font-weight: 600;
   font-size: 0.9rem;
   letter-spacing: 1px;
@@ -123,9 +123,9 @@
 }
 
 .stack-item:hover {
-  background: rgba(0, 255, 136, 0.2);
-  border-color: #00ff88;
-  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+  background: rgba(0, 229, 255, 0.2);
+  border-color: #00e5ff;
+  box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
   transform: scale(1.05);
 }
 
@@ -136,10 +136,10 @@
 
 .contact-title {
   font-size: 2rem;
-  color: #00ff88;
+  color: #00e5ff;
   margin-bottom: 1rem;
   letter-spacing: 3px;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
 }
 
 .contact-text {
@@ -158,7 +158,7 @@
 
 .contact-link {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #00ff88, #0088ff);
+  background: linear-gradient(135deg, #00e5ff, #7a5cff);
   color: #000;
   text-decoration: none;
   border-radius: 25px;
@@ -166,12 +166,12 @@
   font-size: 1rem;
   letter-spacing: 1px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
 }
 
 .contact-link:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
+  box-shadow: 0 6px 25px rgba(0, 229, 255, 0.5);
 }
 
 /* 响应式 */

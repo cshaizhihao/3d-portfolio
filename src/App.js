@@ -111,19 +111,19 @@ function App() {
               duration: 3000,
               style: {
                 background: '#1a1a1a',
-                color: '#00ff88',
-                border: '1px solid #00ff88',
-                boxShadow: '0 0 20px rgba(0, 255, 136, 0.3)',
+                color: '#00e5ff',
+                border: '1px solid #00e5ff',
+                boxShadow: '0 0 20px rgba(0, 229, 255, 0.3)',
               },
               success: {
                 iconTheme: {
-                  primary: '#00ff88',
+                  primary: '#00e5ff',
                   secondary: '#000',
                 },
               },
               error: {
                 iconTheme: {
-                  primary: '#ff0088',
+                  primary: '#ff2bd6',
                   secondary: '#000',
                 },
               },
