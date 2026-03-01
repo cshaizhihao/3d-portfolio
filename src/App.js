@@ -95,46 +95,87 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  const [customBodyHtml, setCustomBodyHtml] = useState('');
+  const [customFooterHtml, setCustomFooterHtml] = useState('');
+
   useEffect(() => {
-    const applyCustomHead = async () => {
+    const applyGlobalCustomBlocks = async () => {
       try {
         const response = await configAPI.getPublicConfigs();
         const cfg = response.data || {};
 
-        document.querySelectorAll('[data-custom-head="aac-html"]').forEach((node) => node.remove());
-        document.querySelectorAll('[data-custom-head="aac-css"]').forEach((node) => node.remove());
-        document.querySelectorAll('[data-custom-head="aac-js"]').forEach((node) => node.remove());
+        const cleanupSelector = [
+          '[data-custom-slot="head-html"]',
+          '[data-custom-slot="head-css"]',
+          '[data-custom-slot="head-js"]',
+          '[data-custom-slot="body-css"]',
+          '[data-custom-slot="body-js"]',
+          '[data-custom-slot="footer-css"]',
+          '[data-custom-slot="footer-js"]',
+        ].join(',');
+
+        document.querySelectorAll(cleanupSelector).forEach((node) => node.remove());
 
         if (cfg.customHeadHtml) {
           const htmlContainer = document.createElement('div');
           htmlContainer.innerHTML = cfg.customHeadHtml;
-
           Array.from(htmlContainer.children).forEach((element) => {
             const cloned = element.cloneNode(true);
-            cloned.setAttribute('data-custom-head', 'aac-html');
+            cloned.setAttribute('data-custom-slot', 'head-html');
             document.head.appendChild(cloned);
           });
         }
 
         if (cfg.customHeadCss) {
           const styleEl = document.createElement('style');
-          styleEl.setAttribute('data-custom-head', 'aac-css');
+          styleEl.setAttribute('data-custom-slot', 'head-css');
           styleEl.textContent = cfg.customHeadCss;
           document.head.appendChild(styleEl);
         }
 
         if (cfg.customHeadJs) {
           const scriptEl = document.createElement('script');
-          scriptEl.setAttribute('data-custom-head', 'aac-js');
+          scriptEl.setAttribute('data-custom-slot', 'head-js');
           scriptEl.text = cfg.customHeadJs;
           document.head.appendChild(scriptEl);
         }
+
+        if (cfg.customBodyCss) {
+          const bodyStyleEl = document.createElement('style');
+          bodyStyleEl.setAttribute('data-custom-slot', 'body-css');
+          bodyStyleEl.textContent = cfg.customBodyCss;
+          document.head.appendChild(bodyStyleEl);
+        }
+
+        if (cfg.customBodyJs) {
+          const bodyScriptEl = document.createElement('script');
+          bodyScriptEl.setAttribute('data-custom-slot', 'body-js');
+          bodyScriptEl.text = cfg.customBodyJs;
+          document.body.appendChild(bodyScriptEl);
+        }
+
+        if (cfg.customFooterCss) {
+          const footerStyleEl = document.createElement('style');
+          footerStyleEl.setAttribute('data-custom-slot', 'footer-css');
+          footerStyleEl.textContent = cfg.customFooterCss;
+          document.head.appendChild(footerStyleEl);
+        }
+
+        if (cfg.customFooterJs) {
+          const footerScriptEl = document.createElement('script');
+          footerScriptEl.setAttribute('data-custom-slot', 'footer-js');
+          footerScriptEl.text = cfg.customFooterJs;
+          document.body.appendChild(footerScriptEl);
+        }
+
+        setCustomBodyHtml(cfg.customBodyHtml || '');
+        setCustomFooterHtml(cfg.customFooterHtml || '');
       } catch (error) {
-        // ignore custom head failure
+        // ignore global custom injection failure
       }
     };
 
-    applyCustomHead();
+    applyGlobalCustomBlocks();
   }, []);
 
   return (
@@ -146,7 +187,21 @@ function App() {
           <CyberpunkEffects />
           <CustomCursor />
           <Navigation />
+          {customBodyHtml && (
+            <div
+              className="global-custom-body"
+              data-custom-render="body"
+              dangerouslySetInnerHTML={{ __html: customBodyHtml }}
+            />
+          )}
           <AnimatedRoutes />
+          {customFooterHtml && (
+            <div
+              className="global-custom-footer"
+              data-custom-render="footer"
+              dangerouslySetInnerHTML={{ __html: customFooterHtml }}
+            />
+          )}
           <Toaster
             position="top-right"
             toastOptions={{

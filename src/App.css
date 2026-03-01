@@ -65,6 +65,12 @@ body {
   position: relative;
 }
 
+.global-custom-body,
+.global-custom-footer {
+  position: relative;
+  z-index: 25;
+}
+
 /* 赛博朋克网格背景 */
 .App::before {
   content: '';

@@ -20,7 +20,7 @@ Phase 5: 部署与优化       ░░░░░░░░░░░░░░░░�
 
 ### 🎯 当前状态：Phase 4 接近完成 ✅
 
-**最后更新**: 2026-03-02 01:19 GMT+8
+**最后更新**: 2026-03-02 01:27 GMT+8
 
 **GitHub 仓库**: https://github.com/cshaizhihao/3d-portfolio
 
@@ -387,6 +387,13 @@ REACT_APP_API_URL=https://your-domain.com/api
 ---
 
 ## 📝 更新日志
+
+### 2026-03-02 01:27 - v1.48.0
+- ✅ 全站 AAC 扩展为三段注入：Head / Body / Footer 均支持 HTML/CSS/JavaScript
+- ✅ 后台设置新增 9 个注入配置项，可统一控制全站加载行为
+- ✅ App 级注入引擎升级：自动清理旧注入并重新挂载，避免重复污染
+- ✅ 首页继续去商业化，保持个人展示/博客风格
+- ✅ 赛博相册尺寸进一步收敛，整体排版更克制
 
 ### 2026-03-02 01:19 - v1.47.0
 - ✅ 新增全站 AAC Head 注入配置（后台可配 HTML / CSS / JavaScript）

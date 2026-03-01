@@ -28,6 +28,12 @@ function Settings() {
     customHeadHtml: '',
     customHeadCss: '',
     customHeadJs: '',
+    customBodyHtml: '',
+    customBodyCss: '',
+    customBodyJs: '',
+    customFooterHtml: '',
+    customFooterCss: '',
+    customFooterJs: '',
     // 导航配置
     navLogoTitle: 'ZAKI.DEV',
     navLogoSubtitle: 'CYBERPUNK PORTFOLIO',
@@ -99,6 +105,12 @@ function Settings() {
         customHeadHtml: publicConfig.customHeadHtml || '',
         customHeadCss: publicConfig.customHeadCss || '',
         customHeadJs: publicConfig.customHeadJs || '',
+        customBodyHtml: publicConfig.customBodyHtml || '',
+        customBodyCss: publicConfig.customBodyCss || '',
+        customBodyJs: publicConfig.customBodyJs || '',
+        customFooterHtml: publicConfig.customFooterHtml || '',
+        customFooterCss: publicConfig.customFooterCss || '',
+        customFooterJs: publicConfig.customFooterJs || '',
         navLogoTitle: publicConfig.navLogoTitle || 'ZAKI.DEV',
         navLogoSubtitle: publicConfig.navLogoSubtitle || 'CYBERPUNK PORTFOLIO',
         navHomeLabel: publicConfig.navHomeLabel || 'HOME',
@@ -176,6 +188,12 @@ function Settings() {
         { key: 'customHeadHtml', value: config.customHeadHtml, description: '全站自定义 Head HTML', category: 'theme' },
         { key: 'customHeadCss', value: config.customHeadCss, description: '全站自定义 Head CSS', category: 'theme' },
         { key: 'customHeadJs', value: config.customHeadJs, description: '全站自定义 Head JavaScript', category: 'theme' },
+        { key: 'customBodyHtml', value: config.customBodyHtml, description: '全站自定义 Body HTML', category: 'theme' },
+        { key: 'customBodyCss', value: config.customBodyCss, description: '全站自定义 Body CSS', category: 'theme' },
+        { key: 'customBodyJs', value: config.customBodyJs, description: '全站自定义 Body JavaScript', category: 'theme' },
+        { key: 'customFooterHtml', value: config.customFooterHtml, description: '全站自定义 Footer HTML', category: 'theme' },
+        { key: 'customFooterCss', value: config.customFooterCss, description: '全站自定义 Footer CSS', category: 'theme' },
+        { key: 'customFooterJs', value: config.customFooterJs, description: '全站自定义 Footer JavaScript', category: 'theme' },
         { key: 'navLogoTitle', value: config.navLogoTitle, description: '导航Logo标题', category: 'theme' },
         { key: 'navLogoSubtitle', value: config.navLogoSubtitle, description: '导航Logo副标题', category: 'theme' },
         { key: 'navHomeLabel', value: config.navHomeLabel, description: '导航-首页', category: 'theme' },
@@ -471,6 +489,66 @@ function Settings() {
                     onChange={(e) => setConfig({ ...config, customHeadJs: e.target.value })}
                     rows="5"
                     placeholder="例如：console.log('custom head script loaded');"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Body HTML</label>
+                  <textarea
+                    value={config.customBodyHtml}
+                    onChange={(e) => setConfig({ ...config, customBodyHtml: e.target.value })}
+                    rows="4"
+                    placeholder="例如：&lt;section class='global-announcement'&gt;Hello&lt;/section&gt;"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Body CSS</label>
+                  <textarea
+                    value={config.customBodyCss}
+                    onChange={(e) => setConfig({ ...config, customBodyCss: e.target.value })}
+                    rows="5"
+                    placeholder="例如：.global-announcement { position: fixed; top: 72px; }"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Body JavaScript</label>
+                  <textarea
+                    value={config.customBodyJs}
+                    onChange={(e) => setConfig({ ...config, customBodyJs: e.target.value })}
+                    rows="5"
+                    placeholder="例如：console.log('body custom js loaded');"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Footer HTML</label>
+                  <textarea
+                    value={config.customFooterHtml}
+                    onChange={(e) => setConfig({ ...config, customFooterHtml: e.target.value })}
+                    rows="4"
+                    placeholder="例如：&lt;div class='global-footer-extra'&gt;custom footer&lt;/div&gt;"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Footer CSS</label>
+                  <textarea
+                    value={config.customFooterCss}
+                    onChange={(e) => setConfig({ ...config, customFooterCss: e.target.value })}
+                    rows="5"
+                    placeholder="例如：.global-footer-extra { text-align:center; }"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>全站自定义 Footer JavaScript</label>
+                  <textarea
+                    value={config.customFooterJs}
+                    onChange={(e) => setConfig({ ...config, customFooterJs: e.target.value })}
+                    rows="5"
+                    placeholder="例如：console.log('footer custom js loaded');"
                   />
                 </div>
               </div>
