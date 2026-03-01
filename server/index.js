@@ -25,7 +25,18 @@ connectDB();
 const app = express();
 
 // 中间件
-app.use(helmet()); // 安全头
+// 安全头 - 配置 CSP 允许跨域图片
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "http://localhost:3001", "http://141.98.197.210:3001", "http://141.98.197.210:5000"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+      scriptSrc: ["'self'"],
+    },
+  },
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // 允许跨域资源
+}));
 
 // CORS 配置 - 支持多个源
 const allowedOrigins = process.env.CORS_ORIGIN 
