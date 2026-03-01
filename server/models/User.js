@@ -57,19 +57,14 @@ const userSchema = new mongoose.Schema(
 );
 
 // 保存前加密密码
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   // 只有密码被修改时才加密
   if (!this.isModified('password')) {
-    return next();
+    return;
   }
 
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 // 验证密码方法

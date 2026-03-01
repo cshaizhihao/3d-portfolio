@@ -78,35 +78,35 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log('');
-  console.log('═══════════════════════════════════════════════════════'.cyan.bold);
-  console.log('  🚀 3D PORTFOLIO API - CYBERPUNK EDITION'.green.bold);
-  console.log('═══════════════════════════════════════════════════════'.cyan.bold);
+  console.log('═══════════════════════════════════════════════════════');
+  console.log('  🚀 3D PORTFOLIO API - CYBERPUNK EDITION');
+  console.log('═══════════════════════════════════════════════════════');
   console.log('');
-  console.log(`  📡 Server running in ${process.env.NODE_ENV} mode`.yellow);
-  console.log(`  🌐 URL: http://localhost:${PORT}`.cyan);
-  console.log(`  ⚡ Health Check: http://localhost:${PORT}/health`.cyan);
+  console.log(`  📡 Server running in ${process.env.NODE_ENV} mode`);
+  console.log(`  🌐 URL: http://localhost:${PORT}`);
+  console.log(`  ⚡ Health Check: http://localhost:${PORT}/health`);
   console.log('');
-  console.log('  📚 API Endpoints:'.magenta.bold);
-  console.log(`     • Auth:     /api/auth`.cyan);
-  console.log(`     • Projects: /api/projects`.cyan);
+  console.log('  📚 API Endpoints:');
+  console.log(`     • Auth:     /api/auth`);
+  console.log(`     • Projects: /api/projects`);
   console.log('');
-  console.log('═══════════════════════════════════════════════════════'.cyan.bold);
+  console.log('═══════════════════════════════════════════════════════');
   console.log('');
 });
 
 // 优雅关闭
 process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM received, shutting down gracefully...'.yellow);
+  console.log('👋 SIGTERM received, shutting down gracefully...');
   server.close(() => {
-    console.log('✅ Server closed'.green);
+    console.log('✅ Server closed');
     process.exit(0);
   });
 });
 
 process.on('SIGINT', () => {
-  console.log('\n👋 SIGINT received, shutting down gracefully...'.yellow);
+  console.log('\n👋 SIGINT received, shutting down gracefully...');
   server.close(() => {
-    console.log('✅ Server closed'.green);
+    console.log('✅ Server closed');
     process.exit(0);
   });
 });

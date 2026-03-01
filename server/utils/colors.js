@@ -10,13 +10,20 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
-// 扩展 String 原型（仅用于开发环境）
-if (process.env.NODE_ENV === 'development') {
-  Object.keys(colors).forEach((color) => {
+// 扩展 String 原型
+['red', 'green', 'yellow', 'blue', 'magenta', 'cyan'].forEach((color) => {
+  if (!String.prototype[color]) {
     String.prototype[color] = function() {
       return colors[color] + this + colors.reset;
     };
-  });
+  }
+});
+
+// 添加 bold 方法
+if (!String.prototype.bold) {
+  String.prototype.bold = function() {
+    return colors.bright + this + colors.reset;
+  };
 }
 
 export default colors;
